@@ -1,0 +1,1 @@
+A web application designed to manage and showcase hydraulic equipment, components, and services. This project aims to simplify the sales process while providing customers with an intuitive and efficient shopping experience.
