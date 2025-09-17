@@ -15,7 +15,11 @@ body {
   color: var(--dark);
   background-color: white;
   overflow-x: hidden;
-    scroll-behavior: var(--primary);
+
+
+
+
+  
 }
 
 
