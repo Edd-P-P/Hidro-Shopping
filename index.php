@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-        <!-- Footer -->
+
+
+    <!-- Footer -->
     <footer id="contacto">
         <div class="container">
             <div class="footer-grid">
@@ -43,4 +45,6 @@
             </div>
         </div>
     </footer>
+    
+</body>
 </html>
