@@ -583,8 +583,9 @@
         }
         
         @media (max-width: 768px) {
-            .top-bar-container,.top-bar{
-                display: none;
+            .top-bar-container {
+                flex-direction: column;
+                gap: 0.5rem;
             }
             
             .top-links {
@@ -598,19 +599,36 @@
             }
             
             .categories-container {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .all-categories {
+                margin-bottom: 1rem;
             }
             
             .categories-list {
-                display: none !important;
+                flex-direction: column;
+                gap: 0.8rem;
+                width: 100%;
+                display: none;
+            }
+            
+            .categories-list.show {
+                display: flex;
+            }
+            
+            .promotions-link {
+                margin-top: 1rem;
+                align-self: flex-end;
             }
             
             .hamburger {
                 display: block;
-                position: static;
-                transform: none;
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
             }
             
             .hero h1 {
