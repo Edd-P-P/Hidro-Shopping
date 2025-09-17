@@ -8,6 +8,45 @@
 </head>
 
 <body>
+        <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-container">
+            <div class="top-links">
+                <a href="#"><i class="fas fa-credit-card"></i> Financiamiento</a>
+                <a href="#"><i class="fas fa-concierge-bell"></i> Servicios</a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Mapa de tiendas</a>
+                <a href="#"><i class="fas fa-lightbulb"></i> Construtips</a>
+                <a href="#"><i class="fas fa-gift"></i> Construganas</a>
+            </div>
+            <div class="help-link">
+                <i class="fas fa-question-circle"></i>
+                <span>¿Necesitas ayuda? Llámanos al 81 8300 2000</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Principal -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">            
+                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
+                <img src="Imagenes/triangulo.png" alt="triangulo decorativo" class="triangulo">
+            </div>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Ingresa tu dirección de envío">
+            </div>
+            
+            <div class="header-icons">
+                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="#" class="icon-wrapper">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+        </div>
+    </header>
     <!-- Footer -->
     <footer id="contacto">
         <div class="container">
