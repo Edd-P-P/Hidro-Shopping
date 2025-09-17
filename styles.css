@@ -15,7 +15,14 @@ body {
   color: var(--dark);
   background-color: white;
   overflow-x: hidden;
+
+
+
+
+  
 }
+
+
 
 :root{
   --primary:  #04165a;
