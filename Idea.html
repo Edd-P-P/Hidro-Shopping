@@ -32,6 +32,7 @@
             background-color: var(--color-light);
             color: var(--color-text);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         a {
@@ -45,12 +46,14 @@
             padding: 0 1rem;
         }
         
-        /* Top Bar (inspirado en Construrama) */
+        /* Top Bar */
         .top-bar {
             background-color: var(--color-dark);
             color: var(--color-white);
             padding: 0.5rem 0;
             font-size: 0.9rem;
+            position: relative;
+            z-index: 5;
         }
         
         .top-bar-container {
@@ -97,7 +100,7 @@
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 10;
         }
         
         .header-container {
@@ -179,26 +182,15 @@
             background-color: var(--color-white);
             box-shadow: var(--shadow);
             padding: 0.8rem 0;
+            position: relative;
+            z-index: 8;
         }
         
         .categories-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .all-categories {
-            background-color: var(--color-primary);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        
-        .all-categories i {
-            margin-right: 0.5rem;
+            position: relative;
         }
         
         .categories-list {
@@ -218,22 +210,13 @@
             color: var(--color-accent);
         }
         
-        .promotions-link {
-            color: var(--color-accent);
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        
-        .promotions-link i {
-            margin-left: 0.5rem;
-        }
-        
         .hamburger {
             display: none;
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--color-primary);
+            background: none;
+            border: none;
         }
         
         /* Hero Section */
@@ -243,6 +226,8 @@
             text-align: center;
             padding: 5rem 1rem;
             margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
         }
         
         .hero-content {
@@ -281,6 +266,8 @@
         /* Products */
         .products {
             padding: 2rem 0;
+            position: relative;
+            z-index: 1;
         }
         
         .section-title {
@@ -356,6 +343,8 @@
             background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
             color: var(--color-white);
             margin: 2rem 0;
+            position: relative;
+            z-index: 1;
         }
         
         .features-container {
@@ -393,6 +382,8 @@
             background-color: var(--color-dark);
             color: var(--color-white);
             padding: 3rem 0 1rem;
+            position: relative;
+            z-index: 1;
         }
         
         .footer-container {
@@ -483,6 +474,101 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
+        /* MENÚ HAMBURGUESA*/
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998; 
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: var(--color-white);
+            z-index: 999; /* Encima del overlay */
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-sidebar.active {
+            right: 0;
+        }
+        
+        .mobile-sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+        
+        .mobile-sidebar-header .logo {
+            font-size: 1.5rem;
+        }
+        
+        .close-sidebar {
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--color-white);
+        }
+        
+        .mobile-categories {
+            padding: 1rem;
+        }
+        
+        .mobile-categories ul {
+            list-style: none;
+        }
+        
+        .mobile-categories li {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--color-light-gray);
+        }
+        
+        .mobile-categories a {
+            display: block;
+            padding: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .mobile-categories a:hover {
+            color: var(--color-accent);
+            background-color: var(--color-light-gray);
+        }
+        
+        .mobile-sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--color-light-gray);
+            margin-top: 1rem;
+        }
+        
+        .mobile-sidebar-footer a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+        
         /* Responsive */
         @media (max-width: 992px) {
             .header-container {
@@ -497,9 +583,8 @@
         }
         
         @media (max-width: 768px) {
-            .top-bar-container {
-                flex-direction: column;
-                gap: 0.5rem;
+            .top-bar-container,.top-bar{
+                display: none;
             }
             
             .top-links {
@@ -513,36 +598,19 @@
             }
             
             .categories-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .all-categories {
-                margin-bottom: 1rem;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
             }
             
             .categories-list {
-                flex-direction: column;
-                gap: 0.8rem;
-                width: 100%;
-                display: none;
-            }
-            
-            .categories-list.show {
-                display: flex;
-            }
-            
-            .promotions-link {
-                margin-top: 1rem;
-                align-self: flex-end;
+                display: none !important;
             }
             
             .hamburger {
                 display: block;
-                position: absolute;
-                right: 1rem;
-                top: 50%;
-                transform: translateY(-50%);
+                position: static;
+                transform: none;
             }
             
             .hero h1 {
@@ -582,7 +650,39 @@
     </style>
 </head>
 <body>
-    <!-- Top Bar (inspirado en Construrama) -->
+    <!-- Overlay para menú móvil -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    
+    <!-- Menú lateral móvil -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="mobile-sidebar-header">
+            <div class="logo">HIDRO<span>SISTEMAS</span></div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-categories">
+            <ul>
+                <li><a href="#">Cemento</a></li>
+                <li><a href="#">Aceros</a></li>
+                <li><a href="#">Materiales de Construcción</a></li>
+                <li><a href="#">Acabados</a></li>
+                <li><a href="#">Plomería</a></li>
+                <li><a href="#">Material Eléctrico</a></li>
+                <li><a href="#">Herramientas de Construcción</a></li>
+                <li><a href="#">Ferretería</a></li>
+            </ul>
+        </div>
+        
+        <div class="mobile-sidebar-footer">
+            <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
+            <a href="#"><i class="fas fa-shopping-cart"></i> Carrito</a>
+            <a href="#"><i class="fas fa-phone"></i> Contacto</a>
+        </div>
+    </div>
+
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="container top-bar-container">
             <div class="top-links">
@@ -606,27 +706,25 @@
             
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Ingresa tu dirección de envío">
+                <input type="text" placeholder="Buscar productos.">
             </div>
             
             <div class="header-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="#" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">3</span>
+                    <span class="cart-count">0</span>
                 </a>
             </div>
         </div>
     </header>
 
     <!-- Navegación de Categorías -->
-    <nav class="categories-nav">
+    <nav class="categories-nav" id="categoriesNav">
         <div class="container categories-container">
-            <div class="all-categories">
+            <button class="hamburger" id="hamburgerMenu">
                 <i class="fas fa-bars"></i>
-                <span>Todas las categorías</span>
-            </div>
-            
+            </button>
             <ul class="categories-list">
                 <li><a href="#">Cemento</a></li>
                 <li><a href="#">Aceros</a></li>
@@ -637,15 +735,6 @@
                 <li><a href="#">Herramientas de Construcción</a></li>
                 <li><a href="#">Ferretería</a></li>
             </ul>
-            
-            <a href="#" class="promotions-link">
-                Promociones
-                <i class="fas fa-tag"></i>
-            </a>
-            
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
         </div>
     </nav>
 
@@ -811,13 +900,38 @@
     </footer>
 
     <script>
-        // Menu mobile toggle
-        document.querySelector('.hamburger').addEventListener('click', function() {
-            document.querySelector('.categories-list').classList.toggle('show');
+        // Menu mobile toggle - Menú lateral
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const closeSidebar = document.getElementById('closeSidebar');
+        
+        hamburgerMenu.addEventListener('click', function() {
+            mobileSidebar.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevenir scroll
         });
         
-        document.querySelector('.all-categories').addEventListener('click', function() {
-            document.querySelector('.categories-list').classList.toggle('show');
+        closeSidebar.addEventListener('click', function() {
+            mobileSidebar.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restaurar scroll
+        });
+        
+        mobileMenuOverlay.addEventListener('click', function() {
+            mobileSidebar.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restaurar scroll
+        });
+        
+        // Cerrar menú al hacer clic en un enlace (opcional)
+        const mobileLinks = document.querySelectorAll('.mobile-categories a, .mobile-sidebar-footer a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileSidebar.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // Restaurar scroll
+            });
         });
     </script>
 </body>

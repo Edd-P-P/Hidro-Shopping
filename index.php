@@ -30,7 +30,7 @@
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Enlaces Rápidos </h4>
+                    <h4>Enlaces Rápidos</h4>
                     <ul>
                         <li><a href="index.html">Inicio</a></li>
                         <li><a href="Nosotros.html">Nosotros</a></li>
