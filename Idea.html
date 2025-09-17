@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - HIDROSISTEMAS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables y reset */
+        :root {
+            --color-primary: #0d47a1;
+            --color-secondary: #1565c0;
+            --color-accent: #ff6f00;
+            --color-light: #f5f5f5;
+            --color-dark: #1a237e;
+            --color-text: #333;
+            --color-white: #ffffff;
+            --color-gray: #6c757d;
+            --color-light-gray: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--color-light);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Top Bar (inspirado en Construrama) */
+        .top-bar {
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .top-bar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .top-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .top-links a {
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        .top-links a:hover {
+            color: var(--color-accent);
+        }
+        
+        .top-links i {
+            margin-right: 0.3rem;
+            font-size: 0.8rem;
+        }
+        
+        .help-link {
+            display: flex;
+            align-items: center;
+        }
+        
+        .help-link i {
+            margin-right: 0.5rem;
+            color: var(--color-accent);
+        }
+        
+        /* Header Principal */
+        header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
+            color: var(--color-white);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--color-accent);
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 2rem;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 30px;
+            border: none;
+            padding-left: 40px;
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gray);
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 1.2rem;
+            font-size: 1.2rem;
+        }
+        
+        .header-icons a {
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-icons a:hover {
+            color: var(--color-accent);
+        }
+        
+        .cart-count {
+            background-color: var(--color-accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+        
+        .icon-wrapper {
+            position: relative;
+        }
+        
+        /* Navegación de Categorías */
+        .categories-nav {
+            background-color: var(--color-white);
+            box-shadow: var(--shadow);
+            padding: 0.8rem 0;
+        }
+        
+        .categories-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .all-categories {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .all-categories i {
+            margin-right: 0.5rem;
+        }
+        
+        .categories-list {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        .categories-list a {
+            transition: var(--transition);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .categories-list a:hover {
+            color: var(--color-accent);
+        }
+        
+        .promotions-link {
+            color: var(--color-accent);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .promotions-link i {
+            margin-left: 0.5rem;
+        }
+        
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(13, 71, 161, 0.8), rgba(26, 35, 126, 0.8)), url('https://images.unsplash.com/photo-1563014959-7aaa83350992?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
+            color: var(--color-white);
+            text-align: center;
+            padding: 5rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: var(--color-white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--color-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Products */
+        .products {
+            padding: 2rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            font-size: 2rem;
+            color: var(--color-primary);
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--color-accent);
+            margin: 0.5rem auto;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-card {
+            background: var(--color-white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-img {
+            height: 200px;
+            background-color: #e3f2fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+            font-size: 2rem;
+        }
+        
+        .product-content {
+            padding: 1.5rem;
+        }
+        
+        .product-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--color-primary);
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--color-accent);
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        
+        .product-rating {
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+        
+        /* Features */
+        .features {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
+            color: var(--color-white);
+            margin: 2rem 0;
+        }
+        
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-accent);
+        }
+        
+        .feature h3 {
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-logo span {
+            color: var(--color-accent);
+        }
+        
+        .footer-links h3 {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-links h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--color-accent);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--color-accent);
+            padding-left: 5px;
+        }
+        
+        .footer-newsletter input {
+            padding: 0.8rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 4px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .social-icons a:hover {
+            background: var(--color-accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                margin: 1rem 0 0;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-bar-container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .top-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .help-link {
+                margin-top: 0.5rem;
+            }
+            
+            .categories-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .all-categories {
+                margin-bottom: 1rem;
+            }
+            
+            .categories-list {
+                flex-direction: column;
+                gap: 0.8rem;
+                width: 100%;
+                display: none;
+            }
+            
+            .categories-list.show {
+                display: flex;
+            }
+            
+            .promotions-link {
+                margin-top: 1rem;
+                align-self: flex-end;
+            }
+            
+            .hamburger {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .header-icons {
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .hero {
+                padding: 3rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .header-icons {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar (inspirado en Construrama) -->
+    <div class="top-bar">
+        <div class="container top-bar-container">
+            <div class="top-links">
+                <a href="#"><i class="fas fa-credit-card"></i> Financiamiento</a>
+                <a href="#"><i class="fas fa-concierge-bell"></i> Servicios</a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Mapa de tiendas</a>
+                <a href="#"><i class="fas fa-lightbulb"></i> Construtips</a>
+                <a href="#"><i class="fas fa-gift"></i> Construganas</a>
+            </div>
+            <div class="help-link">
+                <i class="fas fa-question-circle"></i>
+                <span>¿Necesitas ayuda? Llámanos al 81 8300 2000</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Principal -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">HIDRO<span>SISTEMAS</span></div>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Ingresa tu dirección de envío">
+            </div>
+            
+            <div class="header-icons">
+                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="#" class="icon-wrapper">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación de Categorías -->
+    <nav class="categories-nav">
+        <div class="container categories-container">
+            <div class="all-categories">
+                <i class="fas fa-bars"></i>
+                <span>Todas las categorías</span>
+            </div>
+            
+            <ul class="categories-list">
+                <li><a href="#">Cemento</a></li>
+                <li><a href="#">Aceros</a></li>
+                <li><a href="#">Materiales de Construcción</a></li>
+                <li><a href="#">Acabados</a></li>
+                <li><a href="#">Plomería</a></li>
+                <li><a href="#">Material Eléctrico</a></li>
+                <li><a href="#">Herramientas de Construcción</a></li>
+                <li><a href="#">Ferretería</a></li>
+            </ul>
+            
+            <a href="#" class="promotions-link">
+                Promociones
+                <i class="fas fa-tag"></i>
+            </a>
+            
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Soluciones Hidráulicas Profesionales</h1>
+            <p>Todo para tus proyectos de construcción y sistemas de agua en un solo lugar</p>
+            <a href="#" class="btn">Ver Productos Destacados</a>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">Productos Destacados</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-pump-water"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>Bomba Centrífuga Premium</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="product-price">$249.99</p>
+                        <p>Bomba de alta eficiencia para uso residencial e industrial.</p>
+                        <a href="#" class="btn">Añadir al Carrito</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-hand-holding-water"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>Filtro de Agua Avanzado</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="product-price">$189.99</p>
+                        <p>Sistema de filtración de 5 etapas con capacidad para 1000L.</p>
+                        <a href="#" class="btn">Añadir al Carrito</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-toolbox"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>Kit de Herramientas Profesional</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="product-price">$159.99</p>
+                        <p>Set completo de herramientas para mantenimiento de sistemas.</p>
+                        <a href="#" class="btn">Añadir al Carrito</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-pipe"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>Tubería de PVC Industrial</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="product-price">$89.99</p>
+                        <p>Tubería de alta resistencia para aplicaciones industriales.</p>
+                        <a href="#" class="btn">Añadir al Carrito</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container features-container">
+            <div class="feature">
+                <i class="fas fa-truck"></i>
+                <h3>Envío Rápido</h3>
+                <p>Entregas en 24-48 horas a toda la región</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Garantía</h3>
+                <p>Todos nuestros productos incluyen garantía</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-headset"></i>
+                <h3>Soporte</h3>
+                <p>Asesoramiento técnico especializado</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-undo"></i>
+                <h3>Devoluciones</h3>
+                <p>30 días para devoluciones sin problemas</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">HIDRO<span>SISTEMAS</span></div>
+                <p>Soluciones integrales en sistemas hidráulicos y de agua desde 2005. Calidad y confianza para nuestros clientes.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Productos</a></li>
+                    <li><a href="#">Servicios</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Categorías</h3>
+                <ul>
+                    <li><a href="#">Sistemas Hidráulicos</a></li>
+                    <li><a href="#">Bombas de Agua</a></li>
+                    <li><a href="#">Accesorios</a></li>
+                    <li><a href="#">Repuestos</a></li>
+                    <li><a href="#">Herramientas</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h3>Newsletter</h3>
+                <p>Suscríbete para recibir ofertas y novedades</p>
+                <input type="email" placeholder="Tu correo electrónico">
+                <a href="#" class="btn">Suscribirse</a>
+            </div>
+        </div>
+        <div class="container copyright">
+            <p>&copy; 2023 HIDROSISTEMAS. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile toggle
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.categories-list').classList.toggle('show');
+        });
+        
+        document.querySelector('.all-categories').addEventListener('click', function() {
+            document.querySelector('.categories-list').classList.toggle('show');
+        });
+    </script>
+</body>
+</html>
