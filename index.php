@@ -15,7 +15,7 @@
     <!-- Menú lateral móvil -->
     <div class="mobile-sidebar" id="mobileSidebar">
         <div class="mobile-sidebar-header">
-            <div class="logo">HIDRO<span>SISTEMAS</span></div>
+            <div class="logo">Categorias</div>
             <button class="close-sidebar" id="closeSidebar">
                 <i class="fas fa-times"></i>
             </button>
@@ -68,14 +68,14 @@
             
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Ingresa tu dirección de envío">
+                <input type="text" placeholder="Buscar productos.">
             </div>
             
             <div class="header-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="#" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">3</span>
+                    <span class="cart-count">0</span>
                 </a>
             </div>
         </div>
