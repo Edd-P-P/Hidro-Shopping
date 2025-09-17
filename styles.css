@@ -113,10 +113,11 @@ header {
 .logo-hidrosistemas{
   background-color: white;
   width: 300px; 
-  height: 72px;
+  height: 73px;
   position: absolute;
   object-fit: contain;
   padding: 5px;
+  left: 0px;
 }
 
 .triangulo{
@@ -131,6 +132,7 @@ header {
     flex-grow: 1;
     margin: 0 2rem;
     position: relative;
+    max-width: 600px;
 }
 
 .search-bar input {

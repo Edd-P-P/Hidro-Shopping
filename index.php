@@ -32,7 +32,7 @@
                 <li><a href="#">Herramientas de Construcción</a></li>
                 <li><a href="#">Ferretería</a></li>
             </ul>
-        </div>
+</div>
         
         <div class="mobile-sidebar-footer">
             <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
