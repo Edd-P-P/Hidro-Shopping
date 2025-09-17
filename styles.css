@@ -94,8 +94,7 @@ header {
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
-    z-index: 998;
-}
+    z-index: 998;}
 
 .header-container {
     display: flex;
@@ -190,7 +189,7 @@ header {
 .categories-nav {
     background-color: var(--white);
     box-shadow: var(--shadow);
-    padding: 0.8rem 0;
+    padding: 1rem 0;
     position: relative;
     z-index: 8;
 }
