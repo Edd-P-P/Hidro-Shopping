@@ -94,7 +94,7 @@ header {
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 998;
 }
 
 .header-container {
@@ -184,6 +184,143 @@ header {
     position: relative;
 }
 
+/* Navegación de Categorías */
+.categories-nav {
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    padding: 0.8rem 0;
+    position: relative;
+    z-index: 8;
+}
+
+.categories-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.categories-list {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.categories-list a {
+    transition: var(--transition);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.categories-list a:hover {
+    color: var(--accent);
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary);
+    background: none;
+    border: none;
+}
+
+/* MENÚ HAMBURGUESA*/
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998; 
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: var(--white);
+    z-index: 999; /* Encima del overlay */
+    overflow-y: auto;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-sidebar.active {
+    right: 0;
+}
+
+.mobile-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.mobile-sidebar-header .logo {
+    font-size: 1.5rem;
+}
+
+.close-sidebar {
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--white);
+}
+
+.mobile-categories {
+    padding: 1rem;
+}
+
+.mobile-categories ul {
+    list-style: none;
+}
+
+.mobile-categories li {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.mobile-categories a {
+    display: block;
+    padding: 1rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.mobile-categories a:hover {
+    color: var(--accent);
+    background-color: var(--light-gray);
+}
+
+.mobile-sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--light-gray);
+    margin-top: 1rem;
+}
+
+.mobile-sidebar-footer a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--primary);
+    font-weight: 500;
+}
+
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(13, 71, 161, 0.8), rgba(26, 35, 126, 0.8)), url('https://images.unsplash.com/photo-1563014959-7aaa83350992?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
@@ -236,7 +373,7 @@ header {
     margin-bottom: 2rem;
     position: relative;
     font-size: 2rem;
-    color: var(--color-primary);
+    color: var(--primary);
 }
 
 .section-title:after {
@@ -244,7 +381,7 @@ header {
     display: block;
     width: 80px;
     height: 4px;
-    background: var(--color-accent);
+    background: var(--accent);
     margin: 0.5rem auto;
 }
 
@@ -301,8 +438,8 @@ header {
 /* Features */
 .features {
     padding: 4rem 0;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
-    color: var(--color-white);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+    color: var(--white);
     margin: 2rem 0;
 }
 
@@ -329,7 +466,7 @@ header {
 .feature i {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: var(--color-accent);
+    color: var(--accent);
 }
 
 .feature h3 {
@@ -453,9 +590,8 @@ footer a {
 }
 
 @media (max-width: 768px) {
-    .top-bar-container {
-        flex-direction: column;
-        gap: 0.5rem;
+    .top-bar-container,.top-bar {
+        display: none;
     }
     
     .top-links {

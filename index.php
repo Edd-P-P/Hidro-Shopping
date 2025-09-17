@@ -8,7 +8,40 @@
 </head>
 
 <body>
-        <!-- Top Bar -->
+
+    <!-- Overlay para menú móvil -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    
+    <!-- Menú lateral móvil -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="mobile-sidebar-header">
+            <div class="logo">HIDRO<span>SISTEMAS</span></div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-categories">
+            <ul>
+                <li><a href="#">Cemento</a></li>
+                <li><a href="#">Aceros</a></li>
+                <li><a href="#">Materiales de Construcción</a></li>
+                <li><a href="#">Acabados</a></li>
+                <li><a href="#">Plomería</a></li>
+                <li><a href="#">Material Eléctrico</a></li>
+                <li><a href="#">Herramientas de Construcción</a></li>
+                <li><a href="#">Ferretería</a></li>
+            </ul>
+        </div>
+        
+        <div class="mobile-sidebar-footer">
+            <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
+            <a href="#"><i class="fas fa-shopping-cart"></i> Carrito</a>
+            <a href="#"><i class="fas fa-phone"></i> Contacto</a>
+        </div>
+    </div>
+
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="container top-bar-container">
             <div class="top-links">
@@ -47,6 +80,26 @@
             </div>
         </div>
     </header>
+
+    <!-- Navegación de Categorías -->
+    <nav class="categories-nav" id="categoriesNav">
+        <div class="container categories-container">
+            <button class="hamburger" id="hamburgerMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="categories-list">
+                <li><a href="#">Cemento</a></li>
+                <li><a href="#">Aceros</a></li>
+                <li><a href="#">Materiales de Construcción</a></li>
+                <li><a href="#">Acabados</a></li>
+                <li><a href="#">Plomería</a></li>
+                <li><a href="#">Material Eléctrico</a></li>
+                <li><a href="#">Herramientas de Construcción</a></li>
+                <li><a href="#">Ferretería</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <!-- Footer -->
     <footer id="contacto">
         <div class="container">
@@ -83,6 +136,6 @@
             </div>
         </div>
     </footer>
-    
+    <script src="app.js"></script>
 </body>
 </html>
