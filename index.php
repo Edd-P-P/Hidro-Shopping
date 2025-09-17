@@ -100,6 +100,26 @@
         </div>
     </nav>
 
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-pattern"></div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <h1>Soluciones Hidráulicas para Profesionales</h1>
+                <p>Somos distribuidores oficiales de las principales marcas del sector, ofreciendo productos de máxima calidad y rendimiento para tus proyectos más exigentes.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-tools"></i> Explorar Productos
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-headset"></i> Asesoramiento
+                    </a>
+                </div>
+            </div>
+        </div> 
+    </section>
+
     <!-- Footer -->
     <footer id="contacto">
         <div class="container">
