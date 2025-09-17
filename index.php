@@ -6,9 +6,8 @@
     <title>HidroBuy</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-
-
     <!-- Footer -->
     <footer id="contacto">
         <div class="container">
