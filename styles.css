@@ -1,36 +1,34 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 
-/* Reset y estilos generales */
+/* Variables y reset */
+:root {
+    --primary: #04165a;
+    --accent: #CB0000;
+    --light: #f5f9fc;
+    --dark: #333333;
+    --gray: #6c757d;
+    --green: #1db954;
+    --light-gray: #e9ecef;
+    --white: #ffffff;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --border-radius: 8px;
+    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: "Saira Semi Condensed", sans-serif;
-  line-height: 1.6;
-  color: var(--dark);
-  background-color: white;
-  overflow-x: hidden;
-}
-
-
-:root{
-  --primary:  #04165a;
-  --accent: #CB0000;
-  --light: #f5f9fc;
-  --dark: #333333;
-  --gray: #6c757d;
-  --green: #1db954;
-  --light-gray: #e9ecef;
-  --white: #ffffff;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
-  --border-radius: 8px;
-  --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'PT Sans', sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: white;
+    overflow-x: hidden;
 }
 
 a {
@@ -96,7 +94,8 @@ header {
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
-    z-index: 998;}
+    z-index: 998;
+}
 
 .header-container {
     display: flex;
@@ -104,31 +103,22 @@ header {
     align-items: center;
 }
 
-.logo-container{ 
+.logo-container {
     display: flex;
     align-items: center;
-    margin-left: -13vw;
 }
-.logo{
+
+.logo-hidrosistemas {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo {
     font-size: 1.5rem;
     font-weight: bold;
-    margin-left: 15vw;
-}
-
-.logo-hidrosistemas{
-  width: 300px; 
-  height: 73px;
-  position: absolute;
-  object-fit: contain;
-  padding: 5px;
-}
-
-.triangulo{
-  background-color: var(--primary);
-  height: 72px;
-  position: absolute;
-  padding: 0px;
-  left: 300px;
+    margin-left: 1rem;
+    display: none; /* Ocultamos el texto del logo si tenemos imagen */
 }
 
 .search-bar {
@@ -156,7 +146,7 @@ header {
 
 .header-icons {
     display: flex;
-    gap: .5rem;
+    gap: 1rem;
     font-size: 1.2rem;
 }
 
@@ -168,6 +158,10 @@ header {
 
 .header-icons a:hover {
     color: var(--accent);
+}
+
+.icon-wrapper {
+    position: relative;
 }
 
 .cart-count {
@@ -185,17 +179,13 @@ header {
     right: -8px;
 }
 
-.icon-wrapper {
-    position: relative;
-}
-
 /* Navegación de Categorías */
 .categories-nav {
     background-color: var(--white);
     box-shadow: var(--shadow);
     padding: 1rem 0;
     position: relative;
-    z-index: 8;
+    z-index: 997;
 }
 
 .categories-container {
@@ -239,7 +229,7 @@ header {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 998; 
+    z-index: 998;
     opacity: 0;
     visibility: hidden;
     transition: var(--transition);
@@ -257,7 +247,7 @@ header {
     width: 300px;
     height: 100%;
     background-color: var(--white);
-    z-index: 999; /* Encima del overlay */
+    z-index: 999;
     overflow-y: auto;
     transition: right 0.3s ease;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
@@ -278,6 +268,7 @@ header {
 
 .mobile-sidebar-header .logo {
     font-size: 1.5rem;
+    display: block;
 }
 
 .close-sidebar {
@@ -327,82 +318,62 @@ header {
 }
 
 /** Hero Section */
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Hero Section */
 .hero {
     position: relative;
-    height: 550px;
+    height: 500px;
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: white;
+    background: linear-gradient(rgba(4, 22, 90, 0.8), rgba(4, 22, 90, 0.8)), url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+    color: white;
+    margin-bottom: 2rem;
 }
 
 .hero-content {
-    position: relative;
-    z-index: 3;
-    color: white;
-    max-width: 100%;
-    padding: 50px;
-    background: var(--primary);
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    padding: 2rem;
     animation: fadeInUp 1.2s ease-out;
 }
 
 .hero h1 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 3.5rem;
-    margin-bottom: 20px;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
     line-height: 1.2;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero p {
-    font-size: 1.3rem;
-    margin-bottom: 35px;
-    line-height: 1.6;
-    font-weight: 300;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
 }
 
 .hero-buttons {
     display: flex;
-    gap: 20px;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
 .btn {
-    padding: 16px 35px;
+    padding: 12px 25px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.4s ease;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    gap: 10px;
+    font-size: 1rem;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--accent) 0%, red 100%);
+    background: var(--accent);
     color: white;
-    box-shadow: 0 5px 20px rgba(255, 123, 0, 0.4);
+    box-shadow: 0 5px 15px rgba(203, 0, 0, 0.3);
 }
 
 .btn-primary:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(255, 123, 0, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(203, 0, 0, 0.4);
 }
 
 .btn-secondary {
@@ -413,14 +384,12 @@ header {
 
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
 }
 
 /* Products */
 .products {
-    padding: 2rem 0;
-    margin-top: -5vh;
+    padding: 3rem 0;
 }
 
 .section-title {
@@ -429,6 +398,7 @@ header {
     position: relative;
     font-size: 2rem;
     color: var(--primary);
+    font-family: 'Montserrat', sans-serif;
 }
 
 .section-title:after {
@@ -476,6 +446,7 @@ header {
 .product-content h3 {
     margin-bottom: 0.5rem;
     color: var(--primary);
+    font-size: 1.2rem;
 }
 
 .product-price {
@@ -487,49 +458,48 @@ header {
 
 .product-rating {
     color: #ffc107;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .products p{
-    padding-bottom: 12px;
+padding-bottom: 12px;
 }
 
 .btn-prod {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    background: var(--primary);
-    color: white;
-    font-weight: bold;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: var(--transition);
+width: 100%;
+padding: 12px;
+border: none;
+background: var(--primary);
+color: white;
+font-weight: bold;
+border-radius: 30px;
+cursor: pointer;
+transition: var(--transition);
 }
 
 .btn-prod:hover {
-    background: var(--accent);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(203, 0, 0, 0.3);
+background: var(--accent);
+transform: translateY(-3px);
+box-shadow: 0 5px 15px rgba(203, 0, 0, 0.3);
 }
-
 
 /* Features */
 .features {
-    padding: 4rem 0;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+    padding: 3rem 0;
+    background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
     color: var(--white);
     margin: 2rem 0;
 }
 
 .features-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
 }
 
 .feature {
     text-align: center;
-    padding: 2rem;
+    padding: 1.5rem;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     backdrop-filter: blur(5px);
@@ -549,35 +519,29 @@ header {
 
 .feature h3 {
     margin-bottom: 1rem;
+    font-size: 1.2rem;
 }
-        
-
-
 
 /* Footer */
 footer {
     background-color: var(--dark);
     color: var(--light-gray);
-    padding: 70px 40px;
-}
-
-footer a {
-    text-decoration: none;
-    color: var(--light-gray);
+    padding: 3rem 0 1rem;
 }
 
 .footer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    margin-bottom: 50px;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
 .footer-col h4 {
     color: var(--white);
-    margin-bottom: 25px;
+    margin-bottom: 1.5rem;
     position: relative;
-    padding-bottom: 10px;
+    padding-bottom: 0.5rem;
+    font-size: 1.2rem;
 }
 
 .footer-col h4::after {
@@ -595,7 +559,7 @@ footer a {
 }
 
 .footer-col ul li {
-    margin-bottom: 12px;
+    margin-bottom: 0.8rem;
 }
 
 .footer-col ul li a {
@@ -609,21 +573,10 @@ footer a {
     padding-left: 5px;
 }
 
-.contact-info {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: flex-start;
-}
-
-.contact-info i {
-    color: var(--accent);
-    margin-right: 15px;
-    margin-top: 5px;
-    text-decoration: none;
-}
 .social-links {
     display: flex;
-    margin-top: 25px;
+    margin-top: 1.5rem;
+    gap: 0.5rem;
 }
 
 .social-links a {
@@ -635,238 +588,136 @@ footer a {
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--white);
     border-radius: 50%;
-    margin-right: 10px;
     transition: var(--transition);
 }
 
 .social-links a:hover {
     background-color: var(--accent);
-    transform: translateY(-5px);
+    transform: translateY(-3px);
 }
 
 .copyright {
     text-align: center;
-    padding-top: 20px;
+    padding-top: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-.phone-footer {
-    color: rgb(255, 255, 255);
-    font-weight: bold;
+    font-size: 0.9rem;
 }
 
 /* Animaciones */
 @keyframes fadeInUp {
-    from { 
-        opacity: 0; 
-        transform: translateY(40px); 
+    from {
+        opacity: 0;
+        transform: translateY(40px);
     }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-    }
-}
-
-@keyframes slideInLeft {
-    from { 
-        opacity: 0; 
-        transform: translateX(-40px); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translateX(0); 
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
 /* Responsive */
-@media (max-width: 1280px) {
-    .logo-container {
-        margin-left: -10vw;
-        align-items: center;
-    }
-    .logo {
-        margin-left: 16vw;
-        font-size: 1.4rem;
-    }
-}
-@media (max-width: 1080px) {
-    .logo{
-        margin-left: 198px;
-    }
-}
 @media (max-width: 992px) {
     .header-container {
         flex-wrap: wrap;
-    }
-    .logo-container {
-        align-items: center;
-    }
-    .logo{
-        font-size: 1.2rem;
-        margin-left: 18vh;
     }
 
     .search-bar {
         order: 3;
         margin: 1rem 0 0;
         width: 100%;
-    }
-
-    .hero-content {
-        margin-top: 80px;
-        text-align: center;
-        padding: 40px 30px;
-        max-width: 90%;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 100%;
     }
 
     .hero h1 {
-        font-size: 2.7rem;
+        font-size: 2.2rem;
     }
 
     .hero p {
-        text-align: justify;
-    }
-
-    .hero-image {
-        width: 70%;
-        height: 40%;
-        right: 15%;
-        bottom: 15%;
-        opacity: 0.5;
-    }
-
-    .hero-buttons {
-        justify-content: center;
+        font-size: 1.1rem;
     }
 }
 
 @media (max-width: 950px) {
-    .top-bar-container,.top-bar {
-        display: none;
+    .top-bar-container {
+        flex-direction: column;
+        gap: 0.5rem;
     }
-    
+
     .top-links {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 1rem;
-    }
-    
-    .help-link {
-        margin-top: 0.5rem;
-    }
-    .logo-container {
-        margin-left: 18vw;
-    }
-    .logo-hidrosistemas{
-        height: 69px;
     }
 
     .logo {
-        font-weight: 1.4rem;
-        margin-left: 20vw;
+        margin-left: 0;
     }
-    .search-bar{
-        margin-left: 13vw;
-    }
-    .categories-container {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .all-categories {
-        margin-bottom: 1rem;
-    }
-    
-    .categories-list {
-        flex-direction: column;
-        gap: 0.8rem;
-        width: 100%;
-        display: none;
-    }
-    
-    .categories-list.show {
-        display: flex;
-    }
-    
-    .promotions-link {
-        margin-top: 1rem;
-        align-self: flex-end;
-    }
-    
+
     .hamburger {
         display: block;
-        position: absolute;
-        right: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
     }
-    
+
+    .categories-list {
+        display: none;
+    }
+
+    .hero {
+        height: 400px;
+        text-align: center;
+    }
+
+    .hero-content {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
     .hero h1 {
         font-size: 2rem;
     }
-    
-    .header-icons {
-        gap: 1rem;
+
+    .features-container {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .hero h1 {
-    font-size: 2.3rem;
-   }
-    
-    .hero p {
-        font-size: 1.1rem;
-    }
-    
-    .btn {
-        padding: 14px 25px;
-        font-size: 1rem;
-    }
+        .top-bar-container,.top-bar {
+display: none;
+}
 }
 
-@media (max-width: 480px) {
-    .logo {
-        font-size: 1.5rem;
+@media (max-width: 576px) {
+    .logo-hidrosistemas {
+        width: 150px;
     }
-    
-    .hero h1 {
-        font-size: 1.8rem;
-    }
-    
-    .hero p {
-        font-size: 1rem;
-    }
-    
+
     .header-icons {
         font-size: 1rem;
     }
 
-    .hero-buttons {
-        flex-direction: column;
-        align-items: center;
+    .hero {
+        height: 450px;
     }
-                 
-}
 
-@media (max-width: 350px) {
- 
     .hero h1 {
         font-size: 1.8rem;
     }
-    
-    .hero p {
-        font-size: 1rem;
-    }
-    
-
-    .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-        width: 50px;
-    }
 
     .btn {
-        padding: 12px 15px;
+        padding: 10px 20px;
         font-size: 0.9rem;
+    }
+
+    .features-container {
+        grid-template-columns: 1fr;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
     }
 }

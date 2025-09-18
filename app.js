@@ -32,32 +32,3 @@ mobileLinks.forEach(link => {
     });
 });
 
-// Efecto de parallax suave
-document.addEventListener('DOMContentLoaded', function() {
-    const hero = document.querySelector('.hero');
-    const content = document.querySelector('.hero-content');
-    
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.5;
-        hero.style.transform = 'translateY(' + rate + 'px)';
-        content.style.transform = 'translateY(' + (rate * 0.5) + 'px)';
-    });
-    
-    // Efecto de escritura para el título
-    const heroTitle = document.querySelector('.hero h1');
-    const originalText = heroTitle.innerHTML;
-    heroTitle.innerHTML = '';
-    
-    let i = 0;
-    const typeWriter = () => {
-        if (i < originalText.length) {
-            heroTitle.innerHTML += originalText.charAt(i);
-            i++;
-            setTimeout(typeWriter, 40);
-        }
-    };
-    
-    // Iniciar el efecto después de un breve retraso
-    setTimeout(typeWriter, 500);
-});

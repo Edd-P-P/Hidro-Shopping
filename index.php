@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HidroBuy</title>
+    <title>HidroBuy - Productos Hidráulicos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -32,7 +34,7 @@
                 <li><a href="#">Herramientas de Construcción</a></li>
                 <li><a href="#">Ferretería</a></li>
             </ul>
-</div>
+        </div>
         
         <div class="mobile-sidebar-footer">
             <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
@@ -62,7 +64,7 @@
     <header>
         <div class="container header-container">
             <div class="logo-container">            
-                <img src="Imagenes/h.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
+                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
                 <div class="logo">HIDROSISTEMAS</div>
             </div>
             
@@ -82,7 +84,7 @@
     </header>
 
     <!-- Navegación de Categorías -->
-    <nav class="categories-nav" id="categoriesNav">
+    <nav class="categories-nav">
         <div class="container categories-container">
             <button class="hamburger" id="hamburgerMenu">
                 <i class="fas fa-bars"></i>
@@ -102,8 +104,6 @@
 
     <!-- Hero -->
     <section class="hero">
-        <div class="hero-pattern"></div>
-        
         <div class="container">
             <div class="hero-content">
                 <h1>Soluciones Hidráulicas para Profesionales</h1>
@@ -120,7 +120,6 @@
         </div> 
     </section>
 
-
     <!-- Products -->
     <section class="products">
         <div class="container">
@@ -128,6 +127,7 @@
             <div class="product-grid">
                 <div class="product-card">
                     <div class="product-img">
+                        <i class="fas fa-wrench"></i>
                     </div>
                     <div class="product-content">
                         <h3>Pichancha</h3>
@@ -145,6 +145,7 @@
                 </div>
                 <div class="product-card">
                     <div class="product-img">
+                        <i class="fas fa-filter"></i>
                     </div>
                     <div class="product-content">
                         <h3>Filtro de Agua Avanzado</h3>
@@ -162,6 +163,7 @@
                 </div>
                 <div class="product-card">
                     <div class="product-img">
+                        <i class="fas fa-tools"></i>
                     </div>
                     <div class="product-content">
                         <h3>Kit de Herramientas Profesional</h3>
@@ -179,6 +181,7 @@
                 </div>
                 <div class="product-card">
                     <div class="product-img">
+                        <i class="fas fa-pipe"></i>
                     </div>
                     <div class="product-content">
                         <h3>Tubería de PVC Industrial</h3>
