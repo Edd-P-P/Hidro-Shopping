@@ -3,133 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda - HIDROSISTEMAS</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>HidroBuy - Productos Hidráulicos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         /* Variables y reset */
         :root {
-            --color-primary: #0d47a1;
-            --color-secondary: #1565c0;
-            --color-accent: #ff6f00;
-            --color-light: #f5f5f5;
-            --color-dark: #1a237e;
-            --color-text: #333;
-            --color-white: #ffffff;
-            --color-gray: #6c757d;
-            --color-light-gray: #e9ecef;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --primary: #04165a;
+            --accent: #CB0000;
+            --light: #f5f9fc;
+            --dark: #333333;
+            --gray: #6c757d;
+            --green: #1db954;
+            --light-gray: #e9ecef;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background-color: var(--color-light);
-            color: var(--color-text);
+            font-family: 'PT Sans', sans-serif;
             line-height: 1.6;
+            color: var(--dark);
+            background-color: white;
             overflow-x: hidden;
         }
-        
+
         a {
             text-decoration: none;
             color: inherit;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1rem;
         }
-        
+
         /* Top Bar */
         .top-bar {
-            background-color: var(--color-dark);
-            color: var(--color-white);
+            background-color: #2d3748;
+            color: var(--white);
             padding: 0.5rem 0;
             font-size: 0.9rem;
-            position: relative;
-            z-index: 5;
         }
-        
+
         .top-bar-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .top-links {
             display: flex;
             gap: 1.5rem;
         }
-        
+
         .top-links a {
             transition: var(--transition);
             display: flex;
             align-items: center;
         }
-        
+
         .top-links a:hover {
-            color: var(--color-accent);
+            color: var(--accent);
         }
-        
+
         .top-links i {
             margin-right: 0.3rem;
             font-size: 0.8rem;
         }
-        
+
         .help-link {
             display: flex;
             align-items: center;
         }
-        
+
         .help-link i {
             margin-right: 0.5rem;
-            color: var(--color-accent);
+            color: var(--accent);
         }
-        
+
         /* Header Principal */
         header {
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
-            color: var(--color-white);
+            background-color: var(--primary);
+            color: var(--white);
             padding: 1rem 0;
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 1000;
         }
-        
+
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
-        .logo-hidrosistemas {
-            height: 72px;
-            left: 0px;
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
+
+        .logo-container {
             display: flex;
             align-items: center;
         }
-        
-        .logo span {
-            color: var(--color-accent);
+
+        .logo-hidrosistemas {
+            width: 200px;
+            height: auto;
+            object-fit: contain;
         }
-        
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-left: 1rem;
+            display: none; /* Ocultamos el texto del logo si tenemos imagen */
+        }
+
         .search-bar {
             flex-grow: 1;
             margin: 0 2rem;
             position: relative;
+            max-width: 600px;
         }
-        
+
         .search-bar input {
             width: 100%;
             padding: 0.8rem 1rem;
@@ -137,33 +141,37 @@
             border: none;
             padding-left: 40px;
         }
-        
+
         .search-bar i {
             position: absolute;
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--color-gray);
+            color: var(--gray);
         }
-        
+
         .header-icons {
             display: flex;
-            gap: 1.2rem;
+            gap: 1rem;
             font-size: 1.2rem;
         }
-        
+
         .header-icons a {
             transition: var(--transition);
             display: flex;
             align-items: center;
         }
-        
+
         .header-icons a:hover {
-            color: var(--color-accent);
+            color: var(--accent);
         }
-        
+
+        .icon-wrapper {
+            position: relative;
+        }
+
         .cart-count {
-            background-color: var(--color-accent);
+            background-color: var(--accent);
             color: white;
             border-radius: 50%;
             width: 18px;
@@ -176,308 +184,49 @@
             top: -8px;
             right: -8px;
         }
-        
-        .icon-wrapper {
-            position: relative;
-        }
-        
+
         /* Navegación de Categorías */
         .categories-nav {
-            background-color: var(--color-white);
+            background-color: var(--white);
             box-shadow: var(--shadow);
-            padding: 0.8rem 0;
+            padding: 1rem 0;
             position: relative;
-            z-index: 8;
+            z-index: 999;
         }
-        
+
         .categories-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
         }
-        
+
         .categories-list {
             display: flex;
             gap: 1.5rem;
             list-style: none;
             flex-wrap: wrap;
         }
-        
+
         .categories-list a {
             transition: var(--transition);
             font-weight: 500;
             white-space: nowrap;
         }
-        
+
         .categories-list a:hover {
-            color: var(--color-accent);
+            color: var(--accent);
         }
-        
+
         .hamburger {
             display: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: var(--color-primary);
+            color: var(--primary);
             background: none;
             border: none;
         }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(13, 71, 161, 0.8), rgba(26, 35, 126, 0.8)), url('https://images.unsplash.com/photo-1563014959-7aaa83350992?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
-            color: var(--color-white);
-            text-align: center;
-            padding: 5rem 1rem;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--color-accent);
-            color: var(--color-white);
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            background-color: var(--color-primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Products */
-        .products {
-            padding: 2rem 0;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            font-size: 2rem;
-            color: var(--color-primary);
-        }
-        
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--color-accent);
-            margin: 0.5rem auto;
-        }
-        
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .product-card {
-            background: var(--color-white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .product-img {
-            height: 200px;
-            background-color: #e3f2fd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-primary);
-            font-size: 2rem;
-        }
-        
-        .product-content {
-            padding: 1.5rem;
-        }
-        
-        .product-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--color-primary);
-        }
-        
-        .product-price {
-            font-weight: bold;
-            color: var(--color-accent);
-            font-size: 1.2rem;
-            margin: 0.5rem 0;
-        }
-        
-        .product-rating {
-            color: #ffc107;
-            margin-bottom: 1rem;
-        }
-        
-        /* Features */
-        .features {
-            padding: 4rem 0;
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
-            color: var(--color-white);
-            margin: 2rem 0;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .features-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        
-        .feature {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(5px);
-            transition: var(--transition);
-        }
-        
-        .feature:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
-        .feature i {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--color-accent);
-        }
-        
-        .feature h3 {
-            margin-bottom: 1rem;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--color-dark);
-            color: var(--color-white);
-            padding: 3rem 0 1rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .footer-logo span {
-            color: var(--color-accent);
-        }
-        
-        .footer-links h3 {
-            margin-bottom: 1rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        
-        .footer-links h3:after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--color-accent);
-        }
-        
-        .footer-links ul {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .footer-links a {
-            transition: var(--transition);
-        }
-        
-        .footer-links a:hover {
-            color: var(--color-accent);
-            padding-left: 5px;
-        }
-        
-        .footer-newsletter input {
-            padding: 0.8rem;
-            width: 100%;
-            margin-bottom: 1rem;
-            border: none;
-            border-radius: 4px;
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-        
-        .social-icons a:hover {
-            background: var(--color-accent);
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
+
         /* MENÚ HAMBURGUESA*/
         .mobile-menu-overlay {
             position: fixed;
@@ -486,198 +235,501 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            z-index: 998; 
+            z-index: 998;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
         }
-        
+
         .mobile-menu-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-        
+
         .mobile-sidebar {
             position: fixed;
             top: 0;
             right: -300px;
             width: 300px;
             height: 100%;
-            background-color: var(--color-white);
-            z-index: 999; /* Encima del overlay */
+            background-color: var(--white);
+            z-index: 999;
             overflow-y: auto;
             transition: right 0.3s ease;
             box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .mobile-sidebar.active {
             right: 0;
         }
-        
+
         .mobile-sidebar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1.5rem;
-            background-color: var(--color-primary);
-            color: var(--color-white);
+            background-color: var(--primary);
+            color: var(--white);
         }
-        
+
         .mobile-sidebar-header .logo {
             font-size: 1.5rem;
+            display: block;
         }
-        
+
         .close-sidebar {
             font-size: 1.5rem;
             cursor: pointer;
             background: none;
             border: none;
-            color: var(--color-white);
+            color: var(--white);
         }
-        
+
         .mobile-categories {
             padding: 1rem;
         }
-        
+
         .mobile-categories ul {
             list-style: none;
         }
-        
+
         .mobile-categories li {
             margin-bottom: 0.5rem;
-            border-bottom: 1px solid var(--color-light-gray);
+            border-bottom: 1px solid var(--light-gray);
         }
-        
+
         .mobile-categories a {
             display: block;
             padding: 1rem;
             font-weight: 500;
             transition: var(--transition);
         }
-        
+
         .mobile-categories a:hover {
-            color: var(--color-accent);
-            background-color: var(--color-light-gray);
+            color: var(--accent);
+            background-color: var(--light-gray);
         }
-        
+
         .mobile-sidebar-footer {
             padding: 1rem;
-            border-top: 1px solid var(--color-light-gray);
+            border-top: 1px solid var(--light-gray);
             margin-top: 1rem;
         }
-        
+
         .mobile-sidebar-footer a {
             display: block;
             padding: 0.5rem 1rem;
-            color: var(--color-primary);
+            color: var(--primary);
             font-weight: 500;
         }
-        
+
+        /** Hero Section */
+        .hero {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(rgba(4, 22, 90, 0.8), rgba(4, 22, 90, 0.8)), url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            padding: 2rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 5px 15px rgba(203, 0, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(203, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        /* Products */
+        .products {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            font-size: 2rem;
+            color: var(--primary);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 0.5rem auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-img {
+            height: 200px;
+            background-color: #e3f2fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .product-rating {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-prod {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .btn-prod:hover {
+            background: var(--accent);
+        }
+
+        /* Features */
+        .features {
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
+            color: var(--white);
+            margin: 2rem 0;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffb347;
+        }
+
+        .feature h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--light-gray);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .header-container {
                 flex-wrap: wrap;
             }
-            
+
             .search-bar {
                 order: 3;
                 margin: 1rem 0 0;
                 width: 100%;
+                max-width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
             }
         }
-        
+
         @media (max-width: 768px) {
-            .top-bar-container,.top-bar {
-                display: none;
+            .top-bar-container {
+                flex-direction: column;
+                gap: 0.5rem;
             }
-            
+
             .top-links {
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 1rem;
             }
-            
-            .help-link {
-                margin-top: 0.5rem;
+
+            .logo {
+                margin-left: 0;
             }
-            
-            .categories-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .all-categories {
-                margin-bottom: 1rem;
-            }
-            
-            .categories-list {
-                flex-direction: column;
-                gap: 0.8rem;
-                width: 100%;
-                display: none;
-            }
-            
-            .categories-list.show {
-                display: flex;
-            }
-            
-            .promotions-link {
-                margin-top: 1rem;
-                align-self: flex-end;
-            }
-            
+
             .hamburger {
                 display: block;
-                position: absolute;
-                right: 1rem;
-                top: 50%;
-                transform: translateY(-50%);
             }
-            
+
+            .categories-list {
+                display: none;
+            }
+
+            .hero {
+                height: 400px;
+                text-align: center;
+            }
+
+            .hero-content {
+                text-align: center;
+                margin: 0 auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
             .hero h1 {
                 font-size: 2rem;
             }
-            
-            .header-icons {
-                gap: 1rem;
+
+            .features-container {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
-        
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 1.5rem;
+
+        @media (max-width: 576px) {
+            .logo-hidrosistemas {
+                width: 150px;
             }
-            
+
+            .header-icons {
+                font-size: 1rem;
+            }
+
             .hero {
-                padding: 3rem 1rem;
+                height: 450px;
             }
-            
+
             .hero h1 {
                 font-size: 1.8rem;
             }
-            
-            .hero p {
-                font-size: 1rem;
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
-            
-            .section-title {
-                font-size: 1.5rem;
+
+            .features-container {
+                grid-template-columns: 1fr;
             }
-            
-            .header-icons {
-                font-size: 1rem;
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
+
     <!-- Overlay para menú móvil -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     
     <!-- Menú lateral móvil -->
     <div class="mobile-sidebar" id="mobileSidebar">
         <div class="mobile-sidebar-header">
-            <div class="logo">HIDRO<span>SISTEMAS</span></div>
+            <div class="logo">Categorias</div>
             <button class="close-sidebar" id="closeSidebar">
                 <i class="fas fa-times"></i>
             </button>
@@ -723,8 +775,10 @@
     <!-- Header Principal -->
     <header>
         <div class="container header-container">
-            <img src="Imagenes/h.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-            <div class="logo">HIDROSISTEMAS</div>
+            <div class="logo-container">            
+                <img src="Imagenes/h.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
+                <div class="logo">HIDROSISTEMAS</div>
+            </div>
             
             <div class="search-bar">
                 <i class="fas fa-search"></i>
@@ -742,7 +796,7 @@
     </header>
 
     <!-- Navegación de Categorías -->
-    <nav class="categories-nav" id="categoriesNav">
+    <nav class="categories-nav">
         <div class="container categories-container">
             <button class="hamburger" id="hamburgerMenu">
                 <i class="fas fa-bars"></i>
@@ -760,13 +814,22 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Soluciones Hidráulicas Profesionales</h1>
-            <p>Todo para tus proyectos de construcción y sistemas de agua en un solo lugar</p>
-            <a href="#" class="btn">Ver Productos Destacados</a>
-        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Soluciones Hidráulicas para Profesionales</h1>
+                <p>Somos distribuidores oficiales de las principales marcas del sector, ofreciendo productos de máxima calidad y rendimiento para tus proyectos más exigentes.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-tools"></i> Explorar Productos
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-headset"></i> Asesoramiento
+                    </a>
+                </div>
+            </div>
+        </div> 
     </section>
 
     <!-- Products -->
@@ -776,10 +839,10 @@
             <div class="product-grid">
                 <div class="product-card">
                     <div class="product-img">
-                        <i class="fas fa-pump-water"></i>
+                        <i class="fas fa-wrench"></i>
                     </div>
                     <div class="product-content">
-                        <h3>Bomba Centrífuga Premium</h3>
+                        <h3>Pichancha</h3>
                         <div class="product-rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -788,13 +851,13 @@
                             <i class="fas fa-star-half-alt"></i>
                         </div>
                         <p class="product-price">$249.99</p>
-                        <p>Bomba de alta eficiencia para uso residencial e industrial.</p>
-                        <a href="#" class="btn">Añadir al Carrito</a>
+                        <p>Válvula de Pie o Pichancha también conocida como válvula de pie de cisterna.</p>
+                        <a href="#" class="btn-prod">Añadir al Carrito</a>
                     </div>
                 </div>
                 <div class="product-card">
                     <div class="product-img">
-                        <i class="fas fa-hand-holding-water"></i>
+                        <i class="fas fa-filter"></i>
                     </div>
                     <div class="product-content">
                         <h3>Filtro de Agua Avanzado</h3>
@@ -807,12 +870,12 @@
                         </div>
                         <p class="product-price">$189.99</p>
                         <p>Sistema de filtración de 5 etapas con capacidad para 1000L.</p>
-                        <a href="#" class="btn">Añadir al Carrito</a>
+                        <a href="#" class="btn-prod">Añadir al Carrito</a>
                     </div>
                 </div>
                 <div class="product-card">
                     <div class="product-img">
-                        <i class="fas fa-toolbox"></i>
+                        <i class="fas fa-tools"></i>
                     </div>
                     <div class="product-content">
                         <h3>Kit de Herramientas Profesional</h3>
@@ -825,7 +888,7 @@
                         </div>
                         <p class="product-price">$159.99</p>
                         <p>Set completo de herramientas para mantenimiento de sistemas.</p>
-                        <a href="#" class="btn">Añadir al Carrito</a>
+                        <a href="#" class="btn-prod">Añadir al Carrito</a>
                     </div>
                 </div>
                 <div class="product-card">
@@ -843,14 +906,13 @@
                         </div>
                         <p class="product-price">$89.99</p>
                         <p>Tubería de alta resistencia para aplicaciones industriales.</p>
-                        <a href="#" class="btn">Añadir al Carrito</a>
+                        <a href="#" class="btn-prod">Añadir al Carrito</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features -->
     <section class="features">
         <div class="container features-container">
             <div class="feature">
@@ -877,82 +939,66 @@
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container footer-container">
-            <div class="footer-about">
-                <div class="footer-logo">HIDRO<span>SISTEMAS</span></div>
-                <p>Soluciones integrales en sistemas hidráulicos y de agua desde 2005. Calidad y confianza para nuestros clientes.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>HIDROSISTEMAS</h4>
+                    <p>Tenemos las mejores marcas, con calidad que buscas.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/HidrosistemasHGO/?fref=ts" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://api.whatsapp.com/send/?phone=527712167150&text&type=phone_number&app_absent=0" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/hidrosistemas_mx?igsh=MXZ6YmsydjgxZmN6NA==" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="asesoria.html">Asesoría</a></li>
+                        <li><a href="capacitacion.html">Capacitación</a></li>
+                        <li><a href="supervision.html">Supervisión</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="Nosotros.html">Nosotros</a></li>
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="footer-links">
-                <h3>Enlaces Rápidos</h3>
-                <ul>
-                    <li><a href="#">Inicio</a></li>
-                    <li><a href="#">Productos</a></li>
-                    <li><a href="#">Servicios</a></li>
-                    <li><a href="#">Nosotros</a></li>
-                    <li><a href="#">Contacto</a></li>
-                </ul>
+            <div class="copyright">
+                <p>&copy; 2025 Hidrosistemas. Todos los derechos reservados.</p>
             </div>
-            <div class="footer-links">
-                <h3>Categorías</h3>
-                <ul>
-                    <li><a href="#">Sistemas Hidráulicos</a></li>
-                    <li><a href="#">Bombas de Agua</a></li>
-                    <li><a href="#">Accesorios</a></li>
-                    <li><a href="#">Repuestos</a></li>
-                    <li><a href="#">Herramientas</a></li>
-                </ul>
-            </div>
-            <div class="footer-newsletter">
-                <h3>Newsletter</h3>
-                <p>Suscríbete para recibir ofertas y novedades</p>
-                <input type="email" placeholder="Tu correo electrónico">
-                <a href="#" class="btn">Suscribirse</a>
-            </div>
-        </div>
-        <div class="container copyright">
-            <p>&copy; 2023 HIDROSISTEMAS. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <script>
-        // Menu mobile toggle - Menú lateral
-        const hamburgerMenu = document.getElementById('hamburgerMenu');
-        const mobileSidebar = document.getElementById('mobileSidebar');
-        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-        const closeSidebar = document.getElementById('closeSidebar');
-        
-        hamburgerMenu.addEventListener('click', function() {
-            mobileSidebar.classList.add('active');
-            mobileMenuOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevenir scroll
-        });
-        
-        closeSidebar.addEventListener('click', function() {
-            mobileSidebar.classList.remove('active');
-            mobileMenuOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Restaurar scroll
-        });
-        
-        mobileMenuOverlay.addEventListener('click', function() {
-            mobileSidebar.classList.remove('active');
-            mobileMenuOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Restaurar scroll
-        });
-        
-        // Cerrar menú al hacer clic en un enlace (opcional)
-        const mobileLinks = document.querySelectorAll('.mobile-categories a, .mobile-sidebar-footer a');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', function() {
+        // Funcionalidad del menú móvil
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            
+            hamburgerMenu.addEventListener('click', function() {
+                mobileSidebar.classList.add('active');
+                mobileMenuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closeSidebar.addEventListener('click', function() {
                 mobileSidebar.classList.remove('active');
                 mobileMenuOverlay.classList.remove('active');
-                document.body.style.overflow = ''; // Restaurar scroll
+                document.body.style.overflow = 'auto';
+            });
+            
+            mobileMenuOverlay.addEventListener('click', function() {
+                mobileSidebar.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
             });
         });
     </script>
