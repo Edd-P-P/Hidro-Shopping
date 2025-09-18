@@ -61,9 +61,9 @@
     <!-- Header Principal -->
     <header>
         <div class="container header-container">
-            <div class="logo">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <img src="Imagenes/triangulo.png" alt="triangulo decorativo" class="triangulo">
+            <div class="logo-container">            
+                <img src="Imagenes/h.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
+                <div class="logo">HIDROSISTEMAS</div>
             </div>
             
             <div class="search-bar">
