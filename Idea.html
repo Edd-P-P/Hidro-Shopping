@@ -100,7 +100,7 @@
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 998;
         }
 
         .header-container {
@@ -191,7 +191,7 @@
             box-shadow: var(--shadow);
             padding: 1rem 0;
             position: relative;
-            z-index: 999;
+            z-index: 997;
         }
 
         .categories-container {
@@ -467,22 +467,27 @@
             margin-bottom: 0.5rem;
         }
 
-        .btn-prod {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 1rem;
-        }
+.products p{
+    padding-bottom: 12px;
+}
 
-        .btn-prod:hover {
-            background: var(--accent);
-        }
+.btn-prod {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-prod:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(203, 0, 0, 0.3);
+}
 
         /* Features */
         .features {
@@ -515,7 +520,7 @@
         .feature i {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: #ffb347;
+            color: var(--green);
         }
 
         .feature h3 {
@@ -638,7 +643,7 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 950px) {
             .top-bar-container {
                 flex-direction: column;
                 gap: 0.5rem;
@@ -682,6 +687,10 @@
             .features-container {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+                .top-bar-container,.top-bar {
+        display: none;
+    }
         }
 
         @media (max-width: 576px) {
@@ -776,7 +785,7 @@
     <header>
         <div class="container header-container">
             <div class="logo-container">            
-                <img src="Imagenes/h.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
+                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
                 <div class="logo">HIDROSISTEMAS</div>
             </div>
             
