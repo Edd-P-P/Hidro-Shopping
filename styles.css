@@ -23,6 +23,7 @@ body {
   --light: #f5f9fc;
   --dark: #333333;
   --gray: #6c757d;
+  --green: #1db954;
   --light-gray: #e9ecef;
   --white: #ffffff;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -540,7 +541,7 @@ header {
 .feature i {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: var(--accent);
+    color: var(--green);
 }
 
 .feature h3 {

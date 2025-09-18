@@ -130,7 +130,7 @@
                     <div class="product-img">
                     </div>
                     <div class="product-content">
-                        <h3>Bomba Centrífuga Premium</h3>
+                        <h3>Pichancha</h3>
                         <div class="product-rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -139,7 +139,7 @@
                             <i class="fas fa-star-half-alt"></i>
                         </div>
                         <p class="product-price">$249.99</p>
-                        <p>Bomba de alta eficiencia para uso residencial e industrial.</p>
+                        <p>Válvula de Pie o Pichancha también conocida como válvula de pie de cisterna.</p>
                         <a href="#" class="btn-prod">Añadir al Carrito</a>
                     </div>
                 </div>
@@ -222,7 +222,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
     <footer id="contacto">
         <div class="container">
