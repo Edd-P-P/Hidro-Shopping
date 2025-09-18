@@ -1,3 +1,17 @@
+<?php 
+require_once 'config/database.php';
+
+$db = new Database();
+$con = $db->conectar();
+$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1");
+$sql->execute();
+$resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -117,82 +131,28 @@
         </div> 
     </section>
 
-    <!-- Products -->
-    <section class="products" id="products">
-        <div class="container">
-            <h2 class="section-title">Productos Destacados</h2>
-            <div class="product-grid">
-                <div class="product-card">
-                    <div class="product-img">
-                    </div>
-                    <div class="product-content">
-                        <h3>Pichancha</h3>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <p class="product-price">$249.99</p>
-                        <p>Válvula de Pie o Pichancha también conocida como válvula de pie de cisterna.</p>
-                        <a href="#" class="btn-prod">Añadir al Carrito</a>
-                    </div>
+<!-- Products -->
+<section class="products" id="products">
+    <div class="container">
+        <h2 class="section-title">Productos Destacados</h2>
+        <div class="product-grid">
+            <?php foreach($resultado as $row): ?>
+            <div class="product-card">
+                <div class="product-img">
+                    <!-- Aquí deberías mostrar la imagen del producto -->
+                    <img src="ruta/a/tu/imagen/<?php echo $row['id']; ?>.jpg" alt="<?php echo $row['nombre']; ?>">
                 </div>
-                <div class="product-card">
-                    <div class="product-img">
-                    </div>
-                    <div class="product-content">
-                        <h3>Filtro de Agua Avanzado</h3>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <p class="product-price">$189.99</p>
-                        <p>Sistema de filtración de 5 etapas con capacidad para 1000L.</p>
-                        <a href="#" class="btn-prod">Añadir al Carrito</a>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-img">
-                    </div>
-                    <div class="product-content">
-                        <h3>Kit de Herramientas Profesional</h3>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="product-price">$159.99</p>
-                        <p>Set completo de herramientas para mantenimiento de sistemas.</p>
-                        <a href="#" class="btn-prod">Añadir al Carrito</a>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-img">
-                    </div>
-                    <div class="product-content">
-                        <h3>Tubería de PVC Industrial</h3>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <p class="product-price">$89.99</p>
-                        <p>Tubería de alta resistencia para aplicaciones industriales.</p>
-                        <a href="#" class="btn-prod">Añadir al Carrito</a>
-                    </div>
+                <div class="product-content">
+                    <h3><?php echo $row['nombre']; ?></h3>
+                    <p class="product-price">$<?php echo number_format($row['precio'], 2); ?></p>
+                    <p>Descripción del producto aquí...</p>
+                    <a href="#" class="btn-prod">Añadir al Carrito</a>
                 </div>
             </div>
+            <?php endforeach; ?>
         </div>
-    </section>
+    </div>         
+</section>
 
     <section class="features">
         <div class="container features-container">
