@@ -120,6 +120,109 @@
         </div> 
     </section>
 
+
+    <!-- Products -->
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">Productos Destacados</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img">
+                    </div>
+                    <div class="product-content">
+                        <h3>Bomba Centrífuga Premium</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="product-price">$249.99</p>
+                        <p>Bomba de alta eficiencia para uso residencial e industrial.</p>
+                        <a href="#" class="btn-prod">Añadir al Carrito</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                    </div>
+                    <div class="product-content">
+                        <h3>Filtro de Agua Avanzado</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="product-price">$189.99</p>
+                        <p>Sistema de filtración de 5 etapas con capacidad para 1000L.</p>
+                        <a href="#" class="btn-prod">Añadir al Carrito</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                    </div>
+                    <div class="product-content">
+                        <h3>Kit de Herramientas Profesional</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="product-price">$159.99</p>
+                        <p>Set completo de herramientas para mantenimiento de sistemas.</p>
+                        <a href="#" class="btn-prod">Añadir al Carrito</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                    </div>
+                    <div class="product-content">
+                        <h3>Tubería de PVC Industrial</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="product-price">$89.99</p>
+                        <p>Tubería de alta resistencia para aplicaciones industriales.</p>
+                        <a href="#" class="btn-prod">Añadir al Carrito</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container features-container">
+            <div class="feature">
+                <i class="fas fa-truck"></i>
+                <h3>Envío Rápido</h3>
+                <p>Entregas en 24-48 horas a toda la región</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Garantía</h3>
+                <p>Todos nuestros productos incluyen garantía</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-headset"></i>
+                <h3>Soporte</h3>
+                <p>Asesoramiento técnico especializado</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-undo"></i>
+                <h3>Devoluciones</h3>
+                <p>30 días para devoluciones sin problemas</p>
+            </div>
+        </div>
+    </section>
+    
     <!-- Footer -->
     <footer id="contacto">
         <div class="container">
