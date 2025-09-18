@@ -25,14 +25,14 @@
         
         <div class="mobile-categories">
             <ul>
-                <li><a href="#">Cemento</a></li>
-                <li><a href="#">Aceros</a></li>
-                <li><a href="#">Materiales de Construcción</a></li>
-                <li><a href="#">Acabados</a></li>
-                <li><a href="#">Plomería</a></li>
-                <li><a href="#">Material Eléctrico</a></li>
-                <li><a href="#">Herramientas de Construcción</a></li>
-                <li><a href="#">Ferretería</a></li>
+                <li><a href="#">CPVC agua caliente</a></li>
+                <li><a href="#">Tubería PPR</a></li>
+                <li><a href="#">Tubería galvanizada</a></li>
+                <li><a href="#">Accesorios domésticos</a></li>
+                <li><a href="#">Medidores y valvulas</a></li>
+                <li><a href="#">Linea Sanitaria</a></li>
+                <li><a href="#">Aspersores</a></li>
+                <li><a href="#">Nebulizadores</a></li>
             </ul>
         </div>
         
@@ -47,15 +47,12 @@
     <div class="top-bar">
         <div class="container top-bar-container">
             <div class="top-links">
-                <a href="#"><i class="fas fa-credit-card"></i> Financiamiento</a>
-                <a href="#"><i class="fas fa-concierge-bell"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Mapa de tiendas</a>
-                <a href="#"><i class="fas fa-lightbulb"></i> Construtips</a>
-                <a href="#"><i class="fas fa-gift"></i> Construganas</a>
+                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
             </div>
             <div class="help-link">
-                <i class="fas fa-question-circle"></i>
-                <span>¿Necesitas ayuda? Llámanos al 81 8300 2000</span>
+                <i class="fas fa-phone"></i>
+                <span>Contáctanos 771 216 7150</span>
             </div>
         </div>
     </div>
@@ -90,14 +87,14 @@
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="#">Cemento</a></li>
-                <li><a href="#">Aceros</a></li>
-                <li><a href="#">Materiales de Construcción</a></li>
-                <li><a href="#">Acabados</a></li>
-                <li><a href="#">Plomería</a></li>
-                <li><a href="#">Material Eléctrico</a></li>
-                <li><a href="#">Herramientas de Construcción</a></li>
-                <li><a href="#">Ferretería</a></li>
+                <li><a href="#">CPVC agua caliente</a></li>
+                <li><a href="#">Tubería PPR</a></li>
+                <li><a href="#">Tubería galvanizada</a></li>
+                <li><a href="#">Accesorios domésticos</a></li>
+                <li><a href="#">Medidores y valvulas</a></li>
+                <li><a href="#">Linea Sanitaria</a></li>
+                <li><a href="#">Aspersores</a></li>
+                <li><a href="#">Nebulizadores</a></li>
             </ul>
         </div>
     </nav>
