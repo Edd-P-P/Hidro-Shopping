@@ -4,9 +4,38 @@ require_once 'config/database.php';
 
 $db = new Database();
 $con = $db->conectar();
-$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1");
-$sql->execute();
-$resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+$id = isset($_GET['id']) ? $_GET['id']: '';
+$token = isset($_GET['token']) ? $_GET['token']: '';
+
+if($id == '' || $token == ''){
+    echo 'Error al procesar la petición';
+    exit;
+}else{
+    $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
+    if($token == $token_tmp){
+        $sql = $con->prepare("SELECT count(id) FROM productos WHERE id=? AND activo=1");
+        $sql->execute([$id]);
+        if($sql->fetchColumn() > 0){
+            $sql = $con->prepare("SELECT nombre, descripcion, precio, descuento FROM productos WHERE id=? AND activo=1 LIMIT 1");
+            $sql->execute([$id]);
+            $row = $sql->fetch(PDO::FETCH_ASSOC);
+            $nombre = $row['nombre'];
+            $descripcion = $row['descripcion'];
+            $precio = $row['precio'];
+            $descuento = $row['descuento'];
+            $precio_desc = $precio - (($precio * $descuento) / 100);
+            $dir_imagen = "Imagenes/productos" . '/';
+            $rutaImg = $dir_imagen . "/producto" . $id . ".jpeg";
+        }else{
+            echo 'Error al procesar la petición';
+            exit;
+        }
+    }else{
+        echo 'Error al procesar la petición';
+        exit;
+    }
+}
 
 ?>
 
@@ -21,9 +50,10 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     <title>HidroBuy </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
     <!-- Overlay para menú móvil -->
@@ -114,78 +144,66 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Soluciones Hidráulicas para Profesionales</h1>
-                <p>Somos distribuidores oficiales de las principales marcas del sector, ofreciendo productos de máxima calidad y rendimiento para tus proyectos más exigentes.</p>
-                <div class="hero-buttons">
-                    <a href="#products" class="btn btn-primary">
-                        <i class="fas fa-tools"></i> Explorar Productos
-                    </a>
-                    <a href="https://api.whatsapp.com/send/?phone=527712167150&text&type=phone_number&app_absent=0" target="_blank" class="btn btn-secondary">
-                        <i class="fas fa-headset"></i> Asesoramiento
-                    </a>
-                </div>
-            </div>
-        </div> 
-    </section>
-
 <!-- Products -->
-<section class="products" id="products">
-    <div class="container">
-        <h2 class="section-title">Productos Destacados</h2>
-        <div class="product-grid">
-            <?php foreach($resultado as $row): ?>
-            <div class="product-card">
-                <?php
-                $id = $row['id'];
-                $imagen = "Imagenes/productos/". $id.".jpeg";
-                if (!file_exists($imagen)) {
-                    $imagen = "Imagenes/default.png"; // Imagen por defecto si no existe
-                }
-                ?>
-                <div class="product-img">
-                    <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>">
+<main>
+    <div class="container-details">
+            <div class="row">
+                <!-- Columna de imagen del producto -->
+                <div class="col-md-6 order-md-1">
+                <img src="Imagenes/default.png" alt="Imagen del producto" class="product-image">
+            </div>
+            
+            <!-- Columna de detalles del producto -->
+            <div class="col-md-6 order-md-2">
+                <h2 class="product-title"><?php echo $nombre;?></h2>
+                <h3 class="product-price"><?php echo MONEDA . number_format($precio, 2, '.');?></h3>
+                <p class="product-description">
+                    <?php echo $descripcion;?>
+                </p>
+                
+                <!-- Selector de cantidad (nueva sección añadida) -->
+                <div class="quantity-selector">
+                    <label for="quantity" style="margin-right: 15px; font-weight: 600;">Cantidad:</label>
+                    <button class="quantity-btn" id="decrease">-</button>
+                    <input type="number" id="quantity" class="quantity-input" value="1" min="1" max="99">
+                    <button class="quantity-btn" id="increase">+</button>
                 </div>
-                <div class="product-content">
-                    <h3><?php echo $row['nombre']; ?></h3>
-                    <p class="product-price">$<?php echo number_format($row['precio'], 2); ?></p>
-                    <!-- ENLACE CORREGIDO: sin espacios alrededor del = -->
-                    <a href="details.php?id=<?php echo $row['id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
-                    <a href="#" class="btn-prod">Añadir al Carrito</a>
+                
+                <!-- Botones de acción -->
+                <div class="d-grid gap-3 col-10 mx-auto action-buttons">
+                    <button class="btn btn-primary" type="button">
+                        <i class="fas fa-bolt me-2"></i>Comprar ahora
+                    </button>
+                    <button class="btn btn-outline-primary" type="button">
+                        <i class="fas fa-shopping-cart me-2"></i>Agregar al carrito
+                    </button>
+                </div>
+                
+                <!-- Características del producto -->
+                <div class="features-prod">
+                    <h4 class="section-title">Posible tabla</h4>
+                    <div class="feature-prod-item">
+                        <div class="feature-prod-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>Materiales de alta calidad</div>
+                    </div>
+                    <div class="feature-prod-item">
+                        <div class="feature-prod-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>Garantía de 2 años</div>
+                    </div>
+                    <div class="feature-prod-item">
+                        <div class="feature-prod-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>Envio gratuito</div>
+                    </div>
+                    <div class="feature-prod-item">
+                        <div class="feature-prod-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>Devoluciones sin problemas</div>
+                    </div>
                 </div>
             </div>
-            <?php endforeach; ?>
-        </div>
-    </div>         
-</section>
+        </div>    
+    </div>
+</main>
 
-    <section class="features">
-        <div class="container features-container">
-            <div class="feature">
-                <i class="fas fa-truck"></i>
-                <h3>Envío Rápido</h3>
-                <p>Entregas en 24-48 horas a toda la región</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Garantía</h3>
-                <p>Todos nuestros productos incluyen garantía</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-headset"></i>
-                <h3>Soporte</h3>
-                <p>Asesoramiento técnico especializado</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-undo"></i>
-                <h3>Devoluciones</h3>
-                <p>30 días para devoluciones sin problemas</p>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer id="contacto">
@@ -224,5 +242,35 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </footer>
     <script src="app.js"></script>
+    <script>
+                document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity');
+            const decreaseBtn = document.getElementById('decrease');
+            const increaseBtn = document.getElementById('increase');
+           
+            decreaseBtn.addEventListener('click', function() {
+                let currentValue = parseInt(quantityInput.value);
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                }
+            });
+           
+            increaseBtn.addEventListener('click', function() {
+                let currentValue = parseInt(quantityInput.value);
+                if (currentValue < 99) {
+                    quantityInput.value = currentValue + 1;
+                }
+            });
+           
+            quantityInput.addEventListener('change', function() {
+                let value = parseInt(this.value);
+                if (isNaN(value) || value < 1) {
+                    this.value = 1;
+                } else if (value > 99) {
+                    this.value = 99;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
