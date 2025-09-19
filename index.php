@@ -138,9 +138,16 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         <div class="product-grid">
             <?php foreach($resultado as $row): ?>
             <div class="product-card">
+                <?php
+                $id = $row['id'];
+                $imagen = "Imagenes/productos/". $id.".jpeg";
+                if (!file_exists($imagen)) {
+                    $imagen = "Imagenes/default.png"; // Imagen por defecto si no existe
+                }
+                ?>
                 <div class="product-img">
                     <!-- Aquí deberías mostrar la imagen del producto -->
-                    <img src="ruta/a/tu/imagen/<?php echo $row['id']; ?>.jpg" alt="<?php echo $row['nombre']; ?>">
+                    <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>">
                 </div>
                 <div class="product-content">
                     <h3><?php echo $row['nombre']; ?></h3>
