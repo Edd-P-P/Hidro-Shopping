@@ -106,8 +106,8 @@ if($id == '' || $token == ''){
     <header>
         <div class="container header-container">
             <div class="logo-container">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <div class="logo">HIDROSISTEMAS</div>
+                <a href="index.php"><img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas"></a>
+               <a href="index.php"> <div class="logo">HIDROSISTEMAS</div></a>
             </div>
             
             <div class="search-bar">
