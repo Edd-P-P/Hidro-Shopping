@@ -151,7 +151,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="product-content">
                     <h3><?php echo $row['nombre']; ?></h3>
-                    <p class="product-price">$<?php echo number_format($row['precio'], 2); ?></p>
+                    <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
                     <!-- ENLACE CORREGIDO: sin espacios alrededor del = -->
                     <a href="details.php?id=<?php echo $row['id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
                     <a href="#" class="btn-prod">Añadir al Carrito</a>

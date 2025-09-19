@@ -25,8 +25,15 @@ if($id == '' || $token == ''){
             $precio = $row['precio'];
             $descuento = $row['descuento'];
             $precio_desc = $precio - (($precio * $descuento) / 100);
-            $dir_imagen = "Imagenes/productos" . '/';
-            $rutaImg = $dir_imagen . "/producto" . $id . ".jpeg";
+            
+            // RUTA DE IMAGEN CORREGIDA
+            $dir_imagen = "imagenes/productos/";
+            $rutaImg = $dir_imagen . $id . ".jpeg";
+            
+            // Verificar si la imagen existe, si no usar default
+            if (!file_exists($rutaImg)) {
+                $rutaImg = $dir_imagen . "default.png";
+            }
         }else{
             echo 'Error al procesar la petición';
             exit;
@@ -36,7 +43,6 @@ if($id == '' || $token == ''){
         exit;
     }
 }
-
 ?>
 
 
@@ -150,13 +156,20 @@ if($id == '' || $token == ''){
             <div class="row">
                 <!-- Columna de imagen del producto -->
                 <div class="col-md-6 order-md-1">
-                <img src="Imagenes/default.png" alt="Imagen del producto" class="product-image">
+                <img src="<?php echo $rutaImg; ?>" alt="<?php echo $nombre; ?>" class="product-image">
             </div>
             
             <!-- Columna de detalles del producto -->
             <div class="col-md-6 order-md-2">
                 <h2 class="product-title"><?php echo $nombre;?></h2>
-                <h3 class="product-price"><?php echo MONEDA . number_format($precio, 2, '.');?></h3>
+                <?php if($descuento > 0) { ?>
+                    <p><del><?php echo MONEDA . number_format($precio, 2, '.');?></del></p>
+                    <h2 class="product-price"><?php echo MONEDA . number_format($precio_desc, 2, '.');?>
+                    <small class="text-succes"><?php echo $descuento ?>% descuento </small>
+                    </h2>
+                    <?php } else { ?>
+                    <h2 class="product-price"><?php echo MONEDA . number_format($precio, 2, '.');?></h2>
+                    <?php } ?>
                 <p class="product-description">
                     <?php echo $descripcion;?>
                 </p>
