@@ -225,5 +225,38 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 
     <script src="js/app.js"></script>
     <script src="js/carrito.js"></script>
+    <script>
+                /* Funcionamiento carrito */
+function addProducto(id, token, cantidad = 1) {  
+
+    let url = 'clases/carrito.php';
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('token', token);
+    formData.append('cantidad', cantidad);  
+
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+        mode: 'cors'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            let elemento = document.getElementById("num_cart");
+            if (elemento) {
+                elemento.innerHTML = data.numero;
+            }
+            alert('Producto agregado al carrito');
+        } else {
+            alert('Error al agregar el producto');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error de conexión');
+    });
+}
+    </script>
 </body>
 </html>
