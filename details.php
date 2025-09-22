@@ -287,24 +287,36 @@ if($id == '' || $token == ''){
         });
 
         /* Funcionamiento carrito */
-        function addProducto(id, token){
-            let url = 'clases/carrito.php'
-            let formData = new FormData()
-            formData.append('id', id)
-            formData.append('token', token)
+/* Funcionamiento carrito */
+    function addProducto(id, token){
+        // Obtener la cantidad del input
+        let cantidad = parseInt(document.getElementById('quantity').value) || 1;
+        
+        let url = 'clases/carrito.php'
+        let formData = new FormData()
+        formData.append('id', id)
+        formData.append('token', token)
+        formData.append('cantidad', cantidad) // ¡Agregar la cantidad al FormData!
 
-            fetch(url, {
-                method: 'POST',
-                body: formData,
-                mode: 'cors'
-            }).then(response => response.json())
-            .then(data => {
-                if(data.ok){
-                    let elemento = document.getElementById("num_cart")
-                    elemento.innerHTML = data.numero
-                }
-            })
-        }
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+            mode: 'cors'
+        }).then(response => response.json())
+        .then(data => {
+            if(data.ok){
+                let elemento = document.getElementById("num_cart")
+                elemento.innerHTML = data.numero
+                // Opcional: mostrar mensaje de éxito
+                alert('Producto agregado al carrito');
+            } else {
+                alert('Error al agregar el producto');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
     </script>
 </body>
 </html>
