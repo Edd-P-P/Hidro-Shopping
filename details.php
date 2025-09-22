@@ -125,7 +125,7 @@ if($id == '' || $token == ''){
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="#" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="badge bg-secondary"></span>
+                    <span id="num_cart" class="cart-count"></span>
                 </a>
             </div>
         </div>
