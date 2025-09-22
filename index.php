@@ -149,10 +149,12 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <div class="product-content">
                     <h3><?php echo $row['nombre']; ?></h3>
                     <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
-                    <a href="details.php?id=<?php echo $row['id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
-                    <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
+                    <div class="btn-action"> 
+                        <a href="details.php?id=<?php echo $row['id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
+                        <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
                         Añadir al Carrito
-                    </button>
+                        </button>
+                    </div>
                 </div>
             </div>
             <?php endforeach; ?>
