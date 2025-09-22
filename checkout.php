@@ -148,7 +148,20 @@ if (!empty($_SESSION['carrito']['productos'])) {
                                 </div>
                             </td>
                             <td><?php echo MONEDA . number_format($producto['precio_final'], 2, '.'); ?></td>
-                            <td><?php echo $producto['cantidad']; ?></td>
+                            <td>
+                                <div class="d-flex align-items-center quantity-controls">
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidad(<?php echo $producto['id']; ?>, -1)">−</button>
+                                    <input type="number" 
+                                        id="cantidad_<?php echo $producto['id']; ?>" 
+                                        class="form-control text-center mx-2" 
+                                        style="width: 60px;" 
+                                        value="<?php echo $producto['cantidad']; ?>" 
+                                        min="1" 
+                                        max="99"
+                                        onchange="actualizarCantidad(<?php echo $producto['id']; ?>)">
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidad(<?php echo $producto['id']; ?>, 1)">+</button>
+                                </div>
+                            </td>
                             <td><?php echo MONEDA . number_format($producto['subtotal'], 2, '.'); ?></td>
                             <td>
                                 <button class="btn btn-sm btn-outline-danger" onclick="eliminarProducto(<?php echo $producto['id']; ?>)">
@@ -214,7 +227,7 @@ if (!empty($_SESSION['carrito']['productos'])) {
     <script>
         function eliminarProducto(id) {
             if (confirm('¿Eliminar este producto del carrito?')) {
-                let url = 'clases/actualizar_carrito.php';
+                let url = 'clases/eliminar_carrito.php';
                 let formData = new FormData();
                 formData.append('id', id);
 
@@ -243,6 +256,53 @@ if (!empty($_SESSION['carrito']['productos'])) {
                 });
             }
         }
+function cambiarCantidad(id, cambio) {
+    const input = document.getElementById('cantidad_' + id);
+    let valor = parseInt(input.value) + cambio;
+    if (valor < 1) valor = 1;
+    if (valor > 99) valor = 99;
+    input.value = valor;
+    actualizarCantidad(id);
+}
+
+function actualizarCantidad(id) {
+    const input = document.getElementById('cantidad_' + id);
+    const nuevaCantidad = parseInt(input.value);
+
+    if (nuevaCantidad < 1) {
+        input.value = 1;
+        return;
+    }
+
+    let url = 'clases/actualizar_carrito.php';
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('cantidad', nuevaCantidad);
+
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+        mode: 'cors'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            // Actualizar contador global
+            let elemento = document.getElementById("num_cart");
+            if (elemento) {
+                elemento.innerHTML = data.numero;
+            }
+            // Recargar la página para actualizar precios y totales
+            location.reload();
+        } else {
+            alert('Error al actualizar la cantidad');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error de conexión');
+    });
+}
     </script>
 </body>
 </html>

@@ -754,6 +754,16 @@ footer {
     font-size: 0.9rem;
 }
 
+/* Estilos para cantidad */
+.quantity-controls {
+    width: fit-content;
+}
+
+.quantity-controls input {
+    padding: 0.25rem;
+    text-align: center;
+}
+
 /* Animaciones */
 @keyframes fadeInUp {
     from {
