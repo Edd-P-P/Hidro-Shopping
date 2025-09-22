@@ -24,7 +24,7 @@
 }
 
 body {
-    font-family: 'PT Sans', sans-serif;
+    font-family: "Saira Semi Condensed", sans-serif;
     line-height: 1.6;
     color: var(--dark);
     background-color: white;
@@ -504,7 +504,6 @@ to me
     position: relative;
     font-size: 2rem;
     color: var(--primary);
-    font-family: 'Montserrat', sans-serif;
 }
 
 .section-title:after {
@@ -586,8 +585,8 @@ transition: var(--transition);
 }
 
 .btn-prod {
-width: 140px;
-padding: 12px;
+width: 110px;
+padding: 8px;
 border: none;
 background: var(--primary);
 color: white;
@@ -595,6 +594,10 @@ font-weight: bold;
 border-radius: 30px;
 cursor: pointer;
 transition: var(--transition);
+}
+
+.btn-action{
+display: flex;
 }
 
 .btn-det:hover {
