@@ -1,60 +1,75 @@
 <?php
+// ¡NADA antes de <?php — ni espacios, ni saltos de línea!
 
-require '../config/config.php';
+// Limpiar cualquier output previo
+ob_start();
+ob_clean();
 
-// Definir KEY_TOKEN si no está definido
-if(!defined('KEY_TOKEN')) {
-    define('KEY_TOKEN', 'tu_clave_secreta_aqui'); // Cambia por tu clave real
+// Iniciar sesión si no está activa
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-$datos = array('ok' => false, 'numero' => 0);
+// Definir ruta al config de forma robusta
+$configPath = __DIR__ . '/../config/config.php';
+if (!file_exists($configPath)) {
+    // Si no existe, devolver error en JSON y salir
+    header('Content-Type: application/json');
+    echo json_encode(['ok' => false, 'numero' => 0, 'error' => 'Config no encontrado']);
+    exit;
+}
+require_once $configPath;
+
+// Definir KEY_TOKEN si no existe
+if (!defined('KEY_TOKEN')) {
+    define('KEY_TOKEN', 'fallback_token_2025');
+}
+
+$datos = ['ok' => false, 'numero' => 0];
 
 // Verificar que se recibieron los datos POST
-if(isset($_POST['id']) && isset($_POST['token']) && isset($_POST['cantidad'])){
-    
+if (isset($_POST['id']) && isset($_POST['token']) && isset($_POST['cantidad'])) {
+   
     $id = $_POST['id'];
     $token = $_POST['token'];
-    $cantidad = intval($_POST['cantidad']); // Convertir a entero
-
-    // Validar que la cantidad sea válida
-    if($cantidad < 1) {
+    $cantidad = intval($_POST['cantidad']);
+   
+    if ($cantidad < 1) {
         $cantidad = 1;
     }
 
     $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
-    
-    if($token == $token_tmp){
-        
+   
+    if ($token == $token_tmp) {
+       
         // Inicializar carrito si no existe
-        if(!isset($_SESSION['carrito']['productos'])){
-            $_SESSION['carrito']['productos'] = array();
+        if (!isset($_SESSION['carrito']['productos'])) {
+            $_SESSION['carrito']['productos'] = [];
         }
 
-        // Lógica corregida: si existe, sumar la cantidad; si no, establecer la cantidad
-        if(isset($_SESSION['carrito']['productos'][$id])){
+        // Sumar cantidad si ya existe, o asignar si es nuevo
+        if (isset($_SESSION['carrito']['productos'][$id])) {
             $_SESSION['carrito']['productos'][$id] += $cantidad;
         } else {
             $_SESSION['carrito']['productos'][$id] = $cantidad;
         }
 
-        // Calcular el total de productos (sumando todas las cantidades)
+        // Calcular total
         $total_productos = 0;
-        foreach($_SESSION['carrito']['productos'] as $producto_id => $cantidad_producto){
-            $total_productos += $cantidad_producto;
+        foreach ($_SESSION['carrito']['productos'] as $cant) {
+            $total_productos += $cant;
         }
 
         $datos['numero'] = $total_productos;
         $datos['ok'] = true;
 
-    } else {
-        $datos['ok'] = false;
     }
-    
-} else {
-    $datos['ok'] = false;
 }
 
-echo json_encode($datos);
-?>
+// ¡LIMPIAR TODO ANTES DE ENVIAR!
+ob_clean();
 
-<!-- cambio -->
+// Enviar solo JSON
+header('Content-Type: application/json');
+echo json_encode($datos);
+exit;

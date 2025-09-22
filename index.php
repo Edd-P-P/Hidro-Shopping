@@ -84,9 +84,8 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
             
             <div class="header-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
-                <a href="#" class="icon-wrapper">
+                <a href="checkout.php" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <!-- ✅ CAMBIO CLAVE: Ahora tiene ID para ser actualizado por JS -->
                     <span id="num_cart" class="cart-count">0</span>
                 </a>
             </div>
