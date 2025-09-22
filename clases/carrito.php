@@ -56,3 +56,5 @@ if(isset($_POST['id']) && isset($_POST['token']) && isset($_POST['cantidad'])){
 
 echo json_encode($datos);
 ?>
+
+<!-- cambio -->
