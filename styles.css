@@ -574,7 +574,7 @@ padding-bottom: 12px;
 }
 
 .btn-det {
-width: 100%;
+width: 90%;
 padding: 12px;
 border: none;
 background: green;
@@ -586,7 +586,7 @@ transition: var(--transition);
 }
 
 .btn-prod {
-width: 100%;
+width: 140px;
 padding: 12px;
 border: none;
 background: var(--primary);
