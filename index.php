@@ -53,7 +53,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         
         <div class="mobile-sidebar-footer">
             <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
-            <a href="#"><i class="fas fa-shopping-cart"></i> Carrito</a>
+            <button href="#"><i class="fas fa-shopping-cart"></i> Carrito</button>
             <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>

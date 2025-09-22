@@ -89,7 +89,7 @@ if($id == '' || $token == ''){
         
         <div class="mobile-sidebar-footer">
             <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
-            <a href="#"><i class="fas fa-shopping-cart"></i> Carrito</a>
+            <button href="#" type="button"><i class="fas fa-shopping-cart"></i> Carrito</button>
             <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>
@@ -125,7 +125,7 @@ if($id == '' || $token == ''){
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="#" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
+                    <span id="num_cart" class="badge bg-secondary"></span>
                 </a>
             </div>
         </div>
@@ -187,7 +187,7 @@ if($id == '' || $token == ''){
                     <button class="btn btn-primary" type="button">
                         <i class="fas fa-bolt me-2"></i>Comprar ahora
                     </button>
-                    <button class="btn btn-outline-primary" type="button">
+                    <button class="btn btn-outline-primary" type="button" onclick="addProducto(<?php echo $id; ?>, '<?php echo $token_tmp; ?>')">
                         <i class="fas fa-shopping-cart me-2"></i>Agregar al carrito
                     </button>
                 </div>
@@ -256,6 +256,7 @@ if($id == '' || $token == ''){
     </footer>
     <script src="app.js"></script>
     <script>
+        /* Funcionalidad de los botones para aumentar cantidad de productos */
                 document.addEventListener('DOMContentLoaded', function() {
             const quantityInput = document.getElementById('quantity');
             const decreaseBtn = document.getElementById('decrease');
@@ -284,6 +285,26 @@ if($id == '' || $token == ''){
                 }
             });
         });
+
+        /* Funcionamiento carrito */
+        function addProducto(id, token){
+            let url = 'clases/carrito.php'
+            let formData = new FormData()
+            formData.append('id', id)
+            formData.append('token', token)
+
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'cors'
+            }).then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    let elemento = document.getElementById("num_cart")
+                    elemento.innerHTML = data.numero
+                }
+            })
+        }
     </script>
 </body>
 </html>
