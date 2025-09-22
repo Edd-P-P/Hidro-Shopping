@@ -256,11 +256,23 @@ if (!empty($_SESSION['carrito']['productos'])) {
                 });
             }
         }
+
 function cambiarCantidad(id, cambio) {
     const input = document.getElementById('cantidad_' + id);
-    let valor = parseInt(input.value) + cambio;
-    if (valor < 1) valor = 1;
+    let valor = parseInt(input.value);
+
+    if (cambio === -1 && valor === 1) {
+        if (confirm('¿Eliminar este producto del carrito?')) {
+            eliminarProducto(id);
+        }
+        return; // No continuar, ya se manejó la eliminación
+    }
+
+    // Si no es el caso de eliminar, actualizar normalmente
+    valor += cambio;
+    if (valor < 1) valor = 1; // No permitir menos de 1 (excepto eliminación arriba)
     if (valor > 99) valor = 99;
+
     input.value = valor;
     actualizarCantidad(id);
 }
