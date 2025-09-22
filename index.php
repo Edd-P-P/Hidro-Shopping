@@ -10,9 +10,6 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -89,7 +86,8 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="#" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
+                    <!-- ✅ CAMBIO CLAVE: Ahora tiene ID para ser actualizado por JS -->
+                    <span id="num_cart" class="cart-count">0</span>
                 </a>
             </div>
         </div>
@@ -143,7 +141,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 $id = $row['id'];
                 $imagen = "Imagenes/productos/". $id.".jpeg";
                 if (!file_exists($imagen)) {
-                    $imagen = "Imagenes/default.png"; // Imagen por defecto si no existe
+                    $imagen = "Imagenes/default.png";
                 }
                 ?>
                 <div class="product-img">
@@ -152,9 +150,10 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <div class="product-content">
                     <h3><?php echo $row['nombre']; ?></h3>
                     <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
-                    <!-- ENLACE CORREGIDO: sin espacios alrededor del = -->
                     <a href="details.php?id=<?php echo $row['id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
-                    <a href="#" class="btn-prod">Añadir al Carrito</a>
+                    <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
+                        <i class="fas fa-shopping-cart"></i> Añadir al Carrito
+                    </button>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -223,6 +222,8 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </footer>
-    <script src="app.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/carrito.js"></script>
 </body>
 </html>

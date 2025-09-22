@@ -45,9 +45,6 @@ if($id == '' || $token == ''){
 }
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -217,7 +214,6 @@ if($id == '' || $token == ''){
     </div>
 </main>
 
-
     <!-- Footer -->
     <footer id="contacto">
         <div class="container">
@@ -254,10 +250,11 @@ if($id == '' || $token == ''){
             </div>
         </div>
     </footer>
-    <script src="app.js"></script>
+
+    <script src="js/app.js"></script>
     <script>
         /* Funcionalidad de los botones para aumentar cantidad de productos */
-                document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const quantityInput = document.getElementById('quantity');
             const decreaseBtn = document.getElementById('decrease');
             const increaseBtn = document.getElementById('increase');
@@ -287,36 +284,35 @@ if($id == '' || $token == ''){
         });
 
         /* Funcionamiento carrito */
-/* Funcionamiento carrito */
-    function addProducto(id, token){
-        // Obtener la cantidad del input
-        let cantidad = parseInt(document.getElementById('quantity').value) || 1;
-        
-        let url = 'clases/carrito.php'
-        let formData = new FormData()
-        formData.append('id', id)
-        formData.append('token', token)
-        formData.append('cantidad', cantidad) // ¡Agregar la cantidad al FormData!
+        function addProducto(id, token){
+            // Obtener la cantidad del input
+            let cantidad = parseInt(document.getElementById('quantity').value) || 1;
+            
+            let url = 'clases/carrito.php'
+            let formData = new FormData()
+            formData.append('id', id)
+            formData.append('token', token)
+            formData.append('cantidad', cantidad)
 
-        fetch(url, {
-            method: 'POST',
-            body: formData,
-            mode: 'cors'
-        }).then(response => response.json())
-        .then(data => {
-            if(data.ok){
-                let elemento = document.getElementById("num_cart")
-                elemento.innerHTML = data.numero
-                // Opcional: mostrar mensaje de éxito
-                alert('Producto agregado al carrito');
-            } else {
-                alert('Error al agregar el producto');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'cors'
+            }).then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    let elemento = document.getElementById("num_cart")
+                    elemento.innerHTML = data.numero
+                    alert('Producto agregado al carrito');
+                } else {
+                    alert('Error al agregar el producto');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
     </script>
+    <script src="js/carrito.js"></script>
 </body>
 </html>
