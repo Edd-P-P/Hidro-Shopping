@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $hostname = "localhost";
-    private $database = "hidro-online";
+    private $database = "hidro-online2";
     private $username = "root";
     private $password = "";
     private $charset = "utf8";

@@ -138,7 +138,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
             <div class="product-card">
                 <?php
                 $id = $row['id'];
-                $imagen = "Imagenes/productos/". $id.".jpeg";
+                $imagen = "Imagenes/productos/FEATURED/". $id.".jpeg";
                 if (!file_exists($imagen)) {
                     $imagen = "Imagenes/default.png";
                 }
