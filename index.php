@@ -147,8 +147,10 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                     <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>">
                 </div>
                 <div class="product-content">
-                    <h3><?php echo $row['nombre']; ?></h3>
-                    <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
+                    <div class="product-info">
+                        <h3><?php echo $row['nombre']; ?></h3>
+                        <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
+                    </div>
                     <div class="btn-action"> 
                         <a href="details.php?id=<?php echo $row['id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
                         <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
@@ -224,10 +226,13 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </footer>
 
+    <div id="paypal-button-container" ></div>
+
     <script src="js/app.js"></script>
     <script src="js/carrito.js"></script>
     <script>
-                /* Funcionamiento carrito */
+
+/*########### Funcionamiento carrito */
 function addProducto(id, token, cantidad = 1) {  
 
     let url = 'clases/carrito.php';

@@ -548,6 +548,10 @@ to me
     padding: 1.5rem;
 }
 
+.product-info{
+    margin-bottom: 1rem;
+}
+
 .product-content h3 {
     margin-bottom: 0.5rem;
     color: var(--primary);
