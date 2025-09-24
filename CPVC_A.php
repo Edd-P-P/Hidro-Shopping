@@ -4,7 +4,7 @@ require_once 'config/database.php';
 
 $db = new Database();
 $con = $db->conectar();
-$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 AND categoria_id = 9");
+$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 AND categoria_id = 1");
 $sql->execute();
 $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 
@@ -15,14 +15,57 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HidroBuy </title>
+    <title>CPVC</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<style>
+    body{
+        background-color:  #FFF9C4;
+    }
+    .section-title {
+        color: #1375BA;
+    }
+    .hero-CPVC_A {
+    position: relative;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(
+        rgba(255, 249, 196, 0.5),   /* amarillo claro con 70% de opacidad */
+        rgba(219, 248, 196, 0.5)    /* amarillo dorado con 70% de opacidad */
+    ), url('Imagenes/productos/CPVC_AGUA_CALIENTE/hero.png') no-repeat center center/cover;
+    color: rgb(19, 117, 186);
+    margin-bottom: 2rem;
+}
+    .hero-container{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    .container-products{
+        max-width: 1200px;
+        margin: 25px auto;
+        padding: 0 1rem;
+    }
+    .btn-secondary {
+    background: transparent;
+    border: 2px solid #1375BA;
+    color: #1375BA;
+    }
+    .container-footer{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        justify-content: center;
+    }
 
+</style>
+
+<body>
     <!-- Overlay para menú móvil -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     
@@ -37,7 +80,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         
         <div class="mobile-categories">
             <ul>
-                <li><a href="CPVC_A.php" target="_blank">CPVC agua caliente</a></li>
+                <li><a href="index.php">Volver al inicio</a></li>
                 <li><a href="#">Tubería PPR</a></li>
                 <li><a href="#">Tubería galvanizada</a></li>
                 <li><a href="#">Accesorios domésticos</a></li>
@@ -99,7 +142,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="CPVC_A.php" target="_blank">CPVC agua caliente</a></li>
+                <li><a href="index.php">Volver al inicio</a></li>
                 <li><a href="#">Tubería PPR</a></li>
                 <li><a href="#">Tubería galvanizada</a></li>
                 <li><a href="#">Accesorios domésticos</a></li>
@@ -112,11 +155,11 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     </nav>
 
     <!-- Hero -->
-    <section class="hero">
-        <div class="container">
+    <section class="hero-CPVC_A">
+        <div class="hero-container">
             <div class="hero-content">
-                <h1>Soluciones Hidráulicas para Profesionales</h1>
-                <p>Somos distribuidores oficiales de las principales marcas del sector, ofreciendo productos de máxima calidad y rendimiento para tus proyectos más exigentes.</p>
+                <h1>CPVC AGUA CALIENTE</h1>
+                <p>Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).</p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-primary">
                         <i class="fas fa-tools"></i> Explorar Productos
@@ -130,15 +173,15 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     </section>
 
 <!-- Products -->
-<section class="products" id="products">
-    <div class="container">
+<section class="products-CPVC_A" id="products">
+    <div class="container-products">
         <h2 class="section-title">Productos Destacados</h2>
         <div class="product-grid">
             <?php foreach($resultado as $row): ?>
             <div class="product-card">
                 <?php
                 $id = $row['id'];
-                $imagen = "Imagenes/productos/FEATURED/". $id.".jpeg";
+                $imagen = "Imagenes/productos/CPVC_AGUA_CALIENTE/". $id.".PNG";
                 if (!file_exists($imagen)) {
                     $imagen = "Imagenes/default.png";
                 }
@@ -164,34 +207,9 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     </div>         
 </section>
 
-    <section class="features">
-        <div class="container features-container">
-            <div class="feature">
-                <i class="fas fa-truck"></i>
-                <h3>Envío Rápido</h3>
-                <p>Entregas en 24-48 horas a toda la región</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Garantía</h3>
-                <p>Todos nuestros productos incluyen garantía</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-headset"></i>
-                <h3>Soporte</h3>
-                <p>Asesoramiento técnico especializado</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-undo"></i>
-                <h3>Devoluciones</h3>
-                <p>30 días para devoluciones sin problemas</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer id="contacto">
-        <div class="container">
+        <div class="container-footer">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>HIDROSISTEMAS</h4>
