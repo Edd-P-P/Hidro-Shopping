@@ -13,7 +13,7 @@ if (!empty($_SESSION['carrito']['productos'])) {
     $ids = array_keys($_SESSION['carrito']['productos']);
     $placeholders = str_repeat('?,', count($ids) - 1) . '?';
     
-    $sql = $con->prepare("SELECT id, nombre, precio, descuento, activo FROM productos WHERE id IN ($placeholders) AND activo = 1");
+    $sql = $con->prepare("SELECT id, nombre, precio, descuento, activo, categoria_id FROM productos WHERE id IN ($placeholders) AND activo = 1");
     $sql->execute($ids);
     $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 
@@ -33,7 +33,8 @@ if (!empty($_SESSION['carrito']['productos'])) {
             'descuento' => $descuento,
             'precio_final' => ($descuento > 0 ? $precio_desc : $precio),
             'cantidad' => $cantidad,
-            'subtotal' => $subtotal
+            'subtotal' => $subtotal,
+            'categoria_id' => $row['categoria_id'] // Añadí id_categoria 
         ];
 
         $total += $subtotal;
@@ -135,18 +136,18 @@ if (!empty($_SESSION['carrito']['productos'])) {
                     <tbody>
                         <?php foreach ($productos as $producto): ?>
                         <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <?php
-                                        $rutaImg = "imagenes/productos/" . $producto['id'] . ".jpeg";
-                                        if (!file_exists($rutaImg)) {
-                                            $rutaImg = "imagenes/productos/default.png";
-                                        }
-                                    ?>
-                                    <img src="<?php echo $rutaImg; ?>" alt="<?php echo $producto['nombre']; ?>" width="60" class="me-3 rounded">
-                                    <span><?php echo $producto['nombre']; ?></span>
-                                </div>
-                            </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <?php
+                                    $rutaImg = "imagenes/productos/" . $producto['categoria_id'] . '/' . $producto['id'] . ".png";
+                                    if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
+                                        $rutaImg = "imagenes/productos/default.png";
+                                    }
+                                ?>
+                                <img src="<?php echo htmlspecialchars($rutaImg); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>" width="60" class="me-3 rounded">
+                                <span><?php echo htmlspecialchars($producto['nombre']); ?></span>
+                            </div>
+                        </td>
                             <td><?php echo MONEDA . number_format($producto['precio_final'], 2, '.'); ?></td>
                             <td>
                                 <div class="d-flex align-items-center quantity-controls">
