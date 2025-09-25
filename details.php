@@ -5,43 +5,44 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
-$id = isset($_GET['id']) ? $_GET['id']: '';
-$token = isset($_GET['token']) ? $_GET['token']: '';
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$categoria_id = isset($_GET['categoria_id']) ? (int)$_GET['categoria_id'] : 0;
+$token = isset($_GET['token']) ? $_GET['token'] : '';
 
-if($id == '' || $token == ''){
+if ($id <= 0 || $categoria_id <= 0 || empty($token)) {
     echo 'Error al procesar la petición';
     exit;
-}else{
-    $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
-    if($token == $token_tmp){
-        $sql = $con->prepare("SELECT count(id) FROM productos WHERE id=? AND activo=1");
-        $sql->execute([$id]);
-        if($sql->fetchColumn() > 0){
-            $sql = $con->prepare("SELECT nombre, descripcion, precio, descuento FROM productos WHERE id=? AND activo=1 LIMIT 1");
-            $sql->execute([$id]);
-            $row = $sql->fetch(PDO::FETCH_ASSOC);
-            $nombre = $row['nombre'];
-            $descripcion = $row['descripcion'];
-            $precio = $row['precio'];
-            $descuento = $row['descuento'];
-            $precio_desc = $precio - (($precio * $descuento) / 100);
-            
-            // RUTA DE IMAGEN CORREGIDA
-            $dir_imagen = "imagenes/productos/";
-            $rutaImg = $dir_imagen . $id . ".jpeg";
-            
-            // Verificar si la imagen existe, si no usar default
-            if (!file_exists($rutaImg)) {
-                $rutaImg = $dir_imagen . "default.png";
-            }
-        }else{
-            echo 'Error al procesar la petición';
-            exit;
-        }
-    }else{
-        echo 'Error al procesar la petición';
-        exit;
-    }
+}
+
+$token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
+if (!hash_equals($token, $token_tmp)) {
+    echo 'Error al procesar la petición';
+    exit;
+}
+
+// ✅ Una sola consulta: obtenemos los datos Y verificamos categoría y estado
+$stmt = $con->prepare("SELECT nombre, descripcion, precio, descuento, categoria_id FROM productos WHERE id = ? AND categoria_id = ? AND activo = 1 LIMIT 1");
+$stmt->execute([$id, $categoria_id]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$row) {
+    echo 'Producto no encontrado o no disponible';
+    exit;
+}
+
+// Ahora sí, todo está validado
+$nombre = htmlspecialchars($row['nombre']);
+$descripcion = htmlspecialchars($row['descripcion']);
+$precio = (float)$row['precio'];
+$descuento = (float)$row['descuento'];
+$precio_desc = $precio - (($precio * $descuento) / 100);
+
+// Ruta de imagen
+$dir_imagen = "imagenes/productos/";
+$rutaImg = $dir_imagen . $categoria_id . '/' . $id . ".png";
+
+if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
+    $rutaImg = $dir_imagen . "default.png";
 }
 ?>
 
@@ -57,6 +58,11 @@ if($id == '' || $token == ''){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
+<style>
+    ul {
+        padding-left: 1rem;
+    }
+</style>
 <body>
 
     <!-- Overlay para menú móvil -->
@@ -73,7 +79,7 @@ if($id == '' || $token == ''){
         
         <div class="mobile-categories">
             <ul>
-                <li><a href="#">CPVC agua caliente</a></li>
+                <li><a href="CPVC_A.php" >CPVC agua caliente</a></li>
                 <li><a href="#">Tubería PPR</a></li>
                 <li><a href="#">Tubería galvanizada</a></li>
                 <li><a href="#">Accesorios domésticos</a></li>
@@ -135,7 +141,7 @@ if($id == '' || $token == ''){
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="#">CPVC agua caliente</a></li>
+                <li><a href="CPVC_A.php" >CPVC agua caliente</a></li>
                 <li><a href="#">Tubería PPR</a></li>
                 <li><a href="#">Tubería galvanizada</a></li>
                 <li><a href="#">Accesorios domésticos</a></li>
@@ -167,9 +173,9 @@ if($id == '' || $token == ''){
                     <?php } else { ?>
                     <h2 class="product-price"><?php echo MONEDA . number_format($precio, 2, '.');?></h2>
                     <?php } ?>
-                <p class="product-description">
-                    <?php echo $descripcion;?>
-                </p>
+                        <p class="product-description">
+                            <?php echo html_entity_decode($descripcion, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>
+                    </p>
                 
                 <!-- Selector de cantidad (nueva sección añadida) -->
                 <div class="quantity-selector">

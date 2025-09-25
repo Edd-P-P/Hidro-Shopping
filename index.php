@@ -138,7 +138,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
             <div class="product-card">
                 <?php
                 $id = $row['id'];
-                $imagen = "Imagenes/productos/FEATURED/". $id.".jpeg";
+                $imagen = "Imagenes/productos/1/". $id.".jpeg";
                 if (!file_exists($imagen)) {
                     $imagen = "Imagenes/default.png";
                 }
@@ -152,7 +152,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                         <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
                     </div>
                     <div class="btn-action"> 
-                        <a href="details.php?id=<?php echo $row['id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
+                        <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
                         <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
                         Añadir al Carrito
                         </button>

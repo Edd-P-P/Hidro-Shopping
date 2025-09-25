@@ -4,10 +4,11 @@ require_once 'config/database.php';
 
 $db = new Database();
 $con = $db->conectar();
-$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 AND categoria_id = 1");
+
+// Agregué la categoría categoria_id a la consulta SQL porque no jalaba xd
+$sql = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = 1");
 $sql->execute();
 $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +38,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     background: linear-gradient(
         rgba(255, 249, 196, 0.5),   /* amarillo claro con 70% de opacidad */
         rgba(219, 248, 196, 0.5)    /* amarillo dorado con 70% de opacidad */
-    ), url('Imagenes/productos/CPVC_AGUA_CALIENTE/hero.png') no-repeat center center/cover;
+    ), url('Imagenes/productos/1/hero.png') no-repeat center center/cover;
     color: rgb(19, 117, 186);
     margin-bottom: 2rem;
 }
@@ -181,7 +182,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
             <div class="product-card">
                 <?php
                 $id = $row['id'];
-                $imagen = "Imagenes/productos/CPVC_AGUA_CALIENTE/". $id.".PNG";
+                $imagen = "Imagenes/productos/1/". $id.".PNG";
                 if (!file_exists($imagen)) {
                     $imagen = "Imagenes/default.png";
                 }
@@ -195,7 +196,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                         <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
                     </div>
                     <div class="btn-action"> 
-                        <a href="details.php?id=<?php echo $row['id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
+                        <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
                         <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
                         Añadir al Carrito
                         </button>
