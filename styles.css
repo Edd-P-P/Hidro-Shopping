@@ -577,8 +577,8 @@ padding-bottom: 12px;
 }
 
 .btn-det {
-width: 90%;
-padding: 12px;
+width: 40%;
+padding: 8px;
 border: none;
 background: green;
 color: white;
@@ -589,7 +589,7 @@ transition: var(--transition);
 }
 
 .btn-prod {
-width: 110px;
+width: 60%;
 padding: 8px;
 border: none;
 background: var(--primary);
@@ -602,6 +602,7 @@ transition: var(--transition);
 
 .btn-action{
 display: flex;
+gap: 1rem;
 }
 
 .btn-det:hover {

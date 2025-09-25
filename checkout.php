@@ -53,6 +53,11 @@ if (!empty($_SESSION['carrito']['productos'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+<style>
+    ul {
+        padding-left: 1rem;
+    }
+</style>
 <body>
 
     <!-- Top Bar -->
@@ -99,7 +104,7 @@ if (!empty($_SESSION['carrito']['productos'])) {
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="#">CPVC agua caliente</a></li>
+                <li><a href="CPVC_A.php" >CPVC agua caliente</a></li>
                 <li><a href="#">Tubería PPR</a></li>
                 <li><a href="#">Tubería galvanizada</a></li>
                 <li><a href="#">Accesorios domésticos</a></li>

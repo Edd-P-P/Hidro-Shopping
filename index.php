@@ -99,7 +99,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="CPVC_A.php" target="_blank">CPVC agua caliente</a></li>
+                <li><a href="CPVC_A.php" >CPVC agua caliente</a></li>
                 <li><a href="#">Tubería PPR</a></li>
                 <li><a href="#">Tubería galvanizada</a></li>
                 <li><a href="#">Accesorios domésticos</a></li>
