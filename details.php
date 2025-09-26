@@ -20,10 +20,13 @@ if (!hash_equals($token, $token_tmp)) {
     exit;
 }
 
-// ✅ Una sola consulta: obtenemos los datos Y verificamos categoría y estado
-$stmt = $con->prepare("SELECT nombre, descripcion, precio, descuento, categoria_id FROM productos WHERE id = ? AND categoria_id = ? AND activo = 1 LIMIT 1");
+// Recordatorio que se deben agregar variables nuevas primero en el stmt para poder usarlas despues
+$stmt = $con->prepare("SELECT nombre, descripcion, precio, descuento, categoria_id, especificaciones, tabla_med FROM productos WHERE id = ? AND categoria_id = ? AND activo = 1 LIMIT 1");
 $stmt->execute([$id, $categoria_id]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
+/* Definimos las variables de la tabla y las especificaciones para que las lea bien */
+$especificaciones = !empty($row['especificaciones']) ? html_entity_decode($row['especificaciones'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
+$tabla_med = !empty($row['tabla_med']) ? html_entity_decode($row['tabla_med'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
 
 if (!$row) {
     echo 'Producto no encontrado o no disponible';
@@ -57,6 +60,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tables.css">
 </head>
 <style>
     ul {
@@ -194,25 +198,31 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                         <i class="fas fa-shopping-cart me-2"></i>Agregar al carrito
                     </button>
                 </div>
-                
-                <!-- Características del producto -->
-                <div class="features-prod">
-                    <h4 class="section-title">Posible tabla</h4>
-                    <div class="feature-prod-item">
-                        <div class="feature-prod-icon"><i class="fas fa-check-circle"></i></div>
-                        <div>Materiales de alta calidad</div>
-                    </div>
-                    <div class="feature-prod-item">
-                        <div class="feature-prod-icon"><i class="fas fa-check-circle"></i></div>
-                        <div>Garantía de 2 años</div>
-                    </div>
-                    <div class="feature-prod-item">
-                        <div class="feature-prod-icon"><i class="fas fa-check-circle"></i></div>
-                        <div>Envio gratuito</div>
-                    </div>
-                    <div class="feature-prod-item">
-                        <div class="feature-prod-icon"><i class="fas fa-check-circle"></i></div>
-                        <div>Devoluciones sin problemas</div>
+                <!-- Especificaciones y Tabla de Medidas -->
+                <div class="specs-table-section mt-4">
+                    <h4 class="section-title">Especificaciones Técnicas</h4>
+                    <div class="row-table">
+                        <!-- Columna izquierda: Especificaciones -->
+                        <div class="col-md-6">
+                            <?php if (!empty($especificaciones)): ?>
+                                <div class="specs-content">
+                                    <?php echo $especificaciones; ?>
+                                </div>
+                            <?php else: ?>
+                                <p class="text-muted">No hay especificaciones disponibles.</p>
+                            <?php endif; ?>
+                        </div>
+                        <!-- Columna derecha: Tabla de medidas -->
+                        <div class="col-md-6">
+                            <?php if (!empty($tabla_med)): ?>
+                                <div class="tabla-container">
+                                    <div class="titulo-tabla">Tabla de Medidas</div>
+                                    <?php echo $tabla_med; ?>
+                                </div>
+                            <?php else: ?>
+                                <p class="text-muted">No hay tabla de medidas disponible.</p>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>

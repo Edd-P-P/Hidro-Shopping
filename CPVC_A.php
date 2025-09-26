@@ -23,8 +23,17 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <style>
+    :root{
+        --primary-color: #1375BA;
+        --secondary-color: #FFD54F;
+        --accent-color: #FF9800;
+        --text-color: #333;
+        --background-color: #FFF9C4;
+        --font-family: 'PT Sans', sans-serif;
+        --font-family-alt: 'Montserrat', sans-serif;
+    }
     body{
-        background-color:  #FFF9C4;
+        background-color:  var(--background-color);
     }
     .section-title {
         color: #1375BA;
