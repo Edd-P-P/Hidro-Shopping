@@ -1,4 +1,6 @@
 /* Estilo para la tabla de CPVC AGUA CALIENTE */
+
+
 .row-table {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 0;
@@ -60,4 +62,15 @@ tr:hover {
     background-color: #ecf0f1;
     font-style: italic;
     color: #2c3e50;
+}
+
+@media (max-width: 766px) {
+    .row>* {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(2 * var(--bs-gutter-x) * .5);
+    margin-top: var(--bs-gutter-y);
+}
 }

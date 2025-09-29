@@ -21,16 +21,37 @@ if (!hash_equals($token, $token_tmp)) {
 }
 
 // Recordatorio que se deben agregar variables nuevas primero en el stmt para poder usarlas despues
-$stmt = $con->prepare("SELECT nombre, descripcion, precio, descuento, categoria_id, especificaciones, tabla_med FROM productos WHERE id = ? AND categoria_id = ? AND activo = 1 LIMIT 1");
+$stmt = $con->prepare("
+    SELECT id, nombre, descripcion, precio, descuento, categoria_id, 
+           especificaciones, tabla_med, requiere_medidas 
+    FROM productos 
+    WHERE id = ? AND categoria_id = ? AND activo = 1 
+    LIMIT 1
+");
 $stmt->execute([$id, $categoria_id]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-/* Definimos las variables de la tabla y las especificaciones para que las lea bien */
 $especificaciones = !empty($row['especificaciones']) ? html_entity_decode($row['especificaciones'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
 $tabla_med = !empty($row['tabla_med']) ? html_entity_decode($row['tabla_med'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
+
 
 if (!$row) {
     echo 'Producto no encontrado o no disponible';
     exit;
+}
+
+$requiere_medidas = (int)($row['requiere_medidas'] ?? 0);
+
+// Obtener variantes si aplica
+$variantes = [];
+if ($requiere_medidas === 1) {
+    $stmtVar = $con->prepare("
+        SELECT medida, precio_m AS precio, stock 
+        FROM productos_medidas 
+        WHERE producto_id = ? 
+        ORDER BY medida
+    ");
+    $stmtVar->execute([$id]);
+    $variantes = $stmtVar->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // Ahora sí, todo está validado
@@ -168,15 +189,71 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
             
             <!-- Columna de detalles del producto -->
             <div class="col-md-6 order-md-2">
-                <h2 class="product-title"><?php echo $nombre;?></h2>
-                <?php if($descuento > 0) { ?>
-                    <p><del><?php echo MONEDA . number_format($precio, 2, '.');?></del></p>
-                    <h2 class="product-price"><?php echo MONEDA . number_format($precio_desc, 2, '.');?>
-                    <small class="text-succes"><?php echo $descuento ?>% descuento </small>
+            <h2 class="product-title"><?php echo $nombre; ?></h2>
+
+            <?php if ($requiere_medidas === 1): ?>
+                <!-- Botones de medidas -->
+                <div class="measure-buttons mb-3">
+                    <label class="form-label fw-bold">Selecciona una medida:</label><br>
+                    <?php foreach ($variantes as $v): ?>
+                        <?php 
+                        $medida = htmlspecialchars($v['medida']);
+                        $precio_val = (float)$v['precio']; // ← ¡usa 'precio', no 'precio_m'!
+                        $stock = (int)($v['stock'] ?? 0);
+                        $precio_con_desc = $descuento > 0 ? $precio_val - (($precio_val * $descuento) / 100) : $precio_val;
+                        $disabled = ($stock <= 0) ? 'disabled' : '';
+                        ?>
+                        <button type="button" 
+                            class="btn btn-outline-secondary btn-sm me-2 mt-1 measure-btn <?php echo $disabled; ?>"
+                            data-medida="<?php echo $medida; ?>"
+                            data-precio="<?php echo $precio_val; ?>"
+                            data-stock="<?php echo $stock; ?>"
+                            <?php echo $disabled; ?>>
+                            <?php echo $medida; ?>
+                            <?php if ($stock <= 0): ?>
+                                <span class="text-danger">(Agotado)</span>
+                            <?php endif; ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Precio dinámico (solo si hay variantes) -->
+                <?php if (!empty($variantes)): ?>
+                    <?php
+                    $primera = $variantes[0];
+                    $precio_inicial = (float)$primera['precio'];
+                    $stock_inicial = (int)($primera['stock'] ?? 0);
+                    $precio_final = $descuento > 0 ? $precio_inicial - (($precio_inicial * $descuento) / 100) : $precio_inicial;
+                    ?>
+                    <h2 class="product-price" id="precio-dinamico">
+                        <?php echo MONEDA . number_format($precio_final, 2); ?>
                     </h2>
-                    <?php } else { ?>
-                    <h2 class="product-price"><?php echo MONEDA . number_format($precio, 2, '.');?></h2>
-                    <?php } ?>
+                    <?php if ($descuento > 0): ?>
+                        <small class="text-success"><?php echo $descuento; ?>% descuento</small>
+                    <?php endif; ?>
+                    <input type="hidden" id="precio-base" value="<?php echo $precio_inicial; ?>">
+                    <input type="hidden" id="medida-seleccionada" value="<?php echo htmlspecialchars($primera['medida']); ?>">
+                    <input type="hidden" id="stock-seleccionado" value="<?php echo $stock_inicial; ?>">
+                <?php else: ?>
+                    <h2 class="product-price text-muted">Selecciona una medida</h2>
+                    <input type="hidden" id="precio-base" value="0">
+                    <input type="hidden" id="medida-seleccionada" value="">
+                    <input type="hidden" id="stock-seleccionado" value="0">
+                <?php endif; ?>
+
+            <?php else: ?>
+                <!-- Producto sin medidas -->
+                <?php if ($descuento > 0): ?>
+                    <p><del><?php echo MONEDA . number_format($precio, 2, '.'); ?></del></p>
+                    <h2 class="product-price"><?php echo MONEDA . number_format($precio_desc, 2, '.'); ?></h2>
+                    <small class="text-success"><?php echo $descuento; ?>% descuento</small>
+                <?php else: ?>
+                    <h2 class="product-price"><?php echo MONEDA . number_format($precio, 2, '.'); ?></h2>
+                <?php endif; ?>
+                <input type="hidden" id="precio-base" value="<?php echo $precio; ?>">
+                <input type="hidden" id="medida-seleccionada" value="">
+                <input type="hidden" id="stock-seleccionado" value="999">
+            <?php endif; ?>
                         <p class="product-description">
                             <?php echo html_entity_decode($descripcion, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>
                     </p>
@@ -225,6 +302,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>    
     </div>
@@ -274,60 +352,113 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
             const quantityInput = document.getElementById('quantity');
             const decreaseBtn = document.getElementById('decrease');
             const increaseBtn = document.getElementById('increase');
-           
-            decreaseBtn.addEventListener('click', function() {
-                let currentValue = parseInt(quantityInput.value);
-                if (currentValue > 1) {
-                    quantityInput.value = currentValue - 1;
+   
+        decreaseBtn.addEventListener('click', function() {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+    
+        increaseBtn.addEventListener('click', function() {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue < 99) {
+                quantityInput.value = currentValue + 1;
+            }
+        });
+   
+        quantityInput.addEventListener('change', function() {
+            let value = parseInt(this.value);
+            if (isNaN(value) || value < 1) {
+                this.value = 1;
+            } else if (value > 99) {
+                this.value = 99;
+            }
+        });
+
+        // --- Manejo de botones de medida ---
+        const measureButtons = document.querySelectorAll('.measure-btn:not([disabled])');
+        measureButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const medida = this.getAttribute('data-medida');
+                const precio = parseFloat(this.getAttribute('data-precio'));
+                const stock = parseInt(this.getAttribute('data-stock'));
+                const descuento = <?php echo json_encode($descuento); ?>;
+                
+                let precioFinal = precio;
+                if (descuento > 0) {
+                    precioFinal = precio - (precio * descuento / 100);
                 }
-            });
-           
-            increaseBtn.addEventListener('click', function() {
-                let currentValue = parseInt(quantityInput.value);
-                if (currentValue < 99) {
-                    quantityInput.value = currentValue + 1;
-                }
-            });
-           
-            quantityInput.addEventListener('change', function() {
-                let value = parseInt(this.value);
-                if (isNaN(value) || value < 1) {
-                    this.value = 1;
-                } else if (value > 99) {
-                    this.value = 99;
-                }
+
+            document.getElementById('precio-dinamico').textContent = '<?php echo MONEDA; ?>' + precioFinal.toFixed(2);
+            document.getElementById('precio-base').value = precio;
+            document.getElementById('medida-seleccionada').value = medida;
+            document.getElementById('stock-seleccionado').value = stock;
+
+            // Resaltar botón seleccionado
+            document.querySelectorAll('.measure-btn').forEach(b => b.classList.remove('btn-primary', 'btn-outline-secondary'));
+            this.classList.remove('btn-outline-secondary');
+            this.classList.add('btn-primary');
             });
         });
 
-        /* Funcionamiento carrito */
-        function addProducto(id, token){
-            // Obtener la cantidad del input
-            let cantidad = parseInt(document.getElementById('quantity').value) || 1;
-            
-            let url = 'clases/carrito.php'
-            let formData = new FormData()
-            formData.append('id', id)
-            formData.append('token', token)
-            formData.append('cantidad', cantidad)
+            // Resaltar el primer botón por defecto (si existe)
+            const firstBtn = document.querySelector('.measure-btn:not([disabled])');
+            if (firstBtn) {
+                firstBtn.click();
+            }
+        });
 
-            fetch(url, {
-                method: 'POST',
-                body: formData,
-                mode: 'cors'
-            }).then(response => response.json())
-            .then(data => {
-                if(data.ok){
-                    let elemento = document.getElementById("num_cart")
-                    elemento.innerHTML = data.numero
-                    alert('Producto agregado al carrito');
-                } else {
-                    alert('Error al agregar el producto');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
+    // --- Función para agregar al carrito ---
+    function addProducto(id, token) {
+        const medida = document.getElementById('medida-seleccionada').value;
+        const stock = parseInt(document.getElementById('stock-seleccionado').value);
+        const cantidad = parseInt(document.getElementById('quantity').value) || 1;
+
+        // Validar si requiere medida y si hay stock
+        <?php if ($requiere_medidas === 1): ?>
+            if (!medida) {
+                alert('Por favor selecciona una medida.');
+                return;
+            }
+            if (stock <= 0) {
+                alert('Lo sentimos, no hay inventario disponible para esta medida.');
+                return;
+            }
+            if (cantidad > stock) {
+                alert('Solo hay ' + stock + ' unidades disponibles.');
+                return;
+            }
+        <?php endif; ?>
+
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('token', token);
+        formData.append('cantidad', cantidad);
+        <?php if ($requiere_medidas === 1): ?>
+            formData.append('medida', medida);
+            formData.append('precio', document.getElementById('precio-base').value);
+        <?php endif; ?>
+
+        fetch('clases/carrito.php', {
+            method: 'POST',
+            body: formData,
+            mode: 'cors'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                document.getElementById("num_cart").textContent = data.numero;
+                alert('Producto agregado al carrito');
+            } else {
+                alert('Error al agregar el producto: ' + (data.message || ''));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error de conexión');
+        });
+    }
     </script>
     <script src="js/carrito.js"></script>
 </body>
