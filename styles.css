@@ -528,6 +528,8 @@ to me
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    width: 275px;
+    height: 426px;
 }
 
 .product-card:hover {
@@ -578,15 +580,16 @@ padding-bottom: 12px;
 }
 
 .btn-det {
-width: 40%;
-padding: 8px;
-border: none;
-background: green;
-color: white;
-font-weight: bold;
-border-radius: 30px;
-cursor: pointer;
-transition: var(--transition);
+  width: 60%;
+  padding: 8px;
+  border: none;
+  background: green;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .btn-prod {
@@ -602,8 +605,9 @@ transition: var(--transition);
 }
 
 .btn-action{
-display: flex;
-gap: 1rem;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  width: 100%; /* Opcional, según tu diseño */
 }
 
 .btn-det:hover {
