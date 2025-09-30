@@ -82,9 +82,20 @@ if (!empty($_SESSION['carrito']['productos'])) {
                 <a href="index.php"><div class="logo">HIDROSISTEMAS</div></a>
             </div>
             
+            <!-- Codigo para la barra de busqueda -->
             <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar productos.">
+                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
+                    <i class="fas fa-search me-2"></i>
+                    <input 
+                        type="text" 
+                        name="q" 
+                        placeholder="Buscar productos..." 
+                        class="form-control border-0 bg-transparent"
+                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
+                    >
+                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
+                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
+                </form>
             </div>
             
             <div class="header-icons">

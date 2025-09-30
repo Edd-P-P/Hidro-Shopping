@@ -76,12 +76,21 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
                 <div class="logo">HIDROSISTEMAS</div>
             </div>
-            
+            <!-- Configuración para la barra de búsqueda -->
             <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar productos.">
+                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
+                    <i class="fas fa-search me-2"></i>
+                    <input 
+                        type="text" 
+                        name="q" 
+                        placeholder="Buscar productos..." 
+                        class="form-control border-0 bg-transparent"
+                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
+                    >
+                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
+                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
+                </form>
             </div>
-            
             <div class="header-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="checkout.php" class="icon-wrapper">

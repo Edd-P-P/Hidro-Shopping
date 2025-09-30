@@ -1,14 +1,32 @@
-<?php 
+<?php
 require_once 'config/config.php';
 require_once 'config/database.php';
 
 $db = new Database();
 $con = $db->conectar();
 
-// Agregué la categoría categoria_id a la consulta SQL porque no jalaba xd
-$sql = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = 1");
-$sql->execute();
-$resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+// Obtener término de búsqueda
+$busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
+$productos = [];
+$mensaje = '';
+
+if (!empty($busqueda)) {
+    $sql = "SELECT id, nombre, precio, descuento, categoria_id 
+            FROM productos 
+            WHERE activo = 1 
+            AND nombre LIKE :busqueda 
+            ORDER BY nombre ASC";
+    $stmt = $con->prepare($sql);
+    $stmt->bindValue(':busqueda', '%' . $busqueda . '%', PDO::PARAM_STR);
+    $stmt->execute();
+    $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (empty($productos)) {
+        $mensaje = "No se encontraron productos para: <strong>" . htmlspecialchars($busqueda) . "</strong>";
+    }
+} else {
+    $mensaje = "Por favor ingresa un término de búsqueda.";
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,55 +34,22 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPVC</title>
+    <title>Resultados de búsqueda - HidroBuy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <style>
-    :root{
-        --primary-color: #1375BA;
-        --secondary-color: #FFD54F;
-        --accent-color: #FF9800;
-        --text-color: #333;
-        --background-color: #FFF9C4;
-        --font-family: 'PT Sans', sans-serif;
-        --font-family-alt: 'Montserrat', sans-serif;
-    }
-    body{
-        background-color:  var(--background-color);
-    }
-    .section-title {
-        color: #1375BA;
-    }
-    .hero-CPVC_A {
-    position: relative;
-    height: 500px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    background: linear-gradient(
-        rgba(255, 249, 196, 0.5),   /* amarillo claro con 70% de opacidad */
-        rgba(219, 248, 196, 0.5)    /* amarillo dorado con 70% de opacidad */
-    ), url('Imagenes/productos/1/hero.png') no-repeat center center/cover;
-    color: rgb(19, 117, 186);
-    margin-bottom: 2rem;
-}
-    .hero-container{
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1rem;
-    }
     .container-products{
         max-width: 1200px;
         margin: 25px auto;
         padding: 0 1rem;
     }
     .btn-secondary {
-    background: transparent;
-    border: 2px solid #1375BA;
-    color: #1375BA;
+        background: transparent;
+        border: 2px solid #1375BA;
+        color: #1375BA;
     }
     .container-footer{
         max-width: 1200px;
@@ -72,7 +57,6 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         padding: 0 1rem;
         justify-content: center;
     }
-
 </style>
 
 <body>
@@ -130,7 +114,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <div class="logo">HIDROSISTEMAS</div>
             </div>
             
-            <!-- Codigo para la barra de busqueda -->
+            <!-- Barra de búsqueda -->
             <div class="search-bar">
                 <form action="busqueda.php" method="GET" class="d-flex align-items-center">
                     <i class="fas fa-search me-2"></i>
@@ -141,8 +125,6 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                         class="form-control border-0 bg-transparent"
                         value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
                     >
-                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
-                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
                 </form>
             </div>
             
@@ -175,58 +157,65 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="hero-CPVC_A">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1>CPVC AGUA CALIENTE</h1>
-                <p>Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).</p>
-                <div class="hero-buttons">
-                    <a href="#products" class="btn btn-primary">
-                        <i class="fas fa-tools"></i> Explorar Productos
-                    </a>
-                    <a href="https://api.whatsapp.com/send/?phone=527712167150&text&type=phone_number&app_absent=0" target="_blank" class="btn btn-secondary">
-                        <i class="fas fa-headset"></i> Asesoramiento
-                    </a>
-                </div>
-            </div>
-        </div> 
-    </section>
+    <!-- Resultados de búsqueda -->
+    <section class="products-CPVC_A" id="products">
+        <div class="container-products">
+            <h2 class="section-title">Resultados de búsqueda</h2>
 
-<!-- Products -->
-<section class="products-CPVC_A" id="products">
-    <div class="container-products">
-        <h2 class="section-title">Productos Destacados</h2>
-        <div class="product-grid">
-            <?php foreach($resultado as $row): ?>
-            <div class="product-card">
-                <?php
-                $id = $row['id'];
-                $imagen = "Imagenes/productos/1/". $id.".PNG";
-                if (!file_exists($imagen)) {
-                    $imagen = "Imagenes/default.png";
-                }
-                ?>
-                <div class="product-img">
-                    <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>">
-                </div>
-                <div class="product-content">
-                    <div class="product-info">
-                        <h3><?php echo $row['nombre']; ?></h3>
-                        <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
+            <?php if (!empty($busqueda)): ?>
+                <p class="text-muted mb-4">Buscaste: <strong><?php echo htmlspecialchars($busqueda); ?></strong></p>
+            <?php endif; ?>
+
+            <?php if ($mensaje): ?>
+                <div class="alert alert-info"><?php echo $mensaje; ?></div>
+            <?php endif; ?>
+
+            <?php if (!empty($productos)): ?>
+                <div class="product-grid">
+                    <?php foreach ($productos as $row): 
+                        // Calcular precio final con descuento
+                        $precio = (float)$row['precio'];
+                        $descuento = (float)$row['descuento'];
+                        $precio_final = $descuento > 0 ? $precio - (($precio * $descuento) / 100) : $precio;
+
+                        // Ruta de imagen
+                        $id = $row['id'];
+                        $categoria_id = $row['categoria_id'];
+                        $imagen = "Imagenes/productos/{$categoria_id}/{$id}.PNG";
+                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $imagen)) {
+                            $imagen = "Imagenes/default.png";
+                        }
+
+                        // Token para enlace seguro
+                        $token = hash_hmac('sha1', $id, KEY_TOKEN);
+                    ?>
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="<?php echo $imagen; ?>" alt="<?php echo htmlspecialchars($row['nombre']); ?>">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-info">
+                                <h3><?php echo htmlspecialchars($row['nombre']); ?></h3>
+                                <p class="product-price-index">
+                                    <?php if ($descuento > 0): ?>
+                                        <del>$<?php echo number_format($precio, 2); ?></del><br>
+                                    <?php endif; ?>
+                                    $<?php echo number_format($precio_final, 2); ?>
+                                    <?php if ($descuento > 0): ?>
+                                        <small class="text-success ms-2"><?php echo $descuento; ?>% OFF</small>
+                                    <?php endif; ?>
+                                </p>
+                            </div>
+                            <div class="btn-action"> 
+                                <a href="details.php?id=<?php echo $id; ?>&categoria_id=<?php echo $categoria_id; ?>&token=<?php echo $token; ?>" class="btn-det">Detalles</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="btn-action"> 
-                        <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
-                        <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
-                        Añadir al Carrito
-                        </button>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>         
-</section>
+            <?php endif; ?>
+        </div>         
+    </section>
 
     <!-- Footer -->
     <footer id="contacto">
@@ -265,43 +254,10 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </footer>
 
-    <div id="paypal-button-container" ></div>
-
     <script src="js/app.js"></script>
-    <script src="js/carrito.js"></script>
     <script>
-
-/*########### Funcionamiento carrito */
-function addProducto(id, token, cantidad = 1) {  
-
-    let url = 'clases/carrito.php';
-    let formData = new FormData();
-    formData.append('id', id);
-    formData.append('token', token);
-    formData.append('cantidad', cantidad);  
-
-    fetch(url, {
-        method: 'POST',
-        body: formData,
-        mode: 'cors'
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.ok) {
-            let elemento = document.getElementById("num_cart");
-            if (elemento) {
-                elemento.innerHTML = data.numero;
-            }
-            alert('Producto agregado al carrito');
-        } else {
-            alert('Error al agregar el producto');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error de conexión');
-    });
-}
+        // Si usas el carrito en otras páginas, puedes mantener esto
+        document.getElementById("num_cart").textContent = localStorage.getItem('num_cart') || '0';
     </script>
 </body>
 </html>

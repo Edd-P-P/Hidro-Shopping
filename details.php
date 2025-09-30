@@ -145,9 +145,20 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                <a href="index.php"> <div class="logo">HIDROSISTEMAS</div></a>
             </div>
             
+            <!-- Codigo para la busqueda de barra -->
             <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar productos.">
+                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
+                    <i class="fas fa-search me-2"></i>
+                    <input 
+                        type="text" 
+                        name="q" 
+                        placeholder="Buscar productos..." 
+                        class="form-control border-0 bg-transparent"
+                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
+                    >
+                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
+                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
+                </form>
             </div>
             
             <div class="header-icons">
@@ -266,7 +277,19 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                         <p class="product-description">
                             <?php echo html_entity_decode($descripcion, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>
                     </p>
-                
+                <!-- Mostrar stock disponible -->
+                <div class="mt-2 text-muted">
+                    <small>
+                        <i class="fas fa-box"></i> 
+                        <span id="stock-disponible">
+                            <?php if ($requiere_medidas === 1): ?>
+                                <?php echo !empty($variantes) ? 'Disponible: ' . $stock_inicial . ' unidades' : 'Selecciona una medida'; ?>
+                            <?php else: ?>
+                                Disponible: <?php echo $stock_base; ?> unidades
+                            <?php endif; ?>
+                        </span>
+                    </small>
+                </div>                
                 <!-- Selector de cantidad (nueva sección añadida) -->
                 <div class="quantity-selector">
                     <label for="quantity" style="margin-right: 15px; font-weight: 600;">Cantidad:</label>
@@ -285,19 +308,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                     </button>
                 </div>
 
-                <!-- Mostrar stock disponible -->
-                <div class="mt-2 text-muted">
-                    <small>
-                        <i class="fas fa-box"></i> 
-                        <span id="stock-disponible">
-                            <?php if ($requiere_medidas === 1): ?>
-                                <?php echo !empty($variantes) ? 'Disponible: ' . $stock_inicial . ' unidades' : 'Selecciona una medida'; ?>
-                            <?php else: ?>
-                                Disponible: <?php echo $stock_base; ?> unidades
-                            <?php endif; ?>
-                        </span>
-                    </small>
-                </div>
+
                 
                 <!-- Especificaciones y Tabla de Medidas -->
                 <div class="specs-table-section mt-4">
