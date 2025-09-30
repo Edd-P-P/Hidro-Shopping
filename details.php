@@ -22,7 +22,7 @@ if (!hash_equals($token, $token_tmp)) {
 
 // Recordatorio que se deben agregar variables nuevas primero en el stmt para poder usarlas despues
 $stmt = $con->prepare("
-    SELECT id, nombre, descripcion, precio, descuento, categoria_id, 
+    SELECT id, nombre, descripcion, precio, descuento, stock, categoria_id, 
            especificaciones, tabla_med, requiere_medidas 
     FROM productos 
     WHERE id = ? AND categoria_id = ? AND activo = 1 
@@ -40,16 +40,17 @@ if (!$row) {
 }
 
 $requiere_medidas = (int)($row['requiere_medidas'] ?? 0);
+$stock_base = (int)($row['stock'] ?? 0); // ← Stock del producto base (cuando no requiere medidas)
 
 // Obtener variantes si aplica
 $variantes = [];
 if ($requiere_medidas === 1) {
-    $stmtVar = $con->prepare("
-        SELECT medida, precio_m AS precio, stock 
-        FROM productos_medidas 
-        WHERE producto_id = ? 
-        ORDER BY medida
-    ");
+$stmtVar = $con->prepare("
+    SELECT medida, precio_m AS precio, stock, descuento_m
+    FROM productos_medidas 
+    WHERE producto_id = ? 
+    ORDER BY medida
+");
     $stmtVar->execute([$id]);
     $variantes = $stmtVar->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -76,10 +77,10 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HidroBuy </title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css  ">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="  https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css  " rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css  ">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="tables.css">
 </head>
@@ -191,68 +192,76 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
             <div class="col-md-6 order-md-2">
             <h2 class="product-title"><?php echo $nombre; ?></h2>
 
-            <?php if ($requiere_medidas === 1): ?>
-                <!-- Botones de medidas -->
-                <div class="measure-buttons mb-3">
-                    <label class="form-label fw-bold">Selecciona una medida:</label><br>
-                    <?php foreach ($variantes as $v): ?>
-                        <?php 
-                        $medida = htmlspecialchars($v['medida']);
-                        $precio_val = (float)$v['precio']; // ← ¡usa 'precio', no 'precio_m'!
-                        $stock = (int)($v['stock'] ?? 0);
-                        $precio_con_desc = $descuento > 0 ? $precio_val - (($precio_val * $descuento) / 100) : $precio_val;
-                        $disabled = ($stock <= 0) ? 'disabled' : '';
-                        ?>
-                        <button type="button" 
-                            class="btn btn-outline-secondary btn-sm me-2 mt-1 measure-btn <?php echo $disabled; ?>"
-                            data-medida="<?php echo $medida; ?>"
-                            data-precio="<?php echo $precio_val; ?>"
-                            data-stock="<?php echo $stock; ?>"
-                            <?php echo $disabled; ?>>
-                            <?php echo $medida; ?>
-                            <?php if ($stock <= 0): ?>
-                                <span class="text-danger">(Agotado)</span>
-                            <?php endif; ?>
-                        </button>
-                    <?php endforeach; ?>
+           <?php if ($requiere_medidas === 1): ?>
+            <!-- Botones de medidas -->
+            <div class="measure-buttons mb-3">
+                <label class="form-label fw-bold">Selecciona una medida:</label><br>
+                <?php foreach ($variantes as $v): ?>
+                    <?php 
+                    $medida = htmlspecialchars($v['medida']);
+                    $precio_m = (float)$v['precio']; // Precio base
+                    $stock = (int)($v['stock'] ?? 0);
+                    $descuento_variante = (float)($v['descuento_m'] ?? 0);
+                    $precio_con_desc = $descuento_variante > 0 ? $precio_m - (($precio_m * $descuento_variante) / 100) : $precio_m;
+                    $disabled = ($stock <= 0) ? 'disabled' : '';
+                    ?>
+                    <button type="button" 
+                        class="btn btn-outline-secondary btn-sm me-2 mt-1 measure-btn <?php echo $disabled; ?>"
+                        data-medida="<?php echo $medida; ?>"
+                        data-precio="<?php echo $precio_m; ?>"
+                        data-descuento="<?php echo $descuento_variante; ?>"
+                        data-stock="<?php echo $stock; ?>"
+                        <?php echo $disabled; ?>>
+                        <?php echo $medida; ?>
+                        <?php if ($stock <= 0): ?>
+                            <span class="text-danger">(Agotado)</span>
+                        <?php endif; ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Precio dinámico con descuento -->
+            <?php if (!empty($variantes)): ?>
+                <?php
+                $primera = $variantes[0];
+                $precio_inicial = (float)$primera['precio'];
+                $descuento_inicial = (float)$primera['descuento_m'];
+                $stock_inicial = (int)$primera['stock']; // ← ¡CORREGIDO!
+                $precio_final = $descuento_inicial > 0 ? $precio_inicial - (($precio_inicial * $descuento_inicial) / 100) : $precio_inicial;
+                ?>
+
+                <div id="precios-container">
+                    <p id="precio-original" class="text-muted mb-1"></p>
+                    <h2 id="precio-dinamico" class="product-price"></h2>
                 </div>
 
-                <!-- Precio dinámico (solo si hay variantes) -->
-                <?php if (!empty($variantes)): ?>
-                    <?php
-                    $primera = $variantes[0];
-                    $precio_inicial = (float)$primera['precio'];
-                    $stock_inicial = (int)($primera['stock'] ?? 0);
-                    $precio_final = $descuento > 0 ? $precio_inicial - (($precio_inicial * $descuento) / 100) : $precio_inicial;
-                    ?>
-                    <h2 class="product-price" id="precio-dinamico">
-                        <?php echo MONEDA . number_format($precio_final, 2); ?>
-                    </h2>
-                    <?php if ($descuento > 0): ?>
-                        <small class="text-success"><?php echo $descuento; ?>% descuento</small>
-                    <?php endif; ?>
-                    <input type="hidden" id="precio-base" value="<?php echo $precio_inicial; ?>">
-                    <input type="hidden" id="medida-seleccionada" value="<?php echo htmlspecialchars($primera['medida']); ?>">
-                    <input type="hidden" id="stock-seleccionado" value="<?php echo $stock_inicial; ?>">
-                <?php else: ?>
-                    <h2 class="product-price text-muted">Selecciona una medida</h2>
-                    <input type="hidden" id="precio-base" value="0">
-                    <input type="hidden" id="medida-seleccionada" value="">
-                    <input type="hidden" id="stock-seleccionado" value="0">
-                <?php endif; ?>
+                <input type="hidden" id="precio-base" value="<?php echo $precio_inicial; ?>">
+                <input type="hidden" id="descuento-seleccionado" value="<?php echo $descuento_inicial; ?>">
+                <input type="hidden" id="medida-seleccionada" value="<?php echo htmlspecialchars($primera['medida']); ?>">
+                <input type="hidden" id="stock-seleccionado" value="<?php echo $stock_inicial; ?>">
+            <?php else: ?>
+                <h2 class="product-price text-muted">Selecciona una medida</h2>
+                <input type="hidden" id="precio-base" value="0">
+                <input type="hidden" id="descuento-seleccionado" value="0">
+                <input type="hidden" id="medida-seleccionada" value="">
+                <input type="hidden" id="stock-seleccionado" value="0">
+            <?php endif; ?>
 
             <?php else: ?>
-                <!-- Producto sin medidas -->
-                <?php if ($descuento > 0): ?>
-                    <p><del><?php echo MONEDA . number_format($precio, 2, '.'); ?></del></p>
-                    <h2 class="product-price"><?php echo MONEDA . number_format($precio_desc, 2, '.'); ?></h2>
-                    <small class="text-success"><?php echo $descuento; ?>% descuento</small>
-                <?php else: ?>
-                    <h2 class="product-price"><?php echo MONEDA . number_format($precio, 2, '.'); ?></h2>
-                <?php endif; ?>
-                <input type="hidden" id="precio-base" value="<?php echo $precio; ?>">
-                <input type="hidden" id="medida-seleccionada" value="">
-                <input type="hidden" id="stock-seleccionado" value="999">
+            <!-- Producto sin medidas -->
+            <?php if ($descuento > 0): ?>
+                <p><del><?php echo MONEDA . number_format($precio, 2, '.'); ?></del></p>
+                <h2 class="product-price">
+                    <?php echo MONEDA . number_format($precio_desc, 2, '.'); ?>
+                    <small class="text-success ms-2"><?php echo $descuento; ?>% OFF</small>
+                </h2>
+            <?php else: ?>
+                <h2 class="product-price"><?php echo MONEDA . number_format($precio, 2, '.'); ?></h2>
+            <?php endif; ?>
+            <input type="hidden" id="precio-base" value="<?php echo $precio; ?>">
+            <input type="hidden" id="descuento-seleccionado" value="<?php echo $descuento; ?>">
+            <input type="hidden" id="medida-seleccionada" value="">
+            <input type="hidden" id="stock-seleccionado" value="<?php echo $stock_base; ?>">
             <?php endif; ?>
                         <p class="product-description">
                             <?php echo html_entity_decode($descripcion, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>
@@ -275,6 +284,21 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                         <i class="fas fa-shopping-cart me-2"></i>Agregar al carrito
                     </button>
                 </div>
+
+                <!-- Mostrar stock disponible -->
+                <div class="mt-2 text-muted">
+                    <small>
+                        <i class="fas fa-box"></i> 
+                        <span id="stock-disponible">
+                            <?php if ($requiere_medidas === 1): ?>
+                                <?php echo !empty($variantes) ? 'Disponible: ' . $stock_inicial . ' unidades' : 'Selecciona una medida'; ?>
+                            <?php else: ?>
+                                Disponible: <?php echo $stock_base; ?> unidades
+                            <?php endif; ?>
+                        </span>
+                    </small>
+                </div>
+                
                 <!-- Especificaciones y Tabla de Medidas -->
                 <div class="specs-table-section mt-4">
                     <h4 class="section-title">Especificaciones Técnicas</h4>
@@ -317,8 +341,8 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                     <p>Tenemos las mejores marcas, con calidad que buscas.</p>
                     <div class="social-links">
                         <a href="https://www.facebook.com/HidrosistemasHGO/?fref=ts" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://api.whatsapp.com/send/?phone=527712167150&text&type=phone_number&app_absent=0" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                        <a href="https://www.instagram.com/hidrosistemas_mx?igsh=MXZ6YmsydjgxZmN6NA==" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="  https://api.whatsapp.com/send/?phone=527712167150&text&type=phone_number&app_absent=0" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="  https://www.instagram.com/hidrosistemas_mx?igsh=MXZ6YmsydjgxZmN6NA==" target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -346,120 +370,145 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
     </footer>
 
     <script src="js/app.js"></script>
-    <script>
-        /* Funcionalidad de los botones para aumentar cantidad de productos */
-        document.addEventListener('DOMContentLoaded', function() {
-            const quantityInput = document.getElementById('quantity');
-            const decreaseBtn = document.getElementById('decrease');
-            const increaseBtn = document.getElementById('increase');
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    /* Funcionalidad de los botones para aumentar cantidad de productos */
+    const quantityInput = document.getElementById('quantity');
+    const decreaseBtn = document.getElementById('decrease');
+    const increaseBtn = document.getElementById('increase');
    
-        decreaseBtn.addEventListener('click', function() {
-            let currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
-            }
-        });
+    decreaseBtn.addEventListener('click', function() {
+        let currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    });
     
-        increaseBtn.addEventListener('click', function() {
-            let currentValue = parseInt(quantityInput.value);
-            if (currentValue < 99) {
-                quantityInput.value = currentValue + 1;
-            }
-        });
+    increaseBtn.addEventListener('click', function() {
+        let currentValue = parseInt(quantityInput.value);
+        if (currentValue < 99) {
+            quantityInput.value = currentValue + 1;
+        }
+    });
    
-        quantityInput.addEventListener('change', function() {
-            let value = parseInt(this.value);
-            if (isNaN(value) || value < 1) {
-                this.value = 1;
-            } else if (value > 99) {
-                this.value = 99;
+    quantityInput.addEventListener('change', function() {
+        let value = parseInt(this.value);
+        if (isNaN(value) || value < 1) {
+            this.value = 1;
+        } else if (value > 99) {
+            this.value = 99;
+        }
+    });
+
+    // --- Manejo de botones de medida ---
+    const measureButtons = document.querySelectorAll('.measure-btn:not([disabled])');
+    measureButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const medida = this.getAttribute('data-medida');
+            const precio = parseFloat(this.getAttribute('data-precio'));
+            const descuento = parseFloat(this.getAttribute('data-descuento'));
+            const stock = parseInt(this.getAttribute('data-stock'));
+
+            let precioFinal = precio;
+            if (descuento > 0) {
+                precioFinal = precio - (precio * descuento / 100);
             }
-        });
-
-        // --- Manejo de botones de medida ---
-        const measureButtons = document.querySelectorAll('.measure-btn:not([disabled])');
-        measureButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const medida = this.getAttribute('data-medida');
-                const precio = parseFloat(this.getAttribute('data-precio'));
-                const stock = parseInt(this.getAttribute('data-stock'));
-                const descuento = <?php echo json_encode($descuento); ?>;
-                
-                let precioFinal = precio;
-                if (descuento > 0) {
-                    precioFinal = precio - (precio * descuento / 100);
+            const precioDinamico = document.getElementById('precio-dinamico');
+            if (descuento > 0) {
+                // Mostrar precio original tachado + precio final
+                const precioOriginal = document.getElementById('precio-original');
+                if (precioOriginal) {
+                    precioOriginal.innerHTML = '<del>' + '<?php echo MONEDA; ?>' + precio.toFixed(2) + '</del>';
                 }
-
-            document.getElementById('precio-dinamico').textContent = '<?php echo MONEDA; ?>' + precioFinal.toFixed(2);
+                precioDinamico.innerHTML = '<?php echo MONEDA; ?>' + precioFinal.toFixed(2) +
+                    '<small class="text-success ms-2">' + descuento + '% OFF</small>';
+            } else {
+                // Sin descuento: ocultar precio original y mostrar solo el precio
+                document.getElementById('precio-original').innerHTML = '';
+                precioDinamico.innerHTML = '<?php echo MONEDA; ?>' + precioFinal.toFixed(2);
+            }
             document.getElementById('precio-base').value = precio;
+            document.getElementById('descuento-seleccionado').value = descuento;
             document.getElementById('medida-seleccionada').value = medida;
             document.getElementById('stock-seleccionado').value = stock;
 
+            // Actualizar texto de stock disponible
+            document.getElementById('stock-disponible').textContent = 'Disponible: ' + stock + ' unidades';
+
             // Resaltar botón seleccionado
-            document.querySelectorAll('.measure-btn').forEach(b => b.classList.remove('btn-primary', 'btn-outline-secondary'));
+            document.querySelectorAll('.measure-btn').forEach(b => {
+                b.classList.remove('btn-primary', 'btn-outline-secondary');
+            });
             this.classList.remove('btn-outline-secondary');
             this.classList.add('btn-primary');
-            });
         });
+    });
 
-            // Resaltar el primer botón por defecto (si existe)
-            const firstBtn = document.querySelector('.measure-btn:not([disabled])');
-            if (firstBtn) {
-                firstBtn.click();
-            }
-        });
-
-    // --- Función para agregar al carrito ---
-    function addProducto(id, token) {
-        const medida = document.getElementById('medida-seleccionada').value;
-        const stock = parseInt(document.getElementById('stock-seleccionado').value);
-        const cantidad = parseInt(document.getElementById('quantity').value) || 1;
-
-        // Validar si requiere medida y si hay stock
-        <?php if ($requiere_medidas === 1): ?>
-            if (!medida) {
-                alert('Por favor selecciona una medida.');
-                return;
-            }
-            if (stock <= 0) {
-                alert('Lo sentimos, no hay inventario disponible para esta medida.');
-                return;
-            }
-            if (cantidad > stock) {
-                alert('Solo hay ' + stock + ' unidades disponibles.');
-                return;
-            }
-        <?php endif; ?>
-
-        let formData = new FormData();
-        formData.append('id', id);
-        formData.append('token', token);
-        formData.append('cantidad', cantidad);
-        <?php if ($requiere_medidas === 1): ?>
-            formData.append('medida', medida);
-            formData.append('precio', document.getElementById('precio-base').value);
-        <?php endif; ?>
-
-        fetch('clases/carrito.php', {
-            method: 'POST',
-            body: formData,
-            mode: 'cors'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.ok) {
-                document.getElementById("num_cart").textContent = data.numero;
-                alert('Producto agregado al carrito');
-            } else {
-                alert('Error al agregar el producto: ' + (data.message || ''));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error de conexión');
-        });
+    // Resaltar el primer botón por defecto (si existe)
+    const firstBtn = document.querySelector('.measure-btn:not([disabled])');
+    if (firstBtn) {
+        firstBtn.click();
     }
-    </script>
+
+    // Mostrar stock inicial si no requiere medidas
+    <?php if ($requiere_medidas === 0): ?>
+        document.getElementById('stock-disponible').textContent = 'Disponible: <?php echo $stock_base; ?> unidades';
+    <?php endif; ?>
+}); 
+
+// --- Función para agregar al carrito ---
+function addProducto(id, token) {
+    const medida = document.getElementById('medida-seleccionada').value;
+    const stock = parseInt(document.getElementById('stock-seleccionado').value);
+    const cantidad = parseInt(document.getElementById('quantity').value) || 1;
+
+    // Validación universal: cantidad no debe exceder el stock
+    if (cantidad > stock) {
+        alert('Excedió el número de productos');
+        return;
+    }
+
+    <?php if ($requiere_medidas === 1): ?>
+        if (!medida) {
+            alert('Por favor selecciona una medida.');
+            return;
+        }
+        if (stock <= 0) {
+            alert('Lo sentimos, no hay inventario disponible para esta medida.');
+            return;
+        }
+    <?php endif; ?>
+
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('token', token);
+    formData.append('cantidad', cantidad);
+    <?php if ($requiere_medidas === 1): ?>
+        formData.append('medida', medida);
+        formData.append('precio', document.getElementById('precio-base').value);
+        formData.append('descuento', document.getElementById('descuento-seleccionado').value);
+    <?php endif; ?>
+
+    fetch('clases/carrito.php', {
+        method: 'POST',
+        body: formData,
+        mode: 'cors'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            document.getElementById("num_cart").textContent = data.numero;
+            alert('Producto agregado al carrito');
+        } else {
+            alert('Error al agregar el producto: ' + (data.message || ''));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error de conexión');
+    });
+}
+</script>
     <script src="js/carrito.js"></script>
 </body>
 </html>
