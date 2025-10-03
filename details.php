@@ -46,10 +46,10 @@ $stock_base = (int)($row['stock'] ?? 0); // ← Stock del producto base (cuando 
 $variantes = [];
 if ($requiere_medidas === 1) {
 $stmtVar = $con->prepare("
-    SELECT medida, precio_m AS precio, stock, descuento_m
+    SELECT medida_id, precio_m AS precio, stock_m, descuento_m
     FROM productos_medidas 
     WHERE producto_id = ? 
-    ORDER BY medida
+    ORDER BY medida_id
 ");
     $stmtVar->execute([$id]);
     $variantes = $stmtVar->fetchAll(PDO::FETCH_ASSOC);
@@ -209,9 +209,9 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                 <label class="form-label fw-bold">Selecciona una medida:</label><br>
                 <?php foreach ($variantes as $v): ?>
                     <?php 
-                    $medida = htmlspecialchars($v['medida']);
+                    $medida = htmlspecialchars($v['medida_id']);
                     $precio_m = (float)$v['precio']; // Precio base
-                    $stock = (int)($v['stock'] ?? 0);
+                    $stock = (int)($v['stock_m'] ?? 0);
                     $descuento_variante = (float)($v['descuento_m'] ?? 0);
                     $precio_con_desc = $descuento_variante > 0 ? $precio_m - (($precio_m * $descuento_variante) / 100) : $precio_m;
                     $disabled = ($stock <= 0) ? 'disabled' : '';
@@ -237,7 +237,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                 $primera = $variantes[0];
                 $precio_inicial = (float)$primera['precio'];
                 $descuento_inicial = (float)$primera['descuento_m'];
-                $stock_inicial = (int)$primera['stock']; // ← ¡CORREGIDO!
+                $stock_inicial = (int)$primera['stock_m']; // ← ¡CORREGIDO!
                 $precio_final = $descuento_inicial > 0 ? $precio_inicial - (($precio_inicial * $descuento_inicial) / 100) : $precio_inicial;
                 ?>
 
@@ -248,7 +248,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
 
                 <input type="hidden" id="precio-base" value="<?php echo $precio_inicial; ?>">
                 <input type="hidden" id="descuento-seleccionado" value="<?php echo $descuento_inicial; ?>">
-                <input type="hidden" id="medida-seleccionada" value="<?php echo htmlspecialchars($primera['medida']); ?>">
+                <input type="hidden" id="medida-seleccionada" value="<?php echo htmlspecialchars($primera['medida_id']); ?>">
                 <input type="hidden" id="stock-seleccionado" value="<?php echo $stock_inicial; ?>">
             <?php else: ?>
                 <h2 class="product-price text-muted">Selecciona una medida</h2>
@@ -380,7 +380,11 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
         </div>
     </footer>
 
-    <script src="js/app.js"></script>
+<script src="js/app.js"></script>
+<script>
+    console.log("ID del producto:", <?php echo $id; ?>);
+    console.log("Token generado:", "<?php echo $token_tmp; ?>");
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     /* Funcionalidad de los botones para aumentar cantidad de productos */
@@ -469,6 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // --- Función para agregar al carrito ---
 function addProducto(id, token) {
+    console.log("¡Función addProducto ejecutada! ID:", id, "Token:", token);
     const medida = document.getElementById('medida-seleccionada').value;
     const stock = parseInt(document.getElementById('stock-seleccionado').value);
     const cantidad = parseInt(document.getElementById('quantity').value) || 1;
@@ -495,7 +500,7 @@ function addProducto(id, token) {
     formData.append('token', token);
     formData.append('cantidad', cantidad);
     <?php if ($requiere_medidas === 1): ?>
-        formData.append('medida', medida);
+        formData.append('medida_id', medida);
         formData.append('precio', document.getElementById('precio-base').value);
         formData.append('descuento', document.getElementById('descuento-seleccionado').value);
     <?php endif; ?>
@@ -511,7 +516,7 @@ function addProducto(id, token) {
             document.getElementById("num_cart").textContent = data.numero;
             alert('Producto agregado al carrito');
         } else {
-            alert('Error al agregar el producto: ' + (data.message || ''));
+            alert('Error al agregar el producto: ' + (data.mensaje || ''));
         }
     })
     .catch(error => {

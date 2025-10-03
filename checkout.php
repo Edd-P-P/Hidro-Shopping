@@ -5,36 +5,62 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
-// Verificar si hay productos en el carrito
 $productos = [];
 $total = 0;
 
-if (!empty($_SESSION['carrito']['productos'])) {
-    $ids = array_keys($_SESSION['carrito']['productos']);
-    $placeholders = str_repeat('?,', count($ids) - 1) . '?';
-    
-    $sql = $con->prepare("SELECT id, nombre, precio, descuento, activo, categoria_id FROM productos WHERE id IN ($placeholders) AND activo = 1");
-    $sql->execute($ids);
-    $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['productos'])) {
+    foreach ($_SESSION['carrito']['productos'] as $clave => $item) {
+        $id = $item['id'];
+        $cantidad = $item['cantidad'] ?? 1;
+        $precio_usado = (float)($item['precio'] ?? 0);
+        $descuento_usado = (float)($item['descuento'] ?? 0);
+        $medida_guardada = $item['medida_id'] ?? null;
+        $requiere_medidas = (int)($item['requiere_medidas'] ?? 0);
 
-    foreach ($resultado as $row) {
-        $id = $row['id'];
-        $cantidad = $_SESSION['carrito']['productos'][$id];
-        $precio = $row['precio'];
-        $descuento = $row['descuento'];
-        $precio_desc = $precio - (($precio * $descuento) / 100);
+        // Obtener nombre y categoría del producto
+        $stmt = $con->prepare("SELECT nombre, categoria_id FROM productos WHERE id = ? AND activo = 1");
+        $stmt->execute([$id]);
+        $prod = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $subtotal = $cantidad * ($descuento > 0 ? $precio_desc : $precio);
+        if (!$prod) {
+            continue; // Producto eliminado o inactivo
+        }
+
+        $nombre = $prod['nombre'];
+        $categoria_id = $prod['categoria_id'];
+
+        // Determinar qué mostrar en "Medida"
+        $medida_mostrar = 'No aplica';
+        if ($requiere_medidas && $medida_guardada) {
+            // Validar que la medida exista en la BD (seguridad)
+            $sqlMedida = $con->prepare("
+                SELECT mc.medida 
+                FROM medidas_categoria mc
+                JOIN productos p ON mc.categoria_id = p.categoria_id
+                WHERE p.id = ? AND mc.medida = ?
+            ");
+            $sqlMedida->execute([$id, $medida_guardada]);
+            $medida_real = $sqlMedida->fetchColumn();
+            $medida_mostrar = $medida_real ?: 'No aplica';
+        }
+
+        // Calcular precio final y subtotal
+        $precio_con_desc = $descuento_usado > 0 
+            ? $precio_usado - (($precio_usado * $descuento_usado) / 100) 
+            : $precio_usado;
+        $subtotal = $cantidad * $precio_con_desc;
 
         $productos[] = [
+            'clave' => $clave,
             'id' => $id,
-            'nombre' => $row['nombre'],
-            'precio' => $precio,
-            'descuento' => $descuento,
-            'precio_final' => ($descuento > 0 ? $precio_desc : $precio),
+            'nombre' => $nombre,
+            'precio_mostrar' => $precio_usado,
+            'descuento' => $descuento_usado,
+            'precio_final' => $precio_con_desc,
             'cantidad' => $cantidad,
             'subtotal' => $subtotal,
-            'categoria_id' => $row['categoria_id'] // Añadí id_categoria 
+            'categoria_id' => $categoria_id,
+            'medida' => $medida_mostrar,
         ];
 
         $total += $subtotal;
@@ -128,7 +154,7 @@ if (!empty($_SESSION['carrito']['productos'])) {
     </nav>
 
     <!-- Contenido del Carrito -->
-    <main class="container my-5">
+<main class="container my-5">
         <h1 class="mb-4">Tu Carrito de Compras</h1>
 
         <?php if (empty($productos)): ?>
@@ -143,6 +169,7 @@ if (!empty($_SESSION['carrito']['productos'])) {
                     <thead class="table-light">
                         <tr>
                             <th>Producto</th>
+                            <th>Medida</th>
                             <th>Precio</th>
                             <th>Cantidad</th>
                             <th>Subtotal</th>
@@ -152,36 +179,44 @@ if (!empty($_SESSION['carrito']['productos'])) {
                     <tbody>
                         <?php foreach ($productos as $producto): ?>
                         <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <?php
-                                    $rutaImg = "imagenes/productos/" . $producto['categoria_id'] . '/' . $producto['id'] . ".png";
-                                    if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
-                                        $rutaImg = "imagenes/productos/default.png";
-                                    }
-                                ?>
-                                <img src="<?php echo htmlspecialchars($rutaImg); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>" width="60" class="me-3 rounded">
-                                <span><?php echo htmlspecialchars($producto['nombre']); ?></span>
-                            </div>
-                        </td>
-                            <td><?php echo MONEDA . number_format($producto['precio_final'], 2, '.'); ?></td>
                             <td>
-                                <div class="d-flex align-items-center quantity-controls">
-                                    <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidad(<?php echo $producto['id']; ?>, -1)">−</button>
-                                    <input type="number" 
-                                        id="cantidad_<?php echo $producto['id']; ?>" 
-                                        class="form-control text-center mx-2" 
-                                        style="width: 60px;" 
-                                        value="<?php echo $producto['cantidad']; ?>" 
-                                        min="1" 
-                                        max="99"
-                                        onchange="actualizarCantidad(<?php echo $producto['id']; ?>)">
-                                    <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCantidad(<?php echo $producto['id']; ?>, 1)">+</button>
+                                <div class="d-flex align-items-center">
+                                    <?php
+                                        $rutaImg = "imagenes/productos/" . $producto['categoria_id'] . '/' . $producto['id'] . ".png";
+                                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
+                                            $rutaImg = "imagenes/productos/default.png";
+                                        }
+                                    ?>
+                                    <img src="<?php echo htmlspecialchars($rutaImg); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>" width="60" class="me-3 rounded">
+                                    <span><?php echo htmlspecialchars($producto['nombre']); ?></span>
                                 </div>
                             </td>
-                            <td><?php echo MONEDA . number_format($producto['subtotal'], 2, '.'); ?></td>
+                            <td><?php echo htmlspecialchars($producto['medida'] === 'No aplica' ? 'No aplica' : $producto['medida']); ?></td>
+                            <td><?php echo MONEDA . number_format($producto['precio_final'], 2, '.', ','); ?></td>
                             <td>
-                                <button class="btn btn-sm btn-outline-danger" onclick="eliminarProducto(<?php echo $producto['id']; ?>)">
+                                <!-- Formulario con clave única -->
+                                <form id="form_actualizar_<?php echo htmlspecialchars($producto['clave']); ?>" style="display:inline;">
+                                    <input type="hidden" name="clave" value="<?php echo htmlspecialchars($producto['clave']); ?>">
+                                    <div class="d-flex align-items-center quantity-controls">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" 
+                                            onclick="cambiarCantidad('<?php echo htmlspecialchars($producto['clave']); ?>', -1)">−</button>
+                                        <input type="number" 
+                                            name="cantidad"
+                                            class="form-control text-center mx-2" 
+                                            style="width: 60px;" 
+                                            value="<?php echo $producto['cantidad']; ?>" 
+                                            min="1" 
+                                            max="99"
+                                            onchange="actualizarCantidad('<?php echo htmlspecialchars($producto['clave']); ?>')">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" 
+                                            onclick="cambiarCantidad('<?php echo htmlspecialchars($producto['clave']); ?>', 1)">+</button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td><?php echo MONEDA . number_format($producto['subtotal'], 2, '.', ','); ?></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-danger" 
+                                    onclick="eliminarProducto('<?php echo htmlspecialchars($producto['clave']); ?>')">
                                     <i class="fas fa-trash"></i> Eliminar
                                 </button>
                             </td>
@@ -196,7 +231,7 @@ if (!empty($_SESSION['carrito']['productos'])) {
                     <a href="index.php" class="btn btn-secondary">Seguir comprando</a>
                 </div>
                 <div class="col-md-4 text-end">
-                    <h3>Total: <?php echo MONEDA . number_format($total, 2, '.'); ?></h3>
+                    <h3>Total: <?php echo MONEDA . number_format($total, 2, '.', ','); ?></h3>
                     <button class="btn btn-success btn-lg mt-3">Proceder al Pago</button>
                 </div>
             </div>
@@ -242,11 +277,11 @@ if (!empty($_SESSION['carrito']['productos'])) {
 
     <script src="js/carrito.js"></script>
     <script>
-        function eliminarProducto(id) {
+        function eliminarProducto(clave) {
             if (confirm('¿Eliminar este producto del carrito?')) {
                 let url = 'clases/eliminar_carrito.php';
                 let formData = new FormData();
-                formData.append('id', id);
+                formData.append('clave', clave); // ← Ahora usamos 'clave'
 
                 fetch(url, {
                     method: 'POST',
@@ -256,15 +291,11 @@ if (!empty($_SESSION['carrito']['productos'])) {
                 .then(response => response.json())
                 .then(data => {
                     if (data.ok) {
-                        // Actualizar contador
                         let elemento = document.getElementById("num_cart");
-                        if (elemento) {
-                            elemento.innerHTML = data.numero;
-                        }
-                        // Recargar página para reflejar cambios
+                        if (elemento) elemento.innerHTML = data.numero;
                         location.reload();
                     } else {
-                        alert('Error al eliminar el producto');
+                        alert('Error: ' + (data.mensaje || 'No se pudo eliminar'));
                     }
                 })
                 .catch(error => {
@@ -274,64 +305,49 @@ if (!empty($_SESSION['carrito']['productos'])) {
             }
         }
 
-function cambiarCantidad(id, cambio) {
-    const input = document.getElementById('cantidad_' + id);
-    let valor = parseInt(input.value);
+        function cambiarCantidad(clave, cambio) {
+            const form = document.getElementById('form_actualizar_' + clave);
+            const input = form.querySelector('input[name="cantidad"]');
+            let valor = parseInt(input.value);
 
-    if (cambio === -1 && valor === 1) {
-        if (confirm('¿Eliminar este producto del carrito?')) {
-            eliminarProducto(id);
-        }
-        return; // No continuar, ya se manejó la eliminación
-    }
-
-    // Si no es el caso de eliminar, actualizar normalmente
-    valor += cambio;
-    if (valor < 1) valor = 1; // No permitir menos de 1 (excepto eliminación arriba)
-    if (valor > 99) valor = 99;
-
-    input.value = valor;
-    actualizarCantidad(id);
-}
-
-function actualizarCantidad(id) {
-    const input = document.getElementById('cantidad_' + id);
-    const nuevaCantidad = parseInt(input.value);
-
-    if (nuevaCantidad < 1) {
-        input.value = 1;
-        return;
-    }
-
-    let url = 'clases/actualizar_carrito.php';
-    let formData = new FormData();
-    formData.append('id', id);
-    formData.append('cantidad', nuevaCantidad);
-
-    fetch(url, {
-        method: 'POST',
-        body: formData,
-        mode: 'cors'
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.ok) {
-            // Actualizar contador global
-            let elemento = document.getElementById("num_cart");
-            if (elemento) {
-                elemento.innerHTML = data.numero;
+            if (cambio === -1 && valor === 1) {
+                if (confirm('¿Eliminar este producto del carrito?')) {
+                    eliminarProducto(clave);
+                }
+                return;
             }
-            // Recargar la página para actualizar precios y totales
-            location.reload();
-        } else {
-            alert('Error al actualizar la cantidad');
+
+            valor += cambio;
+            if (valor < 1) valor = 1;
+            if (valor > 99) valor = 99;
+            input.value = valor;
+            actualizarCantidad(clave);
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error de conexión');
-    });
-}
+
+        function actualizarCantidad(clave) {
+            const form = document.getElementById('form_actualizar_' + clave);
+            const formData = new FormData(form);
+
+            fetch('clases/actualizar_carrito.php', {
+                method: 'POST',
+                body: formData,
+                mode: 'cors'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    let elemento = document.getElementById("num_cart");
+                    if (elemento) elemento.innerHTML = data.numero;
+                    location.reload();
+                } else {
+                    alert('Error: ' + (data.mensaje || 'No se pudo actualizar'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error de conexión');
+            });
+        }
     </script>
 </body>
 </html>

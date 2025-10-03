@@ -16,13 +16,13 @@ require_once $configPath;
 
 $datos = ['ok' => false, 'numero' => 0];
 
-if (isset($_POST['id']) && isset($_SESSION['carrito']['productos'][$_POST['id']])) {
-    unset($_SESSION['carrito']['productos'][$_POST['id']]);
+if (isset($_POST['clave']) && isset($_SESSION['carrito']['productos'][$_POST['clave']])) {
+    unset($_SESSION['carrito']['productos'][$_POST['clave']]);
 
     $total_productos = 0;
     if (isset($_SESSION['carrito']['productos'])) {
-        foreach ($_SESSION['carrito']['productos'] as $cantidad) {
-            $total_productos += $cantidad;
+        foreach ($_SESSION['carrito']['productos'] as $item) {
+            $total_productos += $item['cantidad'];
         }
     }
 
@@ -30,7 +30,6 @@ if (isset($_POST['id']) && isset($_SESSION['carrito']['productos'][$_POST['id']]
     $datos['ok'] = true;
 }
 
-ob_clean();
 header('Content-Type: application/json');
 echo json_encode($datos);
 exit;

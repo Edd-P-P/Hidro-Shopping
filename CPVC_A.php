@@ -216,7 +216,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                         <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
                     </div>
                     <div class="btn-action"> 
-                        <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
+                        <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Medidas</a>
                     </div>
                 </div>
             </div>

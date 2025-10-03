@@ -5,28 +5,53 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
-// Obtener término de búsqueda
+// Parámetros de entrada
 $busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
-$productos = [];
-$mensaje = '';
+$categoria_filtro = isset($_GET['categoria']) ? (int)$_GET['categoria'] : 0;
+$pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$productos_por_pagina = 12;
+$offset = ($pagina > 0) ? ($pagina - 1) * $productos_por_pagina : 0;
+
+// Obtener categorías para el filtro
+$stmtCat = $con->query("SELECT id, nombre FROM categorias WHERE activo = 1 ORDER BY nombre");
+$categorias = $stmtCat->fetchAll(PDO::FETCH_ASSOC);
+
+// Construir consulta base
+$sql = "SELECT SQL_CALC_FOUND_ROWS p.id, p.nombre, p.precio, p.descuento, p.categoria_id, c.nombre AS categoria_nombre
+        FROM productos p
+        INNER JOIN categorias c ON p.categoria_id = c.id
+        WHERE p.activo = 1";
+$params = [];
 
 if (!empty($busqueda)) {
-    $sql = "SELECT id, nombre, precio, descuento, categoria_id 
-            FROM productos 
-            WHERE activo = 1 
-            AND nombre LIKE :busqueda 
-            ORDER BY nombre ASC";
-    $stmt = $con->prepare($sql);
-    $stmt->bindValue(':busqueda', '%' . $busqueda . '%', PDO::PARAM_STR);
-    $stmt->execute();
-    $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    if (empty($productos)) {
-        $mensaje = "No se encontraron productos para: <strong>" . htmlspecialchars($busqueda) . "</strong>";
-    }
-} else {
-    $mensaje = "Por favor ingresa un término de búsqueda.";
+    $sql .= " AND p.nombre LIKE :busqueda";
+    $params[':busqueda'] = '%' . $busqueda . '%';
 }
+
+if ($categoria_filtro > 0) {
+    $sql .= " AND p.categoria_id = :categoria_id";
+    $params[':categoria_id'] = $categoria_filtro;
+}
+
+$sql .= " ORDER BY p.nombre ASC LIMIT :limite OFFSET :offset";
+$params[':limite'] = $productos_por_pagina;
+$params[':offset'] = $offset;
+
+$stmt = $con->prepare($sql);
+foreach ($params as $key => $value) {
+    if ($key === ':limite' || $key === ':offset') {
+        $stmt->bindValue($key, $value, PDO::PARAM_INT);
+    } else {
+        $stmt->bindValue($key, $value, PDO::PARAM_STR);
+    }
+}
+$stmt->execute();
+$productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Total de resultados (sin límite)
+$totalStmt = $con->query("SELECT FOUND_ROWS() as total");
+$total = (int)$totalStmt->fetch()['total'];
+$total_paginas = ceil($total / $productos_por_pagina);
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +66,21 @@ if (!empty($busqueda)) {
 </head>
 
 <style>
+    :root{
+        --primary-color: #1375BA;
+        --secondary-color: #FFD54F;
+        --accent-color: #FF9800;
+        --text-color: #333;
+        --background-color: #FFF9C4;
+        --font-family: 'PT Sans', sans-serif;
+        --font-family-alt: 'Montserrat', sans-serif;
+    }
+    body{
+        background-color: var(--background-color);
+    }
+    .section-title {
+        color: #1375BA;
+    }
     .container-products{
         max-width: 1200px;
         margin: 25px auto;
@@ -56,6 +96,37 @@ if (!empty($busqueda)) {
         margin: 0 auto;
         padding: 0 1rem;
         justify-content: center;
+    }
+    .filters-bar {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+        gap: 0.5rem;
+    }
+    .pagination a, .pagination span {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        color: #1375BA;
+        background: white;
+    }
+    .pagination .active {
+        background: #1375BA;
+        color: white;
+        border-color: #1375BA;
+    }
+    .no-results {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
     }
 </style>
 
@@ -75,13 +146,9 @@ if (!empty($busqueda)) {
         <div class="mobile-categories">
             <ul>
                 <li><a href="index.php">Volver al inicio</a></li>
-                <li><a href="#">Tubería PPR</a></li>
-                <li><a href="#">Tubería galvanizada</a></li>
-                <li><a href="#">Accesorios domésticos</a></li>
-                <li><a href="#">Medidores y valvulas</a></li>
-                <li><a href="#">Linea Sanitaria</a></li>
-                <li><a href="#">Aspersores</a></li>
-                <li><a href="#">Nebulizadores</a></li>
+                <?php foreach ($categorias as $cat): ?>
+                    <li><a href="busqueda.php?categoria=<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></a></li>
+                <?php endforeach; ?>
             </ul>
         </div>
         
@@ -123,7 +190,7 @@ if (!empty($busqueda)) {
                         name="q" 
                         placeholder="Buscar productos..." 
                         class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
+                        value="<?php echo htmlspecialchars($busqueda); ?>"
                     >
                 </form>
             </div>
@@ -145,40 +212,74 @@ if (!empty($busqueda)) {
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="index.php">Volver al inicio</a></li>
-                <li><a href="#">Tubería PPR</a></li>
-                <li><a href="#">Tubería galvanizada</a></li>
-                <li><a href="#">Accesorios domésticos</a></li>
-                <li><a href="#">Medidores y valvulas</a></li>
-                <li><a href="#">Linea Sanitaria</a></li>
-                <li><a href="#">Aspersores</a></li>
-                <li><a href="#">Nebulizadores</a></li>
+                <li><a href="index.php">Inicio</a></li>
+                <?php foreach ($categorias as $cat): ?>
+                    <li><a href="busqueda.php?categoria=<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></a></li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </nav>
 
-    <!-- Resultados de búsqueda -->
+    <!-- Filtros y resultados -->
     <section class="products-CPVC_A" id="products">
         <div class="container-products">
             <h2 class="section-title">Resultados de búsqueda</h2>
 
-            <?php if (!empty($busqueda)): ?>
-                <p class="text-muted mb-4">Buscaste: <strong><?php echo htmlspecialchars($busqueda); ?></strong></p>
-            <?php endif; ?>
+            <!-- Mostrar términos activos -->
+            <div class="mb-3">
+                <?php if (!empty($busqueda)): ?>
+                    <span class="badge bg-primary me-2">Búsqueda: <?php echo htmlspecialchars($busqueda); ?></span>
+                <?php endif; ?>
+                <?php if ($categoria_filtro > 0):
+                    $cat_nombre = '';
+                    foreach ($categorias as $c) {
+                        if ($c['id'] == $categoria_filtro) {
+                            $cat_nombre = $c['nombre'];
+                            break;
+                        }
+                    }
+                ?>
+                    <span class="badge bg-secondary me-2">Categoría: <?php echo htmlspecialchars($cat_nombre); ?></span>
+                    <a href="busqueda.php<?php echo !empty($busqueda) ? '?q=' . urlencode($busqueda) : ''; ?>" class="badge bg-light text-dark">× Quitar filtro</a>
+                <?php endif; ?>
+            </div>
 
-            <?php if ($mensaje): ?>
-                <div class="alert alert-info"><?php echo $mensaje; ?></div>
-            <?php endif; ?>
+            <!-- Filtros -->
+            <div class="filters-bar">
+                <form method="GET" class="d-flex flex-wrap align-items-center gap-3">
+                    <div>
+                        <label><strong>Categoría:</strong></label>
+                        <select name="categoria" class="form-select" style="width: auto; display: inline-block;">
+                            <option value="">Todas</option>
+                            <?php foreach ($categorias as $cat): ?>
+                                <option value="<?php echo $cat['id']; ?>" <?php echo ($categoria_filtro == $cat['id']) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($cat['nombre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" name="q" placeholder="Buscar en resultados..." value="<?php echo htmlspecialchars($busqueda); ?>" class="form-control" style="width: 200px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                    <?php if ($categoria_filtro || $busqueda): ?>
+                        <a href="busqueda.php" class="btn btn-outline-secondary">Limpiar</a>
+                    <?php endif; ?>
+                </form>
+            </div>
 
-            <?php if (!empty($productos)): ?>
+            <?php if (empty($productos)): ?>
+                <div class="no-results">
+                    <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
+                    <p>No se encontraron productos.</p>
+                </div>
+            <?php else: ?>
                 <div class="product-grid">
                     <?php foreach ($productos as $row): 
-                        // Calcular precio final con descuento
                         $precio = (float)$row['precio'];
                         $descuento = (float)$row['descuento'];
                         $precio_final = $descuento > 0 ? $precio - (($precio * $descuento) / 100) : $precio;
 
-                        // Ruta de imagen
                         $id = $row['id'];
                         $categoria_id = $row['categoria_id'];
                         $imagen = "Imagenes/productos/{$categoria_id}/{$id}.PNG";
@@ -186,7 +287,6 @@ if (!empty($busqueda)) {
                             $imagen = "Imagenes/default.png";
                         }
 
-                        // Token para enlace seguro
                         $token = hash_hmac('sha1', $id, KEY_TOKEN);
                     ?>
                     <div class="product-card">
@@ -205,6 +305,7 @@ if (!empty($busqueda)) {
                                         <small class="text-success ms-2"><?php echo $descuento; ?>% OFF</small>
                                     <?php endif; ?>
                                 </p>
+                                <small class="text-muted"><?php echo htmlspecialchars($row['categoria_nombre']); ?></small>
                             </div>
                             <div class="btn-action"> 
                                 <a href="details.php?id=<?php echo $id; ?>&categoria_id=<?php echo $categoria_id; ?>&token=<?php echo $token; ?>" class="btn-det">Detalles</a>
@@ -213,7 +314,29 @@ if (!empty($busqueda)) {
                     </div>
                     <?php endforeach; ?>
                 </div>
+
+                <!-- Paginación -->
+                <?php if ($total_paginas > 1): ?>
+                    <nav class="pagination">
+                        <?php if ($pagina > 1): ?>
+                            <a href="?<?php echo http_build_query(array_filter(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $pagina - 1])); ?>">&laquo; Anterior</a>
+                        <?php endif; ?>
+
+                        <?php for ($i = max(1, $pagina - 2); $i <= min($total_paginas, $pagina + 2); $i++): ?>
+                            <a href="?<?php echo http_build_query(array_filter(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $i])); ?>" 
+                               class="<?php echo ($i == $pagina) ? 'active' : ''; ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endfor; ?>
+
+                        <?php if ($pagina < $total_paginas): ?>
+                            <a href="?<?php echo http_build_query(array_filter(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $pagina + 1])); ?>">Siguiente &raquo;</a>
+                        <?php endif; ?>
+                    </nav>
+                <?php endif; ?>
+
             <?php endif; ?>
+
         </div>         
     </section>
 
@@ -223,7 +346,7 @@ if (!empty($busqueda)) {
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>HIDROSISTEMAS</h4>
-                    <p>Tenemos las mejores marcas, con calidad que buscas.</p>
+                    <p>Tubería de PVC, CPVC, FOFO, galvanizado, conduit, sanitario, alcantarillado, hidráulico, piezas especiales, válvulas y cementos.</p>
                     <div class="social-links">
                         <a href="https://www.facebook.com/HidrosistemasHGO/?fref=ts" target="_blank"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://api.whatsapp.com/send/?phone=527712167150&text&type=phone_number&app_absent=0" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -256,7 +379,6 @@ if (!empty($busqueda)) {
 
     <script src="js/app.js"></script>
     <script>
-        // Si usas el carrito en otras páginas, puedes mantener esto
         document.getElementById("num_cart").textContent = localStorage.getItem('num_cart') || '0';
     </script>
 </body>
