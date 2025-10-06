@@ -1,4 +1,9 @@
 <?php
+// Agregar session_start() al inicio
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once 'config/config.php';
 require_once 'config/database.php';
 
@@ -8,13 +13,19 @@ $con = $db->conectar();
 $productos = [];
 $total = 0;
 
+// DEBUG: Ver contenido del carrito
+echo "<!-- DEBUG Carrito: " . print_r($_SESSION['carrito'] ?? 'No hay carrito', true) . " -->";
+
 if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['productos'])) {
     foreach ($_SESSION['carrito']['productos'] as $clave => $item) {
+        // DEBUG: Ver item actual
+        echo "<!-- DEBUG Item $clave: " . print_r($item, true) . " -->";
+        
         $id = $item['id'];
         $cantidad = $item['cantidad'] ?? 1;
         $precio_usado = (float)($item['precio'] ?? 0);
-        $descuento_usado = (float)($item['descuento'] ?? 0);
-        $medida_guardada = $item['medida_id'] ?? null;
+        // CORRECIÓN: Usar 'medida' en lugar de 'medida_id'
+        $medida_guardada = $item['medida'] ?? null;
         $requiere_medidas = (int)($item['requiere_medidas'] ?? 0);
 
         // Obtener nombre y categoría del producto
@@ -29,25 +40,14 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
         $nombre = $prod['nombre'];
         $categoria_id = $prod['categoria_id'];
 
-        // Determinar qué mostrar en "Medida"
+        // CORRECIÓN: Mostrar la medida guardada directamente
         $medida_mostrar = 'No aplica';
         if ($requiere_medidas && $medida_guardada) {
-            // Validar que la medida exista en la BD (seguridad)
-            $sqlMedida = $con->prepare("
-                SELECT mc.medida 
-                FROM medidas_categoria mc
-                JOIN productos p ON mc.categoria_id = p.categoria_id
-                WHERE p.id = ? AND mc.medida = ?
-            ");
-            $sqlMedida->execute([$id, $medida_guardada]);
-            $medida_real = $sqlMedida->fetchColumn();
-            $medida_mostrar = $medida_real ?: 'No aplica';
+            $medida_mostrar = $medida_guardada;
         }
 
         // Calcular precio final y subtotal
-        $precio_con_desc = $descuento_usado > 0 
-            ? $precio_usado - (($precio_usado * $descuento_usado) / 100) 
-            : $precio_usado;
+        $precio_con_desc = $precio_usado; // Ya viene con descuento aplicado desde carrito.php
         $subtotal = $cantidad * $precio_con_desc;
 
         $productos[] = [
@@ -55,7 +55,6 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
             'id' => $id,
             'nombre' => $nombre,
             'precio_mostrar' => $precio_usado,
-            'descuento' => $descuento_usado,
             'precio_final' => $precio_con_desc,
             'cantidad' => $cantidad,
             'subtotal' => $subtotal,
@@ -83,6 +82,15 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
     ul {
         padding-left: 1rem;
     }
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .quantity-controls input {
+        max-width: 70px;
+        text-align: center;
+    }
 </style>
 <body>
 
@@ -108,7 +116,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 <a href="index.php"><div class="logo">HIDROSISTEMAS</div></a>
             </div>
             
-            <!-- Codigo para la barra de busqueda -->
+            <!-- Barra de búsqueda -->
             <div class="search-bar">
                 <form action="busqueda.php" method="GET" class="d-flex align-items-center">
                     <i class="fas fa-search me-2"></i>
@@ -119,16 +127,25 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                         class="form-control border-0 bg-transparent"
                         value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
                     >
-                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
-                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
                 </form>
             </div>
             
             <div class="header-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
-                <a href="#" class="icon-wrapper">
+                <a href="checkout.php" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">0</span>
+                    <span id="num_cart" class="cart-count">
+                        <?php 
+                        // Mostrar número de items en carrito
+                        $total_items = 0;
+                        if (isset($_SESSION['carrito']['productos'])) {
+                            foreach ($_SESSION['carrito']['productos'] as $item) {
+                                $total_items += $item['cantidad'];
+                            }
+                        }
+                        echo $total_items;
+                        ?>
+                    </span>
                 </a>
             </div>
         </div>
@@ -141,11 +158,11 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="CPVC_A.php" >CPVC agua caliente</a></li>
+                <li><a href="CPVC_A.php">CPVC agua caliente</a></li>
                 <li><a href="#">Tubería PPR</a></li>
                 <li><a href="#">Tubería galvanizada</a></li>
                 <li><a href="#">Accesorios domésticos</a></li>
-                <li><a href="#">Medidores y valvulas</a></li>
+                <li><a href="#">Medidores y válvulas</a></li>
                 <li><a href="#">Linea Sanitaria</a></li>
                 <li><a href="#">Aspersores</a></li>
                 <li><a href="#">Nebulizadores</a></li>
@@ -154,7 +171,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
     </nav>
 
     <!-- Contenido del Carrito -->
-<main class="container my-5">
+    <main class="container my-5">
         <h1 class="mb-4">Tu Carrito de Compras</h1>
 
         <?php if (empty($productos)): ?>
@@ -170,7 +187,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                         <tr>
                             <th>Producto</th>
                             <th>Medida</th>
-                            <th>Precio</th>
+                            <th>Precio Unitario</th>
                             <th>Cantidad</th>
                             <th>Subtotal</th>
                             <th>Acción</th>
@@ -187,11 +204,15 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                                             $rutaImg = "imagenes/productos/default.png";
                                         }
                                     ?>
-                                    <img src="<?php echo htmlspecialchars($rutaImg); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>" width="60" class="me-3 rounded">
+                                    <img src="<?php echo htmlspecialchars($rutaImg); ?>" 
+                                         alt="<?php echo htmlspecialchars($producto['nombre']); ?>" 
+                                         width="60" 
+                                         class="me-3 rounded"
+                                         onerror="this.src='imagenes/productos/default.png'">
                                     <span><?php echo htmlspecialchars($producto['nombre']); ?></span>
                                 </div>
                             </td>
-                            <td><?php echo htmlspecialchars($producto['medida'] === 'No aplica' ? 'No aplica' : $producto['medida']); ?></td>
+                            <td><?php echo htmlspecialchars($producto['medida']); ?></td>
                             <td><?php echo MONEDA . number_format($producto['precio_final'], 2, '.', ','); ?></td>
                             <td>
                                 <!-- Formulario con clave única -->
@@ -226,7 +247,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 </table>
             </div>
 
-            <div class="row">
+            <div class="row mt-4">
                 <div class="col-md-8">
                     <a href="index.php" class="btn btn-secondary">Seguir comprando</a>
                 </div>
@@ -262,7 +283,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 <div class="footer-col">
                     <h4>Enlaces Rápidos</h4>
                     <ul>
-                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="index.php">Inicio</a></li>
                         <li><a href="Nosotros.html">Nosotros</a></li>
                         <li><a href="productos.html">Productos</a></li>
                         <li><a href="#contacto">Contacto</a></li>
@@ -275,24 +296,32 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
         </div>
     </footer>
 
-    <script src="js/carrito.js"></script>
     <script>
+        // Actualizar contador del carrito en tiempo real
+        function actualizarContadorCarrito() {
+            fetch('clases/obtener_contador_carrito.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        document.getElementById('num_cart').textContent = data.numero;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
         function eliminarProducto(clave) {
             if (confirm('¿Eliminar este producto del carrito?')) {
-                let url = 'clases/eliminar_carrito.php';
                 let formData = new FormData();
-                formData.append('clave', clave); // ← Ahora usamos 'clave'
+                formData.append('clave', clave);
 
-                fetch(url, {
+                fetch('clases/eliminar_carrito.php', {
                     method: 'POST',
-                    body: formData,
-                    mode: 'cors'
+                    body: formData
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.ok) {
-                        let elemento = document.getElementById("num_cart");
-                        if (elemento) elemento.innerHTML = data.numero;
+                        actualizarContadorCarrito();
                         location.reload();
                     } else {
                         alert('Error: ' + (data.mensaje || 'No se pudo eliminar'));
@@ -330,17 +359,16 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
 
             fetch('clases/actualizar_carrito.php', {
                 method: 'POST',
-                body: formData,
-                mode: 'cors'
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
                 if (data.ok) {
-                    let elemento = document.getElementById("num_cart");
-                    if (elemento) elemento.innerHTML = data.numero;
+                    actualizarContadorCarrito();
                     location.reload();
                 } else {
                     alert('Error: ' + (data.mensaje || 'No se pudo actualizar'));
+                    location.reload(); // Recargar para mostrar estado actual
                 }
             })
             .catch(error => {
@@ -348,6 +376,11 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 alert('Error de conexión');
             });
         }
+
+        // Inicializar contador al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            actualizarContadorCarrito();
+        });
     </script>
 </body>
 </html>

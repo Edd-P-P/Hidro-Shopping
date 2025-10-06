@@ -1,124 +1,152 @@
 <?php
+// clases/carrito.php
+
+// Iniciar sesión al principio
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$configPath = __DIR__ . '/../config/config.php';
-$databasePath = __DIR__ . '/../config/database.php';
+// Headers para JSON - DEBE SER LO PRIMERO
+header('Content-Type: application/json');
 
-if (!file_exists($configPath) || !file_exists($databasePath)) {
-    header('Content-Type: application/json');
-    echo json_encode(['ok' => false, 'mensaje' => 'Error interno']);
-    exit;
-}
-
-require_once $configPath;
-require_once $databasePath;
-
-if (!defined('KEY_TOKEN')) {
-    define('KEY_TOKEN', 'tu_clave_secreta_aqui');
-}
-
-$datos = ['ok' => false, 'numero' => 0, 'mensaje' => ''];
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode($datos);
-    exit;
-}
-
-if (!isset($_POST['id']) || !isset($_POST['token']) || !isset($_POST['cantidad'])) {
-    echo json_encode(['ok' => false, 'mensaje' => 'Faltan datos']);
-    exit;
-}
-
-$id = (int)$_POST['id'];
-$token = $_POST['token'];
-$cantidad = max(1, (int)$_POST['cantidad']);
-$medida = $_POST['medida'] ?? null;
-
-$token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
-if (!hash_equals($token, $token_tmp)) {
-    echo json_encode(['ok' => false, 'mensaje' => 'Token inválido']);
-    exit;
-}
+// Respuesta por defecto
+$response = ['ok' => false, 'numero' => 0, 'mensaje' => 'Error desconocido'];
 
 try {
+    // Verificar método
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Método no permitido');
+    }
+
+    // Verificar datos requeridos
+    if (!isset($_POST['id']) || !isset($_POST['token']) || !isset($_POST['cantidad'])) {
+        throw new Exception('Faltan datos requeridos');
+    }
+
+    // Incluir configuraciones
+    require_once __DIR__ . '/../config/config.php';
+    require_once __DIR__ . '/../config/database.php';
+
+    // Validar que KEY_TOKEN esté definido
+    if (!defined('KEY_TOKEN')) {
+        throw new Exception('Configuración incompleta');
+    }
+
+    // Obtener datos
+    $id = (int)$_POST['id'];
+    $token = $_POST['token'];
+    $cantidad = max(1, (int)$_POST['cantidad']);
+    $medida = $_POST['medida'] ?? '';
+    $precio = isset($_POST['precio']) ? (float)$_POST['precio'] : 0;
+    $descuento = isset($_POST['descuento']) ? (float)$_POST['descuento'] : 0;
+
+    // Validar token
+    $token_tmp = hash_hmac('sha1', $id, KEY_TOKEN);
+    if (!hash_equals($token, $token_tmp)) {
+        throw new Exception('Token inválido');
+    }
+
+    // Conectar a la base de datos
     $db = new Database();
     $con = $db->conectar();
 
-    // Obtener producto base
+    // Obtener producto
     $stmt = $con->prepare("SELECT id, nombre, precio, descuento, stock, requiere_medidas FROM productos WHERE id = ? AND activo = 1");
     $stmt->execute([$id]);
     $producto = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$producto) {
-        echo json_encode(['ok' => false, 'mensaje' => 'Producto no disponible']);
-        exit;
+        throw new Exception('Producto no disponible');
     }
 
     $requiere_medidas = (int)$producto['requiere_medidas'];
-    $precio_usado = (float)$producto['precio'];
-    $descuento_usado = (float)$producto['descuento'];
-    $stock_disponible = (int)$producto['stock']; // ← Para productos sin variantes
+    
+    // Inicializar variables
+    $precio_final = (float)$producto['precio'];
+    $descuento_final = (float)$producto['descuento'];
+    $stock_disponible = (int)$producto['stock'];
 
-    // Si requiere medidas, validar variante
+    // Si requiere medidas
     if ($requiere_medidas === 1) {
-        if (!$medida) {
-            echo json_encode(['ok' => false, 'mensaje' => 'Selecciona una medida']);
-            exit;
+        if (empty($medida)) {
+            throw new Exception('Por favor selecciona una medida');
         }
 
-        // Me confundía y le puse stock_m en lugar de stock
-        $stmt = $con->prepare("
-            SELECT pm.precio_m, pm.descuento_m, pm.stock_m AS stock, mc.medida
-            FROM productos_medidas pm
-            JOIN medidas_categoria mc ON pm.medida_id = mc.id
-            WHERE pm.producto_id = ? AND mc.medida = ?
-        ");
+        // Buscar la variante específica
+        $stmt = $con->prepare("SELECT precio_m, descuento_m, stock_m FROM productos_medidas WHERE producto_id = ? AND medida_id = ?");
         $stmt->execute([$id, $medida]);
         $variante = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$variante) {
-            echo json_encode(['ok' => false, 'mensaje' => 'Variante no disponible']);
-            exit;
+            throw new Exception('Medida no disponible');
         }
 
-        $stock_disponible = (int)$variante['stock'];
-        $precio_usado = (float)$variante['precio_m'];
-        $descuento_usado = (float)$variante['descuento_m'];
+        $stock_disponible = (int)$variante['stock_m'];
+        $precio_final = (float)$variante['precio_m'];
+        $descuento_final = (float)$variante['descuento_m'];
+    } else {
+        // Usar valores del formulario para productos sin medidas
+        $precio_final = $precio;
+        $descuento_final = $descuento;
     }
 
-    // verificar stock si sigue siendo menor que cantidad
+    // Validar stock
     if ($stock_disponible < $cantidad) {
-        echo json_encode(['ok' => false, 'mensaje' => "Stock insuficiente. Disponible: {$stock_disponible}"]);
-        exit;
+        throw new Exception("Stock insuficiente. Disponible: $stock_disponible unidades");
     }
 
-    // Clave única
-    $clave = $requiere_medidas ? "{$id}-{$medida}" : $id;
+    // Calcular precio con descuento
+    $precio_con_descuento = $descuento_final > 0 
+        ? $precio_final - ($precio_final * $descuento_final / 100)
+        : $precio_final;
 
-    if (!isset($_SESSION['carrito']['productos'])) {
+    // Clave única para el carrito
+    $clave = $requiere_medidas ? "$id-$medida" : (string)$id;
+
+    // Inicializar carrito si no existe - CORREGIDO: estructura consistente
+    if (!isset($_SESSION['carrito'])) {
+        $_SESSION['carrito'] = ['productos' => []];
+    } elseif (!isset($_SESSION['carrito']['productos'])) {
         $_SESSION['carrito']['productos'] = [];
     }
 
-    $_SESSION['carrito']['productos'][$clave] = [
-        'id' => $id,
-        'cantidad' => $cantidad,
-        'precio' => $precio_usado,
-        'descuento' => $descuento_usado,
-        'medida' => $requiere_medidas ? $medida : null,
-        'requiere_medidas' => $requiere_medidas
-    ];
-
-    // Calcular total
-    $total = 0;
-    foreach ($_SESSION['carrito']['productos'] as $item) {
-        $total += $item['cantidad'];
+    // Agregar o actualizar producto - CORREGIDO: estructura consistente
+    if (isset($_SESSION['carrito']['productos'][$clave])) {
+        $nueva_cantidad = $_SESSION['carrito']['productos'][$clave]['cantidad'] + $cantidad;
+        if ($nueva_cantidad > $stock_disponible) {
+            throw new Exception("No puedes agregar más de $stock_disponible unidades");
+        }
+        $_SESSION['carrito']['productos'][$clave]['cantidad'] = $nueva_cantidad;
+    } else {
+        $_SESSION['carrito']['productos'][$clave] = [
+            'id' => $id,
+            'cantidad' => $cantidad,
+            'precio' => $precio_con_descuento,
+            'medida' => $medida,
+            'requiere_medidas' => $requiere_medidas
+        ];
     }
 
-    echo json_encode(['ok' => true, 'numero' => $total]);
+    // Calcular total de productos en carrito - CORREGIDO: estructura consistente
+    $total_productos = 0;
+    foreach ($_SESSION['carrito']['productos'] as $item) {
+        // CORRECIÓN: Verificar que existe la clave 'cantidad'
+        if (isset($item['cantidad'])) {
+            $total_productos += $item['cantidad'];
+        }
+    }
+
+    // Respuesta exitosa
+    $response = [
+        'ok' => true, 
+        'numero' => $total_productos, 
+        'mensaje' => 'Producto agregado al carrito'
+    ];
 
 } catch (Exception $e) {
-    echo json_encode(['ok' => false, 'mensaje' => 'Error al procesar']);
+    $response = ['ok' => false, 'numero' => 0, 'mensaje' => $e->getMessage()];
 }
+
+// Enviar respuesta JSON limpia
+echo json_encode($response);
 exit;
