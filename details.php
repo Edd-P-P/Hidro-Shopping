@@ -23,7 +23,7 @@ if (!hash_equals($token, $token_tmp)) {
 // Obtener información del producto base
 $stmt = $con->prepare("
     SELECT id, nombre, descripcion, precio, descuento, stock, categoria_id, 
-           especificaciones, tabla_med, requiere_medidas 
+           especificaciones, tabla_med, requiere_medidas
     FROM productos 
     WHERE id = ? AND categoria_id = ? AND activo = 1 
     LIMIT 1
@@ -195,6 +195,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                 <!-- Columna de imagen del producto -->
                 <div class="col-md-6 order-md-1">
                 <img src="<?php echo $rutaImg; ?>" alt="<?php echo $nombre; ?>" class="product-image">
+                <h1>En esta seccion van las nuevas tarjetas de productos</h1>
             </div>
             
             <!-- Columna de detalles del producto -->
@@ -490,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <?php endif; ?>
 }); 
 
-// --- Función para agregar al carrito CON MEJOR DEPURACIÓN ---
+// --- Función para agregar al carrito con upgrade ---
 function addProducto(id, token) {
     const medidaTexto = document.getElementById('medida-texto-seleccionada').value;
     const stock = parseInt(document.getElementById('stock-seleccionado').value);
@@ -574,9 +575,9 @@ function addProducto(id, token) {
             if (document.getElementById("num_cart")) {
                 document.getElementById("num_cart").textContent = data.numero;
             }
-            alert('✓ Producto agregado al carrito correctamente');
+            alert('Producto agregado al carrito correctamente');
         } else {
-            alert('✗ Error al agregar el producto: ' + (data.mensaje || 'Error desconocido'));
+            alert('Error al agregar el producto: ' + (data.mensaje || 'Error desconocido'));
         }
     })
     .catch(error => {
