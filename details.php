@@ -36,6 +36,27 @@ if (!$row) {
     exit;
 }
 
+// OBTENER PRODUCTOS RECOMENDADOS POR CATEGORÍA (SIN EXCLUIR EL PRODUCTO ACTUAL)
+$sql_recomendados = $con->prepare("
+    SELECT p.id, p.nombre, p.precio, p.descuento, p.imagen, p.categoria_id
+    FROM productos p
+    INNER JOIN recomendaciones_categoria rc ON p.id = rc.producto_id
+    WHERE rc.categoria_id = ? AND p.activo = 1 AND rc.activo = 1
+    ORDER BY rc.orden ASC
+    LIMIT 4
+");
+$sql_recomendados->execute([$categoria_id]);
+$productos_recomendados = $sql_recomendados->fetchAll(PDO::FETCH_ASSOC);
+
+// DEPURACIÓN - Agrega esto temporalmente para verificar
+echo "<!-- DEBUG: Categoría actual: $categoria_id -->";
+echo "<!-- DEBUG: Producto actual ID: $id -->";
+echo "<!-- DEBUG: Productos recomendados encontrados: " . count($productos_recomendados) . " -->";
+foreach($productos_recomendados as $index => $prod) {
+    echo "<!-- DEBUG: Recomendado $index - ID: " . $prod['id'] . ", Nombre: " . $prod['nombre'] . " -->";
+}
+
+// Resto de tu código existente...
 $especificaciones = !empty($row['especificaciones']) ? html_entity_decode($row['especificaciones'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
 $tabla_med = !empty($row['tabla_med']) ? html_entity_decode($row['tabla_med'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
 
@@ -43,16 +64,30 @@ $requiere_medidas = (int)($row['requiere_medidas'] ?? 0);
 $stock_base = (int)($row['stock'] ?? 0);
 
 // CORRECIÓN: Obtener las medidas directamente de productos_medidas
+// SOLUCIÓN DINÁMICA: Ordenar después de obtener los datos
 $variantes = [];
 if ($requiere_medidas === 1) {
     $stmtVar = $con->prepare("
         SELECT medida_id, precio_m AS precio, stock_m, descuento_m
         FROM productos_medidas 
-        WHERE producto_id = ? 
-        ORDER BY medida_id
+        WHERE producto_id = ?
     ");
     $stmtVar->execute([$id]);
     $variantes = $stmtVar->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Definir el orden deseado
+    $orden_medidas = ['½"' , '¾"' ,'1"' ,'1 ¼"' ,'1 ½"' , '2"'];
+    
+    // Ordenar el array según el orden definido
+    usort($variantes, function($a, $b) use ($orden_medidas) {
+        $posA = array_search($a['medida_id'], $orden_medidas);
+        $posB = array_search($b['medida_id'], $orden_medidas);
+        
+        if ($posA === false) $posA = 999;
+        if ($posB === false) $posB = 999;
+        
+        return $posA - $posB;
+    });
 }
 
 $nombre = htmlspecialchars($row['nombre']);
@@ -85,6 +120,39 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
 <style>
     ul {
         padding-left: 1rem;
+    }
+    .recomendados-section {
+    border-top: 2px solid #e9ecef;
+    padding-top: 2rem;
+}
+
+    .section-title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        color: #333;
+        font-size: 1.5rem;
+    }
+
+    .product-card-link {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #dee2e6;
+    }
+
+    .product-card-link:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .row{
+        margin-left: calc(1.4 * var(--bs-gutter-x));
+        justify-content: space-between;
+    }
+    .card-title {
+        font-size: 0.9rem;
+        height: 3.5rem;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 </style>
 <body>
@@ -195,7 +263,68 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                 <!-- Columna de imagen del producto -->
                 <div class="col-md-6 order-md-1">
                 <img src="<?php echo $rutaImg; ?>" alt="<?php echo $nombre; ?>" class="product-image">
-                <h1>En esta seccion van las nuevas tarjetas de productos</h1>
+                <!-- Sección de Productos Recomendados -->
+                <?php if (!empty($productos_recomendados)): ?>
+                <div class="recomendados-section mt-5">
+                    <h3 class="section-title mb-4">Productos Relacionados</h3>
+                    <div class="row">
+                        <?php foreach($productos_recomendados as $prod): ?>
+                        <div class="col-md-3 col-6 mb-4">
+                            <div class="product-card-recomendado">
+                                <?php
+                                $id_recomendado = $prod['id'];
+                                $categoria_recomendado = $prod['categoria_id'];
+                                
+                                // Buscar imagen en múltiples ubicaciones posibles
+                                $rutas_posibles = [
+                                    "imagenes/productos/" . $categoria_recomendado . '/' . $id_recomendado . ".png",
+                                    "imagenes/productos/" . $categoria_recomendado . '/' . $id_recomendado . ".PNG",
+                                    "imagenes/productos/" . $categoria_recomendado . '/' . $id_recomendado . ".jpg",
+                                ];
+                                
+                                $rutaImgRecomendado = "imagenes/productos/default.png";
+                                foreach ($rutas_posibles as $ruta) {
+                                    if (file_exists($ruta)) {
+                                        $rutaImgRecomendado = $ruta;
+                                        break;
+                                    }
+                                }
+                                
+                                $precio_recomendado = (float)$prod['precio'];
+                                $descuento_recomendado = (float)$prod['descuento'];
+                                $precio_final_recomendado = $descuento_recomendado > 0 
+                                    ? $precio_recomendado - (($precio_recomendado * $descuento_recomendado) / 100)
+                                    : $precio_recomendado;
+                                
+                                $token_recomendado = hash_hmac('sha1', $id_recomendado, KEY_TOKEN);
+                                ?>
+                                
+                                <a href="details.php?id=<?php echo $id_recomendado; ?>&categoria_id=<?php echo $categoria_recomendado; ?>&token=<?php echo $token_recomendado; ?>" class="text-decoration-none text-dark">
+                                    <div class="card h-100 product-card-link border-0 shadow-sm">
+                                        <img src="<?php echo $rutaImgRecomendado; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($prod['nombre']); ?>" style="height: 180px; object-fit: contain; padding: 10px;">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title"><?php echo htmlspecialchars($prod['nombre']); ?></h6>
+                                            
+                                            <?php if ($descuento_recomendado > 0): ?>
+                                                <p class="mb-1">
+                                                    <small class="text-muted"><del><?php echo MONEDA . number_format($precio_recomendado, 2); ?></del></small>
+                                                </p>
+                                                <p class="fw-bold text-primary mb-0">
+                                                    <?php echo MONEDA . number_format($precio_final_recomendado, 2); ?>
+                                                    <small class="text-success"><?php echo $descuento_recomendado; ?>% OFF</small>
+                                                </p>
+                                            <?php else: ?>
+                                                <p class="fw-bold text-primary mb-0"><?php echo MONEDA . number_format($precio_recomendado, 2); ?></p>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endif; ?>   
             </div>
             
             <!-- Columna de detalles del producto -->
