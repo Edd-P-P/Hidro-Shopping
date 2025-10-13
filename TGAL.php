@@ -5,8 +5,8 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
-// Agregué la categoría categoria_id a la consulta SQL porque no jalaba xd
-$sql = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = 1");
+// Consulta para productos CPVC (categoría 8)
+$sql = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = 8");
 $sql->execute();
 $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -16,7 +16,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPVC</title>
+    <title>GALVANIZADO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -197,12 +197,13 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 <section class="products-CPVC_A" id="products">
     <div class="container-products">
         <h2 class="section-title">Productos Destacados</h2>
+        <!-- Botón especial para Niples si existen -->
         <div class="product-grid">
             <?php foreach($resultado as $row): ?>
             <div class="product-card">
                 <?php
                 $id = $row['id'];
-                $imagen = "Imagenes/productos/1/". $id.".PNG";
+                $imagen = "Imagenes/productos/8/". $id.".PNG";
                 if (!file_exists($imagen)) {
                     $imagen = "Imagenes/default.png";
                 }
