@@ -4,10 +4,16 @@ require_once 'config/database.php';
 
 $db = new Database();
 $con = $db->conectar();
+
+// Obtener categorías para el menú
+$sql_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
+$sql_categorias->execute();
+$categorias = $sql_categorias->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener productos destacados
 $sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 AND categoria_id = 9");
 $sql->execute();
 $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -37,14 +43,14 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         
         <div class="mobile-categories">
             <ul>
-                <li><a href="CPVC_A.php" target="_blank">CPVC agua caliente</a></li>
-                <li><a href="#">Tubería PPR</a></li>
-                <li><a href="#">Tubería galvanizada</a></li>
-                <li><a href="#">Accesorios domésticos</a></li>
-                <li><a href="#">Medidores y valvulas</a></li>
-                <li><a href="#">Linea Sanitaria</a></li>
-                <li><a href="#">Aspersores</a></li>
-                <li><a href="#">Nebulizadores</a></li>
+                <?php foreach($categorias as $categoria): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>" 
+                           target="_blank">
+                            <?php echo htmlspecialchars($categoria['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
         
@@ -108,14 +114,13 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="CPVC_A.php" >CPVC agua caliente</a></li>
-                <li><a href="#">Tubería PPR</a></li>
-                <li><a href="#">Tubería galvanizada</a></li>
-                <li><a href="#">Accesorios domésticos</a></li>
-                <li><a href="#">Medidores y valvulas</a></li>
-                <li><a href="#">Linea Sanitaria</a></li>
-                <li><a href="#">Aspersores</a></li>
-                <li><a href="#">Nebulizadores</a></li>
+                <?php foreach($categorias as $categoria): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
+                            <?php echo htmlspecialchars($categoria['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </nav>
