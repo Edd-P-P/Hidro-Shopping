@@ -8,7 +8,7 @@ $con = $db->conectar();
 $id = $_GET['id'] ?? '';
 $slug = $_GET['slug'] ?? '';
 
-// Obtener información completa de la categoría con todos los campos
+// Obtener información de la categoría
 $sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
 $sql_categoria->execute([$id, $slug]);
 $categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
@@ -18,7 +18,20 @@ if (!$categoria) {
     exit;
 }
 
-// Obtener productos de esta categoría específica
+// Establecer valores por defecto
+$categoria['descripcion'] = $categoria['descripcion'] ?? 'Descripción de ' . $categoria['nombre'];
+$categoria['color_fondo'] = $categoria['color_fondo'] ?? '#ffffff';
+$categoria['texto_color'] = $categoria['texto_color'] ?? '#000000';
+$categoria['boton_primario'] = $categoria['boton_primario'] ?? '#007bff';
+$categoria['boton_secundario'] = $categoria['boton_secundario'] ?? '#6c757d';
+
+// Determinar imagen de hero dinámicamente
+$imagen_hero = "Imagenes/hero/" . $categoria['id'] . ".png";
+if (!file_exists($imagen_hero)) {
+    $imagen_hero = "Imagenes/hero.png";
+}
+
+// Obtener productos de esta categoría
 $sql_productos = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = ?");
 $sql_productos->execute([$id]);
 $productos = $sql_productos->fetchAll(PDO::FETCH_ASSOC);
@@ -28,25 +41,15 @@ $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias W
 $sql_todas_categorias->execute();
 $todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
 
-// Establecer valores por defecto si los campos están vacíos
-$categoria['descripcion'] = $categoria['descripcion'] ?? 'Descripción de la categoría ' . $categoria['nombre'];
-$categoria['color_fondo'] = $categoria['color_fondo'] ?? '#1e3a8a';
-$categoria['texto_color'] = $categoria['texto_color'] ?? '#ffffff';
-$categoria['boton_primario'] = $categoria['boton_primario'] ?? '#3b82f6';
-$categoria['boton_secundario'] = $categoria['boton_secundario'] ?? '#f59e0b';
-
-// Función para ajustar el brillo de los colores (para hover effects)
+// Función simple para ajustar brillo (solo para botones)
 function adjustBrightness($hex, $steps) {
-    // Si el color está vacío, usar un valor por defecto
-    if (empty($hex)) {
-        $hex = '#3b82f6';
-    }
+    if (empty($hex)) return '#3b82f6';
     
-    $steps = max(-255, min(255, $steps));
     $hex = str_replace('#', '', $hex);
+    $steps = max(-255, min(255, $steps));
     
     if (strlen($hex) == 3) {
-        $hex = str_repeat(substr($hex,0,1), 2).str_repeat(substr($hex,1,1), 2).str_repeat(substr($hex,2,1), 2);
+        $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
     }
     
     $r = hexdec(substr($hex,0,2));
@@ -57,14 +60,12 @@ function adjustBrightness($hex, $steps) {
     $g = max(0,min(255,$g + $steps));  
     $b = max(0,min(255,$b + $steps));
     
-    $r_hex = str_pad(dechex($r), 2, '0', STR_PAD_LEFT);
-    $g_hex = str_pad(dechex($g), 2, '0', STR_PAD_LEFT);
-    $b_hex = str_pad(dechex($b), 2, '0', STR_PAD_LEFT);
-    
-    return '#'.$r_hex.$g_hex.$b_hex;
+    return '#'.str_pad(dechex($r),2,'0',STR_PAD_LEFT)
+           .str_pad(dechex($g),2,'0',STR_PAD_LEFT)
+           .str_pad(dechex($b),2,'0',STR_PAD_LEFT);
 }
 
-// Calcular colores hover
+// Calcular colores hover para botones
 $color_primario_hover = adjustBrightness($categoria['boton_primario'], -20);
 $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
 ?>
@@ -78,41 +79,90 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .hero-categoria {
-            background-color: <?php echo $categoria['color_fondo']; ?>;
-            color: <?php echo $categoria['texto_color']; ?>;
-            <?php if (!empty($categoria['imagen_hero'])): ?>
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('<?php echo $categoria['imagen_hero']; ?>');
-            background-size: cover;
-            background-position: center;
-            <?php endif; ?>
-        }
-        
-        .btn-categoria-primario {
-            background-color: <?php echo $categoria['boton_primario']; ?>;
-            border-color: <?php echo $categoria['boton_primario']; ?>;
-            color: white;
-        }
-        
-        .btn-categoria-primario:hover {
-            background-color: <?php echo $color_primario_hover; ?>;
-            border-color: <?php echo $color_primario_hover; ?>;
-            color: white;
-        }
-        
-        .btn-categoria-secundario {
-            background-color: <?php echo $categoria['boton_secundario']; ?>;
-            border-color: <?php echo $categoria['boton_secundario']; ?>;
-            color: white;
-        }
-        
-        .btn-categoria-secundario:hover {
-            background-color: <?php echo $color_secundario_hover; ?>;
-            border-color: <?php echo $color_secundario_hover; ?>;
-            color: white;
-        }
-    </style>
+<style>
+    .section-title{
+        color: <?php echo $categoria['texto_color']; ?>;
+    }
+    body {
+        background-color: <?php echo $categoria['color_fondo']; ?>;
+    }
+    
+    .hero-categoria {
+        background: 
+            /* Color semitransparente - ajusta el 0.3 para más/menos opacidad */
+            linear-gradient(
+                rgba(30, 58, 138, 0.2), 
+                rgba(30, 58, 138, 0.2)
+            ),
+            /* Imagen de fondo */
+            url('<?php echo $imagen_hero; ?>');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #000000;
+        position: relative;
+    }
+    .hero-content{
+        max-width: 1200px;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    /* Si quieres que el color sea el de la categoría en lugar de azul fijo */
+    .hero-categoria-con-color {
+        background: 
+            linear-gradient(
+                rgba(<?php 
+                    // Usar el color de la categoría con baja opacidad
+                    $color = str_replace('#', '', $categoria['boton_primario']);
+                    if(strlen($color) == 6) {
+                        $r = hexdec(substr($color,0,2));
+                        $g = hexdec(substr($color,2,2));
+                        $b = hexdec(substr($color,4,2));
+                        echo "$r, $g, $b, 0.2"; // Muy baja opacidad (0.2 = 20%)
+                    } else {
+                        echo "30, 58, 138, 0.3"; // Fallback azul
+                    }
+                ?>), 
+                rgba(<?php 
+                    if(strlen($color) == 6) {
+                        echo "$r, $g, $b, 0.3"; // Un poco más de opacidad
+                    } else {
+                        echo "30, 58, 138, 0.3";
+                    }
+                ?>)
+            ),
+            url('<?php echo $imagen_hero; ?>');
+        background-size: cover;
+        background-position: center;
+        color: <?php echo $categoria['texto_color']; ?>;
+    }
+    
+    .btn-categoria-primario {
+        background-color: <?php echo $categoria['boton_primario']; ?>;
+        border-color: <?php echo $categoria['boton_primario']; ?>;
+        color: white;
+    }
+    
+    .btn-categoria-primario:hover {
+        background-color: <?php echo $color_primario_hover; ?>;
+        border-color: <?php echo $color_primario_hover; ?>;
+        color: white;
+    }
+    
+    .btn-categoria-secundario {
+        background-color: <?php echo $categoria['boton_secundario']; ?>;
+        border-color: <?php echo $categoria['boton_secundario']; ?>;
+        color: white;
+    }
+    
+    .btn-categoria-secundario:hover {
+        background-color: <?php echo $color_secundario_hover; ?>;
+        border-color: <?php echo $color_secundario_hover; ?>;
+        color: white;
+    }
+</style>
 </head>
 
 <body>
@@ -256,9 +306,6 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
                             </div>
                             <div class="btn-action"> 
                                 <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
-                                <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
-                                Añadir al Carrito
-                                </button>
                             </div>
                         </div>
                     </div>
