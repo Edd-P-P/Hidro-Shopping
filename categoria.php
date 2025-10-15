@@ -9,7 +9,7 @@ $id = $_GET['id'] ?? '';
 $slug = $_GET['slug'] ?? '';
 
 // Obtener información de la categoría
-$sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
+$sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
 $sql_categoria->execute([$id, $slug]);
 $categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
 
@@ -81,7 +81,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
     <link rel="stylesheet" href="styles.css">
 <style>
     .section-title{
-        color: <?php echo $categoria['texto_color']; ?>;
+        color: <?php echo $categoria['color_titulo']; ?>;
     }
     body {
         background-color: <?php echo $categoria['color_fondo']; ?>;
@@ -99,7 +99,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        color: #000000;
+        color: <?php echo $categoria['texto_color']; ?>;
         position: relative;
     }
     .hero-content{
@@ -161,6 +161,9 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         background-color: <?php echo $color_secundario_hover; ?>;
         border-color: <?php echo $color_secundario_hover; ?>;
         color: white;
+    }
+    footer {
+        margin-top: 20px;
     }
 </style>
 </head>
@@ -319,32 +322,6 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
                 </div>
             <?php endif; ?>
         </div>         
-    </section>
-
-    <!-- Características Específicas de la Categoría -->
-    <section class="features">
-        <div class="container features-container">
-            <div class="feature">
-                <i class="fas fa-certificate"></i>
-                <h3>Calidad Garantizada</h3>
-                <p>Productos <?php echo htmlspecialchars($categoria['nombre']); ?> de la más alta calidad</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-shipping-fast"></i>
-                <h3>Envío Inmediato</h3>
-                <p>Disponibilidad inmediata en <?php echo htmlspecialchars($categoria['nombre']); ?></p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-tools"></i>
-                <h3>Asesoría Especializada</h3>
-                <p>Expertos en <?php echo htmlspecialchars($categoria['nombre']); ?></p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-award"></i>
-                <h3>Marcas Líderes</h3>
-                <p>Las mejores marcas en <?php echo htmlspecialchars($categoria['nombre']); ?></p>
-            </div>
-        </div>
     </section>
 
     <!-- Footer -->

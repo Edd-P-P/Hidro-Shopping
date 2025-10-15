@@ -525,7 +525,7 @@ to me
 }
 
 .product-card {
-    background: var(--white);
+    background: #d1d1d1;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--shadow);
