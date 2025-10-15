@@ -244,7 +244,32 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         </div>
     </header>
 
-    <!-- Navegación de Categorías -->
+    <!-- Navegación de Categorías Retráctil - SOLO ESCRITORIO -->
+    <nav class="categories-nav-desktop">
+        <button class="categories-toggle-desktop" id="categoriesToggleDesktop">
+            <span><i class="fas fa-th-large me-2"></i> CATEGORÍAS</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="categories-dropdown-desktop" id="categoriesDropdownDesktop">
+            <div class="categories-dropdown-header">
+                <a href="index.php" class="back-home-btn">
+                    <i class="fas fa-home me-2"></i> Volver al Inicio
+                </a>
+                <span class="categories-title">Todas Nuestras Categorías</span>
+            </div>
+            <ul class="categories-dropdown-list">
+                <?php foreach($todas_categorias as $cat): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
+                            <?php echo htmlspecialchars($cat['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Navegación de Categorías Original (para móvil) -->
     <nav class="categories-nav">
         <div class="container categories-container">
             <button class="hamburger" id="hamburgerMenu">

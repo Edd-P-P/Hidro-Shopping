@@ -10,6 +10,11 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
+// OBTENER CATEGORÍAS PARA EL MENÚ - ESTO FALTABA
+$sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
+$sql_todas_categorias->execute();
+$todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
+
 $productos = [];
 $total = 0;
 
@@ -77,22 +82,216 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        ul {
+            padding-left: 1rem;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quantity-controls input {
+            max-width: 70px;
+            text-align: center;
+        }
+
+        /* ESTILOS PARA EL MENÚ RETRÁCTIL - AGREGAR ESTOS */
+        .categories-nav-desktop {
+            position: relative;
+            background: #2c3e50;
+            display: none;
+        }
+
+        .categories-toggle-desktop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .categories-toggle-desktop:hover {
+            background: linear-gradient(135deg, #3d566e, #34495e);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .categories-toggle-desktop i {
+            transition: transform 0.3s ease;
+            font-size: 16px;
+        }
+
+        .categories-toggle-desktop.active i {
+            transform: rotate(180deg);
+        }
+
+        .categories-dropdown-desktop {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .categories-dropdown-desktop.active {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .categories-dropdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #ecf0f1, #dde4e6);
+            border-bottom: 2px solid #bdc3c7;
+            font-weight: 700;
+            color: #2c3e50;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .back-home-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .back-home-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #2471a3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            color: white;
+        }
+
+        .back-home-btn i {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .categories-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .categories-dropdown-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0;
+        }
+
+        .categories-dropdown-list li {
+            border-bottom: 1px solid #ecf0f1;
+            border-right: 1px solid #ecf0f1;
+        }
+
+        .categories-dropdown-list li:nth-child(3n) {
+            border-right: none;
+        }
+
+        .categories-dropdown-list li:last-child {
+            border-bottom: none;
+        }
+
+        .categories-dropdown-list a {
+            display: block;
+            padding: 15px 25px;
+            color: #34495e;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-family: 'PT Sans', sans-serif;
+        }
+
+        .categories-dropdown-list a:hover {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #2980b9;
+            padding-left: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        /* Mostrar solo en pantallas grandes */
+        @media (min-width: 1024px) {
+            .categories-nav-desktop {
+                display: block;
+            }
+            
+            /* Ocultar la navegación original de categorías en escritorio */
+            .categories-nav {
+                display: none;
+            }
+        }
+
+        /* Para móviles, mostrar la navegación original */
+        @media (max-width: 1023px) {
+            .categories-nav-desktop {
+                display: none;
+            }
+            
+            .categories-nav {
+                display: block;
+            }
+        }
+    </style>
 </head>
-<style>
-    ul {
-        padding-left: 1rem;
-    }
-    .quantity-controls {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .quantity-controls input {
-        max-width: 70px;
-        text-align: center;
-    }
-</style>
 <body>
+
+    <!-- Overlay para menú móvil -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    
+    <!-- Menú lateral móvil -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="mobile-sidebar-header">
+            <div class="logo">Categorias</div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-categories">
+            <ul>
+                <?php foreach($todas_categorias as $cat): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
+                            <?php echo htmlspecialchars($cat['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        
+        <div class="mobile-sidebar-footer">
+            <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
+            <button href="#"><i class="fas fa-shopping-cart"></i> Carrito</button>
+            <a href="#"><i class="fas fa-phone"></i> Contacto</a>
+        </div>
+    </div>
 
     <!-- Top Bar -->
     <div class="top-bar">
@@ -112,11 +311,9 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
     <header>
         <div class="container header-container">
             <div class="logo-container">            
-                <a href="index.php"><img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas"></a>
-                <a href="index.php"><div class="logo">HIDROSISTEMAS</div></a>
+                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
+                <div class="logo">HIDROSISTEMAS</div>
             </div>
-            
-            <!-- Barra de búsqueda -->
             <div class="search-bar">
                 <form action="busqueda.php" method="GET" class="d-flex align-items-center">
                     <i class="fas fa-search me-2"></i>
@@ -129,43 +326,55 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                     >
                 </form>
             </div>
-            
             <div class="header-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="checkout.php" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">
-                        <?php 
-                        // Mostrar número de items en carrito
-                        $total_items = 0;
-                        if (isset($_SESSION['carrito']['productos'])) {
-                            foreach ($_SESSION['carrito']['productos'] as $item) {
-                                $total_items += $item['cantidad'];
-                            }
-                        }
-                        echo $total_items;
-                        ?>
-                    </span>
+                    <span id="num_cart" class="cart-count"><?php echo count($productos); ?></span>
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Navegación de Categorías -->
+    <!-- Navegación de Categorías Retráctil - SOLO ESCRITORIO -->
+    <nav class="categories-nav-desktop">
+        <button class="categories-toggle-desktop" id="categoriesToggleDesktop">
+            <span><i class="fas fa-th-large me-2"></i> CATEGORÍAS</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="categories-dropdown-desktop" id="categoriesDropdownDesktop">
+            <div class="categories-dropdown-header">
+                <a href="index.php" class="back-home-btn">
+                    <i class="fas fa-home me-2"></i> Volver al Inicio
+                </a>
+                <span class="categories-title">Todas Nuestras Categorías</span>
+            </div>
+            <ul class="categories-dropdown-list">
+                <?php foreach($todas_categorias as $cat): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
+                            <?php echo htmlspecialchars($cat['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Navegación de Categorías Original (para móvil) -->
     <nav class="categories-nav">
         <div class="container categories-container">
             <button class="hamburger" id="hamburgerMenu">
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="CPVC_A.php">CPVC agua caliente</a></li>
-                <li><a href="#">Tubería PPR</a></li>
-                <li><a href="#">Tubería galvanizada</a></li>
-                <li><a href="#">Accesorios domésticos</a></li>
-                <li><a href="#">Medidores y válvulas</a></li>
-                <li><a href="#">Linea Sanitaria</a></li>
-                <li><a href="#">Aspersores</a></li>
-                <li><a href="#">Nebulizadores</a></li>
+                <?php foreach($todas_categorias as $cat): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
+                            <?php echo htmlspecialchars($cat['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </nav>
@@ -200,7 +409,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                                 <div class="d-flex align-items-center">
                                     <?php
                                         $rutaImg = "imagenes/productos/" . $producto['categoria_id'] . '/' . $producto['id'] . ".png";
-                                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
+                                        if (!file_exists($rutaImg)) {
                                             $rutaImg = "imagenes/productos/default.png";
                                         }
                                     ?>
@@ -297,16 +506,11 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
     </footer>
 
     <script>
-        // Actualizar contador del carrito en tiempo real
+        // SOLUCIÓN AL ERROR: Reemplazar la función que busca el archivo que no existe
         function actualizarContadorCarrito() {
-            fetch('clases/obtener_contador_carrito.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        document.getElementById('num_cart').textContent = data.numero;
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+            // En lugar de hacer fetch a un archivo que no existe, actualizamos con los productos actuales
+            const count = <?php echo count($productos); ?>;
+            document.getElementById('num_cart').textContent = count;
         }
 
         function eliminarProducto(clave) {
@@ -380,6 +584,34 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
         // Inicializar contador al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
             actualizarContadorCarrito();
+            
+            // Script para el menú retráctil de categorías en ESCRITORIO
+            const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
+            const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
+
+            if (categoriesToggleDesktop && categoriesDropdownDesktop) {
+                categoriesToggleDesktop.addEventListener('click', function() {
+                    categoriesDropdownDesktop.classList.toggle('active');
+                    categoriesToggleDesktop.classList.toggle('active');
+                });
+
+                // Cerrar el menú al hacer clic fuera de él
+                document.addEventListener('click', function(event) {
+                    if (!categoriesToggleDesktop.contains(event.target) && !categoriesDropdownDesktop.contains(event.target)) {
+                        categoriesDropdownDesktop.classList.remove('active');
+                        categoriesToggleDesktop.classList.remove('active');
+                    }
+                });
+
+                // Cerrar el menú al hacer clic en un enlace de categoría
+                const categoryLinks = categoriesDropdownDesktop.querySelectorAll('a');
+                categoryLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        categoriesDropdownDesktop.classList.remove('active');
+                        categoriesToggleDesktop.classList.remove('active');
+                    });
+                });
+            }
         });
     </script>
 </body>

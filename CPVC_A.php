@@ -5,13 +5,8 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
-// Obtener categorías para el menú
-$sql_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
-$sql_categorias->execute();
-$categorias = $sql_categorias->fetchAll(PDO::FETCH_ASSOC);
-
-// Obtener productos destacados
-$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 AND categoria_id = 9");
+// Agregué la categoría categoria_id a la consulta SQL porque no jalaba xd
+$sql = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = 1");
 $sql->execute();
 $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -21,14 +16,66 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HidroBuy </title>
+    <title>CPVC</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<style>
+    :root{
+        --primary-color: #1375BA;
+        --secondary-color: #FFD54F;
+        --accent-color: #FF9800;
+        --text-color: #333;
+        --background-color: #FFF9C4;
+        --font-family: 'PT Sans', sans-serif;
+        --font-family-alt: 'Montserrat', sans-serif;
+    }
+    body{
+        background-color:  var(--background-color);
+    }
+    .section-title {
+        color: #1375BA;
+    }
+    .hero-CPVC_A {
+    position: relative;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(
+        rgba(255, 249, 196, 0.5),   /* amarillo claro con 70% de opacidad */
+        rgba(219, 248, 196, 0.5)    /* amarillo dorado con 70% de opacidad */
+    ), url('Imagenes/productos/1/hero.png') no-repeat center center/cover;
+    color: rgb(19, 117, 186);
+    margin-bottom: 2rem;
+}
+    .hero-container{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    .container-products{
+        max-width: 1200px;
+        margin: 25px auto;
+        padding: 0 1rem;
+    }
+    .btn-secondary {
+    background: transparent;
+    border: 2px solid #1375BA;
+    color: #1375BA;
+    }
+    .container-footer{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        justify-content: center;
+    }
 
+</style>
+
+<body>
     <!-- Overlay para menú móvil -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     
@@ -43,14 +90,14 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         
         <div class="mobile-categories">
             <ul>
-                <?php foreach($categorias as $categoria): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>" 
-                           target="_blank">
-                            <?php echo htmlspecialchars($categoria['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
+                <li><a href="index.php">Volver al inicio</a></li>
+                <li><a href="#">Tubería PPR</a></li>
+                <li><a href="#">Tubería galvanizada</a></li>
+                <li><a href="#">Accesorios domésticos</a></li>
+                <li><a href="#">Medidores y valvulas</a></li>
+                <li><a href="#">Linea Sanitaria</a></li>
+                <li><a href="#">Aspersores</a></li>
+                <li><a href="#">Nebulizadores</a></li>
             </ul>
         </div>
         
@@ -82,7 +129,8 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
                 <div class="logo">HIDROSISTEMAS</div>
             </div>
-            <!-- Configuración para la barra de búsqueda -->
+            
+            <!-- Codigo para la barra de busqueda -->
             <div class="search-bar">
                 <form action="busqueda.php" method="GET" class="d-flex align-items-center">
                     <i class="fas fa-search me-2"></i>
@@ -97,6 +145,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                     <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
                 </form>
             </div>
+            
             <div class="header-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="checkout.php" class="icon-wrapper">
@@ -114,23 +163,24 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <?php foreach($categorias as $categoria): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
-                            <?php echo htmlspecialchars($categoria['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
+                <li><a href="index.php">Volver al inicio</a></li>
+                <li><a href="#">Tubería PPR</a></li>
+                <li><a href="#">Tubería galvanizada</a></li>
+                <li><a href="#">Accesorios domésticos</a></li>
+                <li><a href="#">Medidores y valvulas</a></li>
+                <li><a href="#">Linea Sanitaria</a></li>
+                <li><a href="#">Aspersores</a></li>
+                <li><a href="#">Nebulizadores</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero -->
-    <section class="hero">
-        <div class="container">
+    <section class="hero-CPVC_A">
+        <div class="hero-container">
             <div class="hero-content">
-                <h1>Soluciones Hidráulicas para Profesionales</h1>
-                <p>Somos distribuidores oficiales de las principales marcas del sector, ofreciendo productos de máxima calidad y rendimiento para tus proyectos más exigentes.</p>
+                <h1>CPVC AGUA CALIENTE</h1>
+                <p>Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).</p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-primary">
                         <i class="fas fa-tools"></i> Explorar Productos
@@ -144,15 +194,15 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     </section>
 
 <!-- Products -->
-<section class="products" id="products">
-    <div class="container">
-        <h2 class="section-title">Nuestras catgorias</h2>
+<section class="products-CPVC_A" id="products">
+    <div class="container-products">
+        <h2 class="section-title">Productos Destacados</h2>
         <div class="product-grid">
             <?php foreach($resultado as $row): ?>
             <div class="product-card">
                 <?php
                 $id = $row['id'];
-                $imagen = "Imagenes/productos/1/". $id.".jpeg";
+                $imagen = "Imagenes/productos/1/". $id.".PNG";
                 if (!file_exists($imagen)) {
                     $imagen = "Imagenes/default.png";
                 }
@@ -166,10 +216,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                         <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
                     </div>
                     <div class="btn-action"> 
-                        <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
-                        <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
-                        Añadir al Carrito
-                        </button>
+                        <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Medidas</a>
                     </div>
                 </div>
             </div>
@@ -178,34 +225,9 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     </div>         
 </section>
 
-    <section class="features">
-        <div class="container features-container">
-            <div class="feature">
-                <i class="fas fa-truck"></i>
-                <h3>Envío Rápido</h3>
-                <p>Entregas en 24-48 horas a toda la región</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Garantía</h3>
-                <p>Todos nuestros productos incluyen garantía</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-headset"></i>
-                <h3>Soporte</h3>
-                <p>Asesoramiento técnico especializado</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-undo"></i>
-                <h3>Devoluciones</h3>
-                <p>30 días para devoluciones sin problemas</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer id="contacto">
-        <div class="container">
+        <div class="container-footer">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>HIDROSISTEMAS</h4>
