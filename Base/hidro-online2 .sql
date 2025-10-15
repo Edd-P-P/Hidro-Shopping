@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 14, 2025 at 08:12 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 14-10-2025 a las 22:58:53
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,17 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hidro-online2`
+-- Base de datos: `hidro-online2`
 --
 
 -- --------------------------------------------------------
 
+-- CREAR Y SELECCIONAR LA BASE DE DATOS
+CREATE DATABASE IF NOT EXISTS `hidro-online2`;
+USE `hidro-online2`;
+
 --
--- Table structure for table `categorias`
+-- Estructura de tabla para la tabla `categorias`
 --
 
 CREATE TABLE `categorias` (
@@ -34,34 +38,38 @@ CREATE TABLE `categorias` (
   `descripcion` text DEFAULT NULL,
   `imagen` varchar(255) DEFAULT NULL,
   `activo` tinyint(1) DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `color_fondo` varchar(7) DEFAULT '#FFFFFF',
+  `texto_color` varchar(7) DEFAULT '#000000',
+  `boton_primario` varchar(7) DEFAULT '#007bff',
+  `boton_secundario` varchar(7) DEFAULT '#6c757d'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `categorias`
+-- Volcado de datos para la tabla `categorias`
 --
 
-INSERT INTO `categorias` (`id`, `nombre`, `slug`, `descripcion`, `imagen`, `activo`, `created_at`) VALUES
-(1, 'CPVC agua caliente', 'cpvc-agua-caliente', NULL, NULL, 1, '2025-09-23 17:46:58'),
-(2, 'Tubería PPR', 'tuberia-ppr', NULL, NULL, 1, '2025-09-23 17:46:58'),
-(3, 'Hidráulica inglés C-40 PVC', 'ingles-c40-pvc', NULL, NULL, 1, '2025-10-07 16:55:26'),
-(4, 'Cementos', 'cementos', NULL, NULL, 1, '2025-10-07 16:26:08'),
-(5, 'Hidráulica inglés C-80 PVC', 'ingles-c80-pvc', NULL, NULL, 1, '2025-10-07 16:55:26'),
-(6, 'Hidráulica inglés campana CPVC', 'campana-CPVC', NULL, NULL, 1, '2025-10-07 16:58:27'),
-(7, 'Tuberías especiales', 'tuberia-especial', NULL, NULL, 1, '2025-10-07 16:58:27'),
-(8, 'Tubería galvanizada', 'tuberia-galvanizada', NULL, NULL, 1, '2025-09-23 17:46:58'),
-(9, 'Toma domiciliaria', 'toma-domi', NULL, NULL, 1, '2025-09-23 17:46:58'),
-(10, 'Medidores y valvulas', 'medidores-y-valvulas', NULL, NULL, 1, '2025-09-23 17:46:58'),
-(11, 'Conexiones fierro fundido', 'Conexiones fierro fundido', NULL, NULL, 1, '2025-10-07 17:02:15'),
-(12, 'Alacantarillado métrico campana', 'métrico-campana', NULL, NULL, 1, '2025-10-07 17:02:15'),
-(13, 'Tubería polietileno corrugado', 'polietileno-corrugado', NULL, NULL, 1, '2025-10-07 17:08:28'),
-(14, 'Linea Sanitaria', 'linea-sanitaria', NULL, NULL, 1, '2025-09-23 17:46:58'),
-(15, 'Productos destacados', 'Featured', 'Productos que van a aparecer en index', NULL, 1, '2025-09-23 20:23:01');
+INSERT INTO `categorias` (`id`, `nombre`, `slug`, `descripcion`, `imagen`, `activo`, `created_at`, `color_fondo`, `texto_color`, `boton_primario`, `boton_secundario`) VALUES
+(1, 'CPVC agua caliente', 'cpvc-agua-caliente', NULL, NULL, 1, '2025-09-23 17:46:58', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(2, 'Tubería PPR', 'tuberia-ppr', NULL, NULL, 1, '2025-09-23 17:46:58', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(3, 'Hidráulica inglés C-40 PVC', 'ingles-c40-pvc', NULL, NULL, 1, '2025-10-07 16:55:26', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(4, 'Cementos', 'cementos', NULL, NULL, 1, '2025-10-07 16:26:08', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(5, 'Hidráulica inglés C-80 PVC', 'ingles-c80-pvc', NULL, NULL, 1, '2025-10-07 16:55:26', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(6, 'Hidráulica inglés campana CPVC', 'campana-CPVC', NULL, NULL, 1, '2025-10-07 16:58:27', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(7, 'Tuberías especiales', 'tuberia-especial', NULL, NULL, 1, '2025-10-07 16:58:27', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(8, 'Tubería galvanizada', 'tuberia-galvanizada', NULL, NULL, 1, '2025-09-23 17:46:58', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(9, 'Toma domiciliaria', 'toma-domi', NULL, NULL, 1, '2025-09-23 17:46:58', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(10, 'Medidores y valvulas', 'medidores-y-valvulas', NULL, NULL, 1, '2025-09-23 17:46:58', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(11, 'Conexiones fierro fundido', 'Conexiones fierro fundido', NULL, NULL, 1, '2025-10-07 17:02:15', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(12, 'Alacantarillado métrico campana', 'métrico-campana', NULL, NULL, 1, '2025-10-07 17:02:15', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(13, 'Tubería polietileno corrugado', 'polietileno-corrugado', NULL, NULL, 1, '2025-10-07 17:08:28', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(14, 'Linea Sanitaria', 'linea-sanitaria', NULL, NULL, 1, '2025-09-23 17:46:58', '#FFFFFF', '#000000', '#007bff', '#6c757d'),
+(15, 'Productos destacados', 'Featured', 'Productos que van a aparecer en index', NULL, 1, '2025-09-23 20:23:01', '#FFFFFF', '#000000', '#007bff', '#6c757d');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `medidas_categoria`
+-- Estructura de tabla para la tabla `medidas_categoria`
 --
 
 CREATE TABLE `medidas_categoria` (
@@ -71,7 +79,7 @@ CREATE TABLE `medidas_categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `medidas_categoria`
+-- Volcado de datos para la tabla `medidas_categoria`
 --
 
 INSERT INTO `medidas_categoria` (`id`, `categoria_id`, `medida_id`) VALUES
@@ -102,12 +110,18 @@ INSERT INTO `medidas_categoria` (`id`, `categoria_id`, `medida_id`) VALUES
 (49, 8, '2½\"'),
 (50, 8, '3\"'),
 (44, 8, '¾\"'),
-(51, 8, '4\"');
+(51, 8, '4\"'),
+(52, 14, '1 ½\"'),
+(53, 14, '2\"'),
+(54, 14, '3\"'),
+(55, 14, '4\"'),
+(56, 14, '6\"'),
+(57, 14, '8\"');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productos`
+-- Estructura de tabla para la tabla `productos`
 --
 
 CREATE TABLE `productos` (
@@ -129,7 +143,7 @@ CREATE TABLE `productos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `productos`
+-- Volcado de datos para la tabla `productos`
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especificaciones`, `precio`, `stock`, `imagen`, `categoria_id`, `requiere_medidas`, `activo`, `created_at`, `updated_at`, `descuento`, `Recomendaciones_id`) VALUES
@@ -195,12 +209,42 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especifica
 (107, 'Niple Galvanizado 2 ½\"', '<strong>NIPLE GALVANIZADO 2 1/2\"</strong><br>Conector industrial para aplicaciones de gran caudal, fabricado bajo estrictos controles de calidad. Resistente a impactos y vibraciones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Material: Acero Galvanizado <br> Rosca: NPT Estándar <br> Presión Máxima: 125 PSI <br> Aplicación: Industrial Pesado <br> Norma: ASTM A153', 48.90, 35, '', 8, 1, 1, '2025-10-13 23:37:41', '2025-10-14 17:55:01', 0, NULL),
 (108, 'Niple Galvanizado 3\"', '<strong>NIPLE GALVANIZADO 3\"</strong><br>Conector de gran diámetro para sistemas municipales e industriales. Diseñado para soportar condiciones extremas y cargas pesadas continuas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Material: Acero Galvanizado <br> Rosca: NPT Estándar <br> Presión Máxima: 125 PSI <br> Uso: Municipal/Industrial <br> Norma: ASTM A153', 65.20, 30, '', 8, 1, 1, '2025-10-13 23:37:41', '2025-10-14 00:38:10', 0, NULL),
 (109, 'Niple Galvanizado 4\"', '<strong>NIPLE GALVANIZADO 4\"</strong><br>Conector de máxima capacidad para sistemas de distribución principal. Fabricado con los más altos estándares de calidad para aplicaciones críticas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Material: Acero Galvanizado <br> Rosca: NPT Estándar <br> Presión Máxima: 100 PSI <br> Aplicación: Distribución Principal <br> Norma: ASTM A153', 95.80, 25, '', 8, 1, 1, '2025-10-13 23:37:41', '2025-10-14 00:38:13', 0, NULL),
-(110, 'Sifón para Manómetro Cola de Cochino', '<strong>SIFÓN PARA MANÓMETRO COLA DE COCHINO</strong><br>Accesorio esencial para proteger manómetros y instrumentos de medición de presión. Diseñado con forma de \"U\" para crear un sello de líquido que evita daños por golpe de ariete, temperaturas extremas y vibraciones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">SIFÓN PARA MANÓMETRO</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th><th>MATERIAL</th></tr></thead><tbody><tr><td>½\"</td><td>13</td><td>Acero Inoxidable</td></tr><tr><td>¾\"</td><td>19</td><td>Acero Inoxidable</td></tr><tr><td>1\"</td><td>25</td><td>Acero Inoxidable</td></tr><tr><td>1 ¼\"</td><td>32</td><td>Acero Inoxidable</td></tr><tr><td>1 ½\"</td><td>38</td><td>Acero Inoxidable</td></tr><tr><td>2\"</td><td>50</td><td>Acero Inoxidable</td></tr></tbody></table><div class=\"info-extra\">Forma: Cola de Cochino (U) - Incluye roscas NPT</div></div>', 'Material: Acero Inoxidable 304 <br> Rosca: NPT Estándar <br> Presión Máxima: 300 PSI <br> Temperatura: -40°C a 400°C <br> Aplicación: Protección de Manómetros <br> Norma: ASTM A269', 45.50, 30, '', 8, 0, 1, '2025-10-14 00:46:07', '2025-10-14 00:46:51', 0, NULL);
+(110, 'Sifón para Manómetro Cola de Cochino', '<strong>SIFÓN PARA MANÓMETRO COLA DE COCHINO</strong><br>Accesorio esencial para proteger manómetros y instrumentos de medición de presión. Diseñado con forma de \"U\" para crear un sello de líquido que evita daños por golpe de ariete, temperaturas extremas y vibraciones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">SIFÓN PARA MANÓMETRO</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th><th>MATERIAL</th></tr></thead><tbody><tr><td>½\"</td><td>13</td><td>Acero Inoxidable</td></tr><tr><td>¾\"</td><td>19</td><td>Acero Inoxidable</td></tr><tr><td>1\"</td><td>25</td><td>Acero Inoxidable</td></tr><tr><td>1 ¼\"</td><td>32</td><td>Acero Inoxidable</td></tr><tr><td>1 ½\"</td><td>38</td><td>Acero Inoxidable</td></tr><tr><td>2\"</td><td>50</td><td>Acero Inoxidable</td></tr></tbody></table><div class=\"info-extra\">Forma: Cola de Cochino (U) - Incluye roscas NPT</div></div>', 'Material: Acero Inoxidable 304 <br> Rosca: NPT Estándar <br> Presión Máxima: 300 PSI <br> Temperatura: -40°C a 400°C <br> Aplicación: Protección de Manómetros <br> Norma: ASTM A269', 45.50, 30, '', 8, 0, 1, '2025-10-14 00:46:07', '2025-10-14 00:46:51', 0, NULL),
+(171, 'Codo 90° PVC', '<strong>CODO 90° PVC</strong><br>Codo de 90 grados para cambio de dirección en tuberías de PVC. Ideal para sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo 90° <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(172, 'Codo 45° PVC', '<strong>CODO 45° PVC</strong><br>Codo de 45 grados para cambio de dirección suave en tuberías de PVC. Utilizado en sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo 45° <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(173, 'Cople PVC', '<strong>COPLE PVC</strong><br>Conexión recta para unir dos tuberías de PVC en línea recta. Usado en sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cople <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(174, 'Yee PVC', '<strong>YEE PVC</strong><br>Conexión en forma de Y para derivaciones en tuberías de PVC. Permite la salida lateral en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(175, 'Tee PVC', '<strong>TEE PVC</strong><br>Conexión en forma de T para derivaciones en tuberías de PVC. Permite la salida perpendicular en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(176, 'Codo Salida Lateral PVC', '<strong>CODO SALIDA LATERAL PVC</strong><br>Codo con salida lateral para conexiones especiales en tuberías de PVC. Usado en sistemas de drenaje con necesidades específicas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Lateral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(177, 'Codo Salida Trasera PVC', '<strong>CODO SALIDA TRASERA PVC</strong><br>Codo con salida trasera para conexiones especiales en tuberías de PVC. Ideal para espacios reducidos en instalaciones de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Trasera <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(178, 'Tapa PVC', '<strong>TAPA PVC</strong><br>Tapa para cerrar extremos de tuberías de PVC. Evita la entrada de desechos y asegura el sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tapa <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(179, 'Yee Reducida PVC', '<strong>YEE REDUCIDA PVC</strong><br>Conexión en Y con reducción de diámetro para derivaciones en tuberías de PVC. Permite conectar tuberías de diferentes tamaños.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee Reducida <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(180, 'Tee Reducida PVC', '<strong>TEE REDUCIDA PVC</strong><br>Conexión en T con reducción de diámetro para derivaciones en tuberías de PVC. Permite conectar tuberías de diferentes tamaños.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tee Reducida <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(181, 'Codo Salida Izquierda Derecha PVC', '<strong>CODO SALIDA IZQUIERDA DERECHA PVC</strong><br>Codo con salida a izquierda y derecha para conexiones complejas en tuberías de PVC. Usado en instalaciones con múltiples direcciones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Izquierda Derecha <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(182, 'Codo Salida Trasera Lateral PVC', '<strong>CODO SALIDA TRASERA LATERAL PVC</strong><br>Codo con salida trasera y lateral para conexiones múltiples en tuberías de PVC. Ideal para sistemas de drenaje con espacios limitados.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Trasera Lateral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(183, 'Tapon Registro con Tapa de Bronce', '<strong>TAPÓN REGISTRO CON TAPA DE BRONCE</strong><br>Tapón de registro con tapa de bronce para inspección y limpieza de tuberías de PVC. Proporciona acceso fácil al sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC con tapa de bronce <br> Tipo: Tapón de registro <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(184, 'Yee Doble PVC', '<strong>YEE DOBLE PVC</strong><br>Conexión en Y doble para derivaciones múltiples en tuberías de PVC. Permite dos salidas laterales en el mismo punto.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee Doble <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(185, 'Salida Lateral Tee PVC', '<strong>SALIDA LATERAL TEE PVC</strong><br>Conexión T con salida lateral para derivaciones especiales en tuberías de PVC. Combina funciones de tee y salida lateral.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Salida Lateral Tee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 22:52:59', 0, NULL),
+(186, 'Reducción PVC', '<strong>REDUCCIÓN PVC</strong><br>Conexión reductora para unir tuberías de PVC de diferentes diámetros. Permite transiciones suaves entre secciones de tubería.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Reducción <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 12.00, 45, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 20:13:46', 0, NULL),
+(187, 'Remate Ventilación PVC', '<strong>REMATE VENTILACIÓN PVC</strong><br>Remate especial para terminación de tuberías de ventilación. Protege contra la entrada de objetos y animales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Remate Ventilación <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de ventilación sanitaria <br> Temperatura: Hasta 60°C <br> Diseño: Rejilla de protección', 8.50, 60, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 20:13:46', 0, NULL),
+(188, 'Adaptador Galvanizado Campana PVC', '<strong>ADAPTADOR GALVANIZADO CAMPANA PVC</strong><br>Adaptador para conectar tubería galvanizada con PVC en conexión tipo campana. Ideal para transiciones entre materiales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC y acero galvanizado <br> Tipo: Adaptador campana <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje mixtos <br> Temperatura: Hasta 60°C <br> Resistente a la corrosión', 15.00, 35, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 20:13:46', 0, NULL),
+(189, 'Adaptador Galvanizado Espiga PVC', '<strong>ADAPTADOR GALVANIZADO ESPIGA PVC</strong><br>Adaptador para conectar tubería galvanizada con PVC en conexión tipo espiga. Facilita uniones seguras entre diferentes materiales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC y acero galvanizado <br> Tipo: Adaptador espiga <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje mixtos <br> Temperatura: Hasta 60°C <br> Resistente a la corrosión', 14.50, 40, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 20:13:46', 0, NULL),
+(190, 'Cespol Bote Corto 1 Salida', '<strong>CESPOL BOTE CORTO 1 SALIDA</strong><br>Caja de registro corta con una salida para instalaciones de drenaje. Ideal para conexiones simples en sistemas sanitarios.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cespol bote corto <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Salidas: 1', 25.00, 25, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:51:05', 0, NULL),
+(191, 'Cespol Bote Corto 2 Salidas', '<strong>CESPOL BOTE CORTO 2 SALIDAS</strong><br>Caja de registro corta con dos salidas para instalaciones de drenaje más complejas. Permite múltiples conexiones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cespol bote corto <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Salidas: 2', 28.00, 20, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:50:58', 0, NULL),
+(192, 'Coladera Integral PVC', '<strong>COLADERA INTEGRAL PVC</strong><br>Coladera con cuerpo integrado para captación de aguas pluviales. Diseño completo para instalación directa.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera integral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Incluye: Cuerpo y rejilla', 35.00, 30, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:50:35', 0, NULL),
+(193, 'Coladera Insta PVC', '<strong>COLADERA INSTA PVC</strong><br>Coladera de instalación rápida para sistemas de drenaje. Diseño práctico para montaje sencillo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera insta <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Característica: Instalación rápida', 32.00, 28, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:50:24', 0, NULL),
+(194, 'Coladera Universal PVC', '<strong>COLADERA UNIVERSAL PVC</strong><br>Coladera de uso universal para diferentes aplicaciones de drenaje. Versátil y adaptable a múltiples necesidades.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera universal <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Ventaja: Uso múltiple', 30.00, 32, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:50:01', 0, NULL),
+(195, 'Cono para Coladera PVC', '<strong>CONO PARA COLADERA PVC</strong><br>Cono adaptador para coladeras que permite conexiones adicionales. Amplía las funcionalidades del sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cono para coladera <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Función: Adaptador', 18.00, 40, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:49:57', 0, NULL),
+(196, 'Rejilla Cromada para Coladera', '<strong>REJILLA CROMADA PARA COLADERA</strong><br>Rejilla cromada de alta resistencia para coladeras. Proporciona durabilidad y acabado estético.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: Acero cromado <br> Tipo: Rejilla <br> Norma: ASTM A366 <br> Aplicación: Sistemas de drenaje <br> Característica: Alta resistencia <br> Acabado: Cromado decorativo', 22.00, 50, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:49:50', 0, NULL),
+(197, 'Adaptador Sanitario Cespol PVC', '<strong>ADAPTADOR SANITARIO CESPOL PVC</strong><br>Adaptador especial para conexión de cestones polivalentes en sistemas sanitarios. Garantiza uniones estancas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Adaptador sanitario <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Especial: Para cestones', 16.50, 35, '', 14, 1, 1, '2025-10-14 06:46:07', '2025-10-14 20:13:46', 0, NULL),
+(198, 'Resumidero Figura 46-Z', '<strong>RESUMIDERO FIGURA 46-Z</strong><br>Resumidero tipo figura 46-Z para captación de aguas pluviales. Diseño específico para alto flujo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 46-Z <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Capacidad: Alto flujo', 42.00, 22, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:49:36', 0, NULL),
+(199, 'Resumidero Figura 47-C', '<strong>RESUMIDERO FIGURA 47-C</strong><br>Resumidero tipo figura 47-C para aplicaciones específicas de drenaje. Diseño optimizado para rendimiento.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 47-C <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Característica: Diseño especial', 45.00, 18, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:49:09', 0, NULL),
+(200, 'Resumidero Figura 46-P', '<strong>RESUMIDERO FIGURA 46-P</strong><br>Resumidero tipo figura 46-P para captación de aguas con diseño específico. Ideal para condiciones particulares de instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 46-P <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Especificación: Diseño particular', 40.00, 20, '', 14, 0, 1, '2025-10-14 06:46:07', '2025-10-14 20:48:50', 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productos_medidas`
+-- Estructura de tabla para la tabla `productos_medidas`
 --
 
 CREATE TABLE `productos_medidas` (
@@ -214,7 +258,7 @@ CREATE TABLE `productos_medidas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `productos_medidas`
+-- Volcado de datos para la tabla `productos_medidas`
 --
 
 INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id`, `stock_m`, `precio_m`, `descuento_m`) VALUES
@@ -664,278 +708,333 @@ INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id
 (444, 91, 8, '¾\"', 8, 9.00, 30.00),
 (445, 91, 8, '1\"', 22, 15.00, 0.00),
 (446, 91, 8, '1 ¼\"', 10, 17.00, 0.00),
-(448, 91, 8, '1 ½\"', 8, 25.00, 10.00),
-(449, 91, 8, '2\"', 0, 22.00, 17.00),
-(450, 91, 8, '2 ½\"', 0, 0.00, 0.00),
-(451, 91, 8, '3\"', 0, 0.00, 0.00),
-(452, 91, 8, '4\"', 0, 0.00, 0.00),
-(453, 92, 8, '½\"', 5, 5.00, 0.00),
-(454, 92, 8, '¾\"', 8, 9.00, 30.00),
-(455, 92, 8, '1\"', 22, 15.00, 0.00),
-(456, 92, 8, '1 ¼\"', 10, 17.00, 0.00),
-(457, 92, 8, '1 ½\"', 8, 25.00, 10.00),
-(458, 92, 8, '2\"', 0, 22.00, 17.00),
-(459, 92, 8, '2 ½\"', 0, 0.00, 0.00),
-(460, 92, 8, '3\"', 0, 0.00, 0.00),
-(461, 92, 8, '4\"', 0, 0.00, 0.00),
-(462, 93, 8, '½\"', 5, 5.00, 0.00),
-(463, 93, 8, '¾\"', 8, 9.00, 30.00),
-(464, 93, 8, '1\"', 22, 15.00, 0.00),
-(465, 93, 8, '1 ¼\"', 10, 17.00, 0.00),
-(466, 93, 8, '1 ½\"', 8, 25.00, 10.00),
-(467, 93, 8, '2\"', 0, 22.00, 17.00),
-(468, 93, 8, '2 ½\"', 0, 0.00, 0.00),
-(469, 93, 8, '3\"', 0, 0.00, 0.00),
-(470, 93, 8, '4\"', 0, 0.00, 0.00),
-(471, 94, 8, '½\"', 5, 5.00, 0.00),
-(472, 94, 8, '¾\"', 8, 9.00, 30.00),
-(473, 94, 8, '1\"', 22, 15.00, 0.00),
-(474, 94, 8, '1 ¼\"', 10, 17.00, 0.00),
-(475, 94, 8, '1 ½\"', 8, 25.00, 10.00),
-(476, 94, 8, '2\"', 0, 22.00, 17.00),
-(477, 94, 8, '2 ½\"', 0, 0.00, 0.00),
-(478, 94, 8, '3\"', 0, 0.00, 0.00),
-(479, 94, 8, '4\"', 0, 0.00, 0.00),
-(480, 95, 8, '½\"', 5, 5.00, 0.00),
-(481, 95, 8, '¾\"', 8, 9.00, 30.00),
-(482, 95, 8, '1\"', 22, 15.00, 0.00),
-(483, 95, 8, '1 ¼\"', 10, 17.00, 0.00),
-(484, 95, 8, '1 ½\"', 8, 25.00, 10.00),
-(485, 95, 8, '2\"', 0, 22.00, 17.00),
-(486, 95, 8, '2 ½\"', 0, 0.00, 0.00),
-(487, 95, 8, '3\"', 0, 0.00, 0.00),
-(488, 95, 8, '4\"', 0, 0.00, 0.00),
-(489, 96, 8, '½\"', 5, 5.00, 0.00),
-(490, 96, 8, '¾\"', 8, 9.00, 30.00),
-(491, 96, 8, '1\"', 22, 15.00, 0.00),
-(492, 96, 8, '1 ¼\"', 10, 17.00, 0.00),
-(493, 96, 8, '1 ½\"', 8, 25.00, 10.00),
-(494, 96, 8, '2\"', 0, 22.00, 17.00),
-(495, 96, 8, '2 ½\"', 0, 0.00, 0.00),
-(496, 96, 8, '3\"', 0, 0.00, 0.00),
-(497, 96, 8, '4\"', 0, 0.00, 0.00),
-(498, 97, 8, '½\"', 5, 5.00, 0.00),
-(499, 97, 8, '¾\"', 8, 9.00, 30.00),
-(500, 97, 8, '1\"', 22, 15.00, 0.00),
-(501, 97, 8, '1 ¼\"', 10, 17.00, 0.00),
-(502, 97, 8, '1 ½\"', 8, 25.00, 10.00),
-(503, 97, 8, '2\"', 0, 22.00, 17.00),
-(504, 97, 8, '2 ½\"', 0, 0.00, 0.00),
-(505, 97, 8, '3\"', 0, 0.00, 0.00),
-(506, 97, 8, '4\"', 0, 0.00, 0.00),
-(507, 98, 8, '½\"', 5, 5.00, 0.00),
-(508, 98, 8, '¾\"', 8, 9.00, 30.00),
-(509, 98, 8, '1\"', 22, 15.00, 0.00),
-(510, 98, 8, '1 ¼\"', 10, 17.00, 0.00),
-(511, 98, 8, '1 ½\"', 8, 25.00, 10.00),
-(512, 98, 8, '2\"', 0, 22.00, 17.00),
-(513, 98, 8, '2 ½\"', 0, 0.00, 0.00),
-(514, 98, 8, '3\"', 0, 0.00, 0.00),
-(515, 98, 8, '4\"', 0, 0.00, 0.00),
-(516, 99, 8, '½\"', 5, 5.00, 0.00),
-(517, 99, 8, '¾\"', 8, 9.00, 30.00),
-(518, 99, 8, '1\"', 22, 15.00, 0.00),
-(519, 99, 8, '1 ¼\"', 10, 17.00, 0.00),
-(520, 99, 8, '1 ½\"', 8, 25.00, 10.00),
-(521, 99, 8, '2\"', 0, 22.00, 17.00),
-(522, 99, 8, '2 ½\"', 0, 0.00, 0.00),
-(523, 99, 8, '3\"', 0, 0.00, 0.00),
-(524, 99, 8, '4\"', 0, 0.00, 0.00),
-(525, 100, 8, '¾\"x½\"', 10, 0.00, 0.00),
-(526, 100, 8, '1\"x½\"', 10, 0.00, 0.00),
-(527, 100, 8, '1\"x ¾\"\"', 8, 0.00, 0.00),
-(528, 100, 8, '1.¼\"x ½\"', 5, 0.00, 0.00),
-(560, 100, 8, '1.¼\"x¾\"', 5, 0.00, 0.00),
-(561, 100, 8, '1.¼\"x1\"', 5, 0.00, 0.00),
-(562, 100, 8, '1.½\"x½\"', 5, 0.00, 0.00),
-(563, 100, 8, '1.½\"x ¾\"', 5, 0.00, 0.00),
-(564, 100, 8, '1.½\"x 1\"', 5, 0.00, 0.00),
-(565, 100, 8, '1.½\"x 1.¼\"', 5, 0.00, 0.00),
-(566, 100, 8, '2\"x½\"', 5, 0.00, 0.00),
-(567, 100, 8, '2\"x¾\"', 5, 0.00, 0.00),
-(568, 100, 8, '2\"x 1\"', 5, 0.00, 0.00),
-(569, 100, 8, '2\"x 1.¼\"', 5, 0.00, 0.00),
-(570, 100, 8, '2\"x1.½\"', 5, 0.00, 0.00),
-(571, 100, 8, '2.½\"x½\"', 5, 0.00, 0.00),
-(572, 100, 8, '2.½\"x ¾', 5, 0.00, 0.00),
-(573, 100, 8, '2.½\"x 1\"', 5, 0.00, 0.00),
-(574, 100, 8, '2.½\"x 1.¼\"', 5, 0.00, 0.00),
-(575, 100, 8, '2.½\"x 1.½\"', 5, 0.00, 0.00),
-(576, 100, 8, '2.½\"\"x 2\"', 5, 0.00, 0.00),
-(577, 100, 8, '3\"x½\"', 5, 0.00, 0.00),
-(578, 100, 8, '3\"x¾\"', 5, 0.00, 0.00),
-(579, 100, 8, '3\"x1\"', 5, 0.00, 0.00),
-(580, 100, 8, '3\"x1.¼\"', 5, 0.00, 0.00),
-(581, 100, 8, '3\"x1.½\"', 5, 0.00, 0.00),
-(582, 100, 8, '3\"x2\"', 5, 0.00, 0.00),
-(583, 100, 8, '3\"x2.½\"', 5, 0.00, 0.00),
-(584, 100, 8, '4\"x1\"', 5, 0.00, 0.00),
-(585, 100, 8, '4\"x1.¼\"', 5, 0.00, 0.00),
-(586, 100, 8, '4\"x1.½\"', 5, 0.00, 0.00),
-(587, 100, 8, '4\"x2\"', 5, 0.00, 0.00),
-(588, 100, 8, '4\"x2.½\"', 5, 0.00, 0.00),
-(589, 100, 8, '4\"x3\"', 5, 0.00, 0.00),
-(590, 101, 8, '¾\"x ½\"', 5, 0.00, 0.00),
-(591, 101, 8, '1\"x ½\"', 5, 0.00, 0.00),
-(592, 101, 8, '1\"x ¼\"', 5, 0.00, 0.00),
-(593, 101, 8, '1.¼\"x ½\"', 5, 0.00, 0.00),
-(594, 101, 8, '1.¼\"x¾\"', 5, 0.00, 0.00),
-(595, 101, 8, '1.¼\"x1\"', 5, 0.00, 0.00),
-(596, 101, 8, '1.½\"x½\"', 5, 0.00, 0.00),
-(597, 101, 8, '1.½\"x ¾\"', 5, 0.00, 0.00),
-(598, 101, 8, '1.½\"x 1\"', 5, 0.00, 0.00),
-(599, 101, 8, '1.½\"x 1.¼\"', 5, 0.00, 0.00),
-(600, 101, 8, '2\"x½\"', 5, 0.00, 0.00),
-(601, 101, 8, '2\"x¾\"', 5, 0.00, 0.00),
-(602, 101, 8, '2\"x 1\"', 5, 0.00, 0.00),
-(603, 101, 8, '2\"x 1.¼\"', 5, 0.00, 0.00),
-(604, 101, 8, '2\"x1.½\"', 5, 0.00, 0.00),
-(605, 101, 8, '2.½\"x½\"', 5, 0.00, 0.00),
-(606, 101, 8, '2.½\"\"x ¾\"', 5, 0.00, 0.00),
-(607, 101, 8, '2.½\"\"x 1\"', 5, 0.00, 0.00),
-(608, 101, 8, '2.½\"\"x 1.¼\"', 5, 0.00, 0.00),
-(609, 101, 8, '2.½\"\"x 1.½\"', 5, 0.00, 0.00),
-(610, 101, 8, '2.½\"\"x 2\"', 5, 0.00, 0.00),
-(611, 101, 8, '3\"x½\"', 5, 0.00, 0.00),
-(612, 101, 8, '3\"x¾\"', 5, 0.00, 0.00),
-(613, 101, 8, '3\"x1\"', 5, 0.00, 0.00),
-(614, 101, 8, '3\"x1.¼\"', 5, 0.00, 0.00),
-(615, 101, 8, '3\"x1.½\"', 5, 0.00, 0.00),
-(616, 101, 8, '3\"x2\"', 5, 0.00, 0.00),
-(617, 101, 8, '3\"x2.½\"', 5, 0.00, 0.00),
-(618, 101, 8, '4\"x1\"', 5, 0.00, 0.00),
-(619, 101, 8, '4\"x1.¼\"', 5, 0.00, 0.00),
-(620, 101, 8, '4\"x1.½\"', 5, 0.00, 0.00),
-(621, 101, 8, '4\"x2\"', 5, 0.00, 0.00),
-(622, 101, 8, '4\"x2.½\"', 5, 0.00, 0.00),
-(623, 101, 8, '4\"x3\"', 5, 0.00, 0.00),
-(624, 102, 8, 'Corrido', 10, 0.00, 0.00),
-(625, 102, 8, '5 cm', 10, 0.00, 0.00),
-(626, 102, 8, '10 cm', 10, 0.00, 0.00),
-(627, 102, 8, '15 cm', 10, 0.00, 0.00),
-(628, 102, 8, '20 cm', 10, 0.00, 0.00),
-(629, 102, 8, '25 cm', 10, 0.00, 0.00),
-(630, 102, 8, '30 cm', 10, 0.00, 0.00),
-(631, 102, 8, '40 cm', 10, 0.00, 0.00),
-(632, 102, 8, '50 cm', 10, 0.00, 0.00),
-(633, 102, 8, '60 cm', 10, 0.00, 0.00),
-(634, 102, 8, '70 cm', 10, 0.00, 0.00),
-(635, 102, 8, '80 cm', 10, 0.00, 0.00),
-(636, 102, 8, '90 cm', 10, 0.00, 0.00),
-(637, 102, 8, '100cm', 10, 0.00, 0.00),
-(638, 103, 8, 'Corrido', 10, 0.00, 0.00),
-(639, 103, 8, '5 cm', 10, 0.00, 0.00),
-(640, 103, 8, '10 cm', 10, 0.00, 0.00),
-(641, 103, 8, '15 cm', 10, 0.00, 0.00),
-(642, 103, 8, '20 cm', 10, 0.00, 0.00),
-(643, 103, 8, '25 cm', 10, 0.00, 0.00),
-(644, 103, 8, '30 cm', 10, 0.00, 0.00),
-(645, 103, 8, '40 cm', 10, 0.00, 0.00),
-(646, 103, 8, '50 cm', 10, 0.00, 0.00),
-(647, 103, 8, '60 cm', 10, 0.00, 0.00),
-(648, 103, 8, '70 cm', 10, 0.00, 0.00),
-(649, 103, 8, '80 cm', 10, 0.00, 0.00),
-(650, 103, 8, '90 cm', 10, 0.00, 0.00),
-(651, 103, 8, '100cm', 10, 0.00, 0.00),
-(652, 104, 8, 'Corrido', 10, 0.00, 0.00),
-(653, 104, 8, '5 cm', 10, 0.00, 0.00),
-(654, 104, 8, '10 cm', 10, 0.00, 0.00),
-(655, 104, 8, '15 cm', 10, 0.00, 0.00),
-(656, 104, 8, '20 cm', 10, 0.00, 0.00),
-(657, 104, 8, '25 cm', 10, 0.00, 0.00),
-(658, 104, 8, '30 cm', 10, 0.00, 0.00),
-(659, 104, 8, '40 cm', 10, 0.00, 0.00),
-(660, 104, 8, '50 cm', 10, 0.00, 0.00),
-(661, 104, 8, '60 cm', 10, 0.00, 0.00),
-(662, 104, 8, '70 cm', 10, 0.00, 0.00),
-(663, 104, 8, '80 cm', 10, 0.00, 0.00),
-(664, 104, 8, '90 cm', 10, 0.00, 0.00),
-(665, 104, 8, '100cm', 10, 0.00, 0.00),
-(666, 105, 8, 'Corrido', 10, 0.00, 0.00),
-(667, 105, 8, '5 cm', 10, 0.00, 0.00),
-(668, 105, 8, '10 cm', 10, 0.00, 0.00),
-(669, 105, 8, '15 cm', 10, 0.00, 0.00),
-(670, 105, 8, '20 cm', 10, 0.00, 0.00),
-(671, 105, 8, '25 cm', 10, 0.00, 0.00),
-(672, 105, 8, '30 cm', 10, 0.00, 0.00),
-(673, 105, 8, '40 cm', 10, 0.00, 0.00),
-(674, 105, 8, '50 cm', 10, 0.00, 0.00),
-(675, 105, 8, '60 cm', 10, 0.00, 0.00),
-(676, 105, 8, '70 cm', 10, 0.00, 0.00),
-(677, 105, 8, '80 cm', 10, 0.00, 0.00),
-(678, 105, 8, '90 cm', 10, 0.00, 0.00),
-(679, 105, 8, '100cm', 10, 0.00, 0.00),
-(680, 106, 8, 'Corrido', 10, 0.00, 0.00),
-(681, 106, 8, '5 cm', 10, 0.00, 0.00),
-(682, 106, 8, '10 cm', 10, 0.00, 0.00),
-(683, 106, 8, '15 cm', 10, 0.00, 0.00),
-(684, 106, 8, '20 cm', 10, 0.00, 0.00),
-(685, 106, 8, '25 cm', 10, 0.00, 0.00),
-(686, 106, 8, '30 cm', 10, 0.00, 0.00),
-(687, 106, 8, '40 cm', 10, 0.00, 0.00),
-(688, 106, 8, '50 cm', 10, 0.00, 0.00),
-(689, 106, 8, '60 cm', 10, 0.00, 0.00),
-(690, 106, 8, '70 cm', 10, 0.00, 0.00),
-(691, 106, 8, '80 cm', 10, 0.00, 0.00),
-(692, 106, 8, '90 cm', 10, 0.00, 0.00),
-(693, 106, 8, '100cm', 10, 0.00, 0.00),
-(694, 107, 8, 'Corrido', 10, 0.00, 0.00),
-(695, 107, 8, '10 cm', 10, 0.00, 0.00),
-(696, 107, 8, '15 cm', 10, 0.00, 0.00),
-(697, 107, 8, '20 cm', 10, 0.00, 0.00),
-(698, 107, 8, '25 cm', 10, 0.00, 0.00),
-(699, 107, 8, '30 cm', 10, 0.00, 0.00),
-(700, 107, 8, '40 cm', 10, 0.00, 0.00),
-(701, 107, 8, '50 cm', 10, 0.00, 0.00),
-(702, 107, 8, '60 cm', 10, 0.00, 0.00),
-(703, 107, 8, '70 cm', 10, 0.00, 0.00),
-(704, 107, 8, '80 cm', 10, 0.00, 0.00),
-(705, 107, 8, '90 cm', 10, 0.00, 0.00),
-(706, 107, 8, '100cm', 10, 0.00, 0.00),
-(707, 108, 8, 'Corrido', 10, 0.00, 0.00),
-(708, 108, 8, '10 cm', 10, 0.00, 0.00),
-(709, 108, 8, '15 cm', 10, 0.00, 0.00),
-(710, 108, 8, '20 cm', 10, 0.00, 0.00),
-(711, 108, 8, '25 cm', 10, 0.00, 0.00),
-(712, 108, 8, '30 cm', 10, 0.00, 0.00),
-(713, 108, 8, '40 cm', 10, 0.00, 0.00),
-(714, 108, 8, '50 cm', 10, 0.00, 0.00),
-(715, 108, 8, '60 cm', 10, 0.00, 0.00),
-(716, 108, 8, '70 cm', 10, 0.00, 0.00),
-(717, 108, 8, '80 cm', 10, 0.00, 0.00),
-(718, 108, 8, '90 cm', 10, 0.00, 0.00),
-(719, 108, 8, '100cm', 10, 0.00, 0.00),
-(720, 109, 8, 'Corrido', 10, 0.00, 0.00),
-(721, 109, 8, '10 cm', 10, 0.00, 0.00),
-(722, 109, 8, '15 cm', 10, 0.00, 0.00),
-(723, 109, 8, '20 cm', 10, 0.00, 0.00),
-(724, 109, 8, '25 cm', 10, 0.00, 0.00),
-(725, 109, 8, '30 cm', 10, 0.00, 0.00),
-(726, 109, 8, '40 cm', 10, 0.00, 0.00),
-(727, 109, 8, '50 cm', 10, 0.00, 0.00),
-(728, 109, 8, '60 cm', 10, 0.00, 0.00),
-(729, 109, 8, '70 cm', 10, 0.00, 0.00),
-(730, 109, 8, '80 cm', 10, 0.00, 0.00),
-(731, 109, 8, '90 cm', 10, 0.00, 0.00),
-(732, 109, 8, '100cm', 10, 0.00, 0.00),
-(733, 110, 8, 'Corrido', 10, 0.00, 0.00),
-(734, 110, 8, '10 cm', 10, 0.00, 0.00),
-(735, 110, 8, '15 cm', 10, 0.00, 0.00),
-(736, 110, 8, '20 cm', 10, 0.00, 0.00),
-(737, 110, 8, '25 cm', 10, 0.00, 0.00),
-(738, 110, 8, '30 cm', 10, 0.00, 0.00),
-(739, 110, 8, '40 cm', 10, 0.00, 0.00),
-(740, 110, 8, '50 cm', 10, 0.00, 0.00),
-(741, 110, 8, '60 cm', 10, 0.00, 0.00),
-(742, 110, 8, '70 cm', 10, 0.00, 0.00),
-(743, 110, 8, '80 cm', 10, 0.00, 0.00),
-(744, 110, 8, '90 cm', 10, 0.00, 0.00),
-(745, 110, 8, '100cm', 10, 0.00, 0.00);
+(447, 91, 8, '1 ½\"', 8, 25.00, 10.00),
+(448, 91, 8, '2\"', 0, 22.00, 17.00),
+(449, 91, 8, '2 ½\"', 0, 0.00, 0.00),
+(450, 91, 8, '3\"', 0, 0.00, 0.00),
+(451, 91, 8, '4\"', 0, 0.00, 0.00),
+(452, 92, 8, '½\"', 5, 5.00, 0.00),
+(453, 92, 8, '¾\"', 8, 9.00, 30.00),
+(454, 92, 8, '1\"', 22, 15.00, 0.00),
+(455, 92, 8, '1 ¼\"', 10, 17.00, 0.00),
+(456, 92, 8, '1 ½\"', 8, 25.00, 10.00),
+(457, 92, 8, '2\"', 0, 22.00, 17.00),
+(458, 92, 8, '2 ½\"', 0, 0.00, 0.00),
+(459, 92, 8, '3\"', 0, 0.00, 0.00),
+(460, 92, 8, '4\"', 0, 0.00, 0.00),
+(461, 93, 8, '½\"', 5, 5.00, 0.00),
+(462, 93, 8, '¾\"', 8, 9.00, 30.00),
+(463, 93, 8, '1\"', 22, 15.00, 0.00),
+(464, 93, 8, '1 ¼\"', 10, 17.00, 0.00),
+(465, 93, 8, '1 ½\"', 8, 25.00, 10.00),
+(466, 93, 8, '2\"', 0, 22.00, 17.00),
+(467, 93, 8, '2 ½\"', 0, 0.00, 0.00),
+(468, 93, 8, '3\"', 0, 0.00, 0.00),
+(469, 93, 8, '4\"', 0, 0.00, 0.00),
+(470, 94, 8, '½\"', 5, 5.00, 0.00),
+(471, 94, 8, '¾\"', 8, 9.00, 30.00),
+(472, 94, 8, '1\"', 22, 15.00, 0.00),
+(473, 94, 8, '1 ¼\"', 10, 17.00, 0.00),
+(474, 94, 8, '1 ½\"', 8, 25.00, 10.00),
+(475, 94, 8, '2\"', 0, 22.00, 17.00),
+(476, 94, 8, '2 ½\"', 0, 0.00, 0.00),
+(477, 94, 8, '3\"', 0, 0.00, 0.00),
+(478, 94, 8, '4\"', 0, 0.00, 0.00),
+(479, 95, 8, '½\"', 5, 5.00, 0.00),
+(480, 95, 8, '¾\"', 8, 9.00, 30.00),
+(481, 95, 8, '1\"', 22, 15.00, 0.00),
+(482, 95, 8, '1 ¼\"', 10, 17.00, 0.00),
+(483, 95, 8, '1 ½\"', 8, 25.00, 10.00),
+(484, 95, 8, '2\"', 0, 22.00, 17.00),
+(485, 95, 8, '2 ½\"', 0, 0.00, 0.00),
+(486, 95, 8, '3\"', 0, 0.00, 0.00),
+(487, 95, 8, '4\"', 0, 0.00, 0.00),
+(488, 96, 8, '½\"', 5, 5.00, 0.00),
+(489, 96, 8, '¾\"', 8, 9.00, 30.00),
+(490, 96, 8, '1\"', 22, 15.00, 0.00),
+(491, 96, 8, '1 ¼\"', 10, 17.00, 0.00),
+(492, 96, 8, '1 ½\"', 8, 25.00, 10.00),
+(493, 96, 8, '2\"', 0, 22.00, 17.00),
+(494, 96, 8, '2 ½\"', 0, 0.00, 0.00),
+(495, 96, 8, '3\"', 0, 0.00, 0.00),
+(496, 96, 8, '4\"', 0, 0.00, 0.00),
+(497, 97, 8, '½\"', 5, 5.00, 0.00),
+(498, 97, 8, '¾\"', 8, 9.00, 30.00),
+(499, 97, 8, '1\"', 22, 15.00, 0.00),
+(500, 97, 8, '1 ¼\"', 10, 17.00, 0.00),
+(501, 97, 8, '1 ½\"', 8, 25.00, 10.00),
+(502, 97, 8, '2\"', 0, 22.00, 17.00),
+(503, 97, 8, '2 ½\"', 0, 0.00, 0.00),
+(504, 97, 8, '3\"', 0, 0.00, 0.00),
+(505, 97, 8, '4\"', 0, 0.00, 0.00),
+(506, 98, 8, '½\"', 5, 5.00, 0.00),
+(507, 98, 8, '¾\"', 8, 9.00, 30.00),
+(508, 98, 8, '1\"', 22, 15.00, 0.00),
+(509, 98, 8, '1 ¼\"', 10, 17.00, 0.00),
+(510, 98, 8, '1 ½\"', 8, 25.00, 10.00),
+(511, 98, 8, '2\"', 0, 22.00, 17.00),
+(512, 98, 8, '2 ½\"', 0, 0.00, 0.00),
+(513, 98, 8, '3\"', 0, 0.00, 0.00),
+(514, 98, 8, '4\"', 0, 0.00, 0.00),
+(515, 99, 8, '¾\"x½\"', 10, 0.00, 0.00),
+(516, 99, 8, '1\"x½\"', 10, 0.00, 0.00),
+(517, 99, 8, '1\"x ¾\"\"', 8, 0.00, 0.00),
+(518, 99, 8, '1.¼\"x ½\"', 5, 0.00, 0.00),
+(519, 99, 8, '1.¼\"x¾\"', 5, 0.00, 0.00),
+(520, 99, 8, '1.¼\"x1\"', 5, 0.00, 0.00),
+(521, 99, 8, '1.½\"x½\"', 5, 0.00, 0.00),
+(522, 99, 8, '1.½\"x ¾\"', 5, 0.00, 0.00),
+(523, 99, 8, '1.½\"x 1\"', 5, 0.00, 0.00),
+(524, 99, 8, '1.½\"x 1.¼\"', 5, 0.00, 0.00),
+(525, 99, 8, '2\"x½\"', 5, 0.00, 0.00),
+(526, 99, 8, '2\"x¾\"', 5, 0.00, 0.00),
+(527, 99, 8, '2\"x 1\"', 5, 0.00, 0.00),
+(528, 99, 8, '2\"x 1.¼\"', 5, 0.00, 0.00),
+(529, 99, 8, '2\"x1.½\"', 5, 0.00, 0.00),
+(530, 99, 8, '2.½\"x½\"', 5, 0.00, 0.00),
+(531, 99, 8, '2.½\"x ¾', 5, 0.00, 0.00),
+(532, 99, 8, '2.½\"x 1\"', 5, 0.00, 0.00),
+(533, 99, 8, '2.½\"x 1.¼\"', 5, 0.00, 0.00),
+(534, 99, 8, '2.½\"x 1.½\"', 5, 0.00, 0.00),
+(535, 99, 8, '2.½\"\"x 2\"', 5, 0.00, 0.00),
+(536, 99, 8, '3\"x½\"', 5, 0.00, 0.00),
+(537, 99, 8, '3\"x¾\"', 5, 0.00, 0.00),
+(538, 99, 8, '3\"x1\"', 5, 0.00, 0.00),
+(539, 99, 8, '3\"x1.¼\"', 5, 0.00, 0.00),
+(540, 99, 8, '3\"x1.½\"', 5, 0.00, 0.00),
+(541, 99, 8, '3\"x2\"', 5, 0.00, 0.00),
+(542, 99, 8, '3\"x2.½\"', 5, 0.00, 0.00),
+(543, 99, 8, '4\"x1\"', 5, 0.00, 0.00),
+(544, 99, 8, '4\"x1.¼\"', 5, 0.00, 0.00),
+(545, 99, 8, '4\"x1.½\"', 5, 0.00, 0.00),
+(546, 99, 8, '4\"x2\"', 5, 0.00, 0.00),
+(547, 99, 8, '4\"x2.½\"', 5, 0.00, 0.00),
+(548, 99, 8, '4\"x3\"', 5, 0.00, 0.00),
+(549, 100, 8, '¾\"x ½\"', 5, 0.00, 0.00),
+(550, 100, 8, '1\"x ½\"', 5, 0.00, 0.00),
+(551, 100, 8, '1\"x ¼\"', 5, 0.00, 0.00),
+(552, 100, 8, '1.¼\"x ½\"', 5, 0.00, 0.00),
+(553, 100, 8, '1.¼\"x¾\"', 5, 0.00, 0.00),
+(554, 100, 8, '1.¼\"x1\"', 5, 0.00, 0.00),
+(555, 100, 8, '1.½\"x½\"', 5, 0.00, 0.00),
+(556, 100, 8, '1.½\"x ¾\"', 5, 0.00, 0.00),
+(557, 100, 8, '1.½\"x 1\"', 5, 0.00, 0.00),
+(558, 100, 8, '1.½\"x 1.¼\"', 5, 0.00, 0.00),
+(559, 100, 8, '2\"x½\"', 5, 0.00, 0.00),
+(560, 100, 8, '2\"x¾\"', 5, 0.00, 0.00),
+(561, 100, 8, '2\"x 1\"', 5, 0.00, 0.00),
+(562, 100, 8, '2\"x 1.¼\"', 5, 0.00, 0.00),
+(563, 100, 8, '2\"x1.½\"', 5, 0.00, 0.00),
+(564, 100, 8, '2.½\"x½\"', 5, 0.00, 0.00),
+(565, 100, 8, '2.½\"\"x ¾\"', 5, 0.00, 0.00),
+(566, 100, 8, '2.½\"\"x 1\"', 5, 0.00, 0.00),
+(567, 100, 8, '2.½\"\"x 1.¼\"', 5, 0.00, 0.00),
+(568, 100, 8, '2.½\"\"x 1.½\"', 5, 0.00, 0.00),
+(569, 100, 8, '2.½\"\"x 2\"', 5, 0.00, 0.00),
+(570, 100, 8, '3\"x½\"', 5, 0.00, 0.00),
+(571, 100, 8, '3\"x¾\"', 5, 0.00, 0.00),
+(572, 100, 8, '3\"x1\"', 5, 0.00, 0.00),
+(573, 100, 8, '3\"x1.¼\"', 5, 0.00, 0.00),
+(574, 100, 8, '3\"x1.½\"', 5, 0.00, 0.00),
+(575, 100, 8, '3\"x2\"', 5, 0.00, 0.00),
+(576, 100, 8, '3\"x2.½\"', 5, 0.00, 0.00),
+(577, 100, 8, '4\"x1\"', 5, 0.00, 0.00),
+(578, 100, 8, '4\"x1.¼\"', 5, 0.00, 0.00),
+(579, 100, 8, '4\"x1.½\"', 5, 0.00, 0.00),
+(580, 100, 8, '4\"x2\"', 5, 0.00, 0.00),
+(581, 100, 8, '4\"x2.½\"', 5, 0.00, 0.00),
+(582, 100, 8, '4\"x3\"', 5, 0.00, 0.00),
+(583, 101, 8, 'Corrido', 10, 0.00, 0.00),
+(584, 101, 8, '5 cm', 10, 0.00, 0.00),
+(585, 101, 8, '10 cm', 10, 0.00, 0.00),
+(586, 101, 8, '15 cm', 10, 0.00, 0.00),
+(587, 101, 8, '20 cm', 10, 0.00, 0.00),
+(588, 101, 8, '25 cm', 10, 0.00, 0.00),
+(589, 101, 8, '30 cm', 10, 0.00, 0.00),
+(590, 101, 8, '40 cm', 10, 0.00, 0.00),
+(591, 101, 8, '50 cm', 10, 0.00, 0.00),
+(592, 101, 8, '60 cm', 10, 0.00, 0.00),
+(593, 101, 8, '70 cm', 10, 0.00, 0.00),
+(594, 101, 8, '80 cm', 10, 0.00, 0.00),
+(595, 101, 8, '90 cm', 10, 0.00, 0.00),
+(596, 101, 8, '100cm', 10, 0.00, 0.00),
+(597, 102, 8, 'Corrido', 10, 0.00, 0.00),
+(598, 102, 8, '5 cm', 10, 0.00, 0.00),
+(599, 102, 8, '10 cm', 10, 0.00, 0.00),
+(600, 102, 8, '15 cm', 10, 0.00, 0.00),
+(601, 102, 8, '20 cm', 10, 0.00, 0.00),
+(602, 102, 8, '25 cm', 10, 0.00, 0.00),
+(603, 102, 8, '30 cm', 10, 0.00, 0.00),
+(604, 102, 8, '40 cm', 10, 0.00, 0.00),
+(605, 102, 8, '50 cm', 10, 0.00, 0.00),
+(606, 102, 8, '60 cm', 10, 0.00, 0.00),
+(607, 102, 8, '70 cm', 10, 0.00, 0.00),
+(608, 102, 8, '80 cm', 10, 0.00, 0.00),
+(609, 102, 8, '90 cm', 10, 0.00, 0.00),
+(610, 102, 8, '100cm', 10, 0.00, 0.00),
+(611, 103, 8, 'Corrido', 10, 0.00, 0.00),
+(612, 103, 8, '5 cm', 10, 0.00, 0.00),
+(613, 103, 8, '10 cm', 10, 0.00, 0.00),
+(614, 103, 8, '15 cm', 10, 0.00, 0.00),
+(615, 103, 8, '20 cm', 10, 0.00, 0.00),
+(616, 103, 8, '25 cm', 10, 0.00, 0.00),
+(617, 103, 8, '30 cm', 10, 0.00, 0.00),
+(618, 103, 8, '40 cm', 10, 0.00, 0.00),
+(619, 103, 8, '50 cm', 10, 0.00, 0.00),
+(620, 103, 8, '60 cm', 10, 0.00, 0.00),
+(621, 103, 8, '70 cm', 10, 0.00, 0.00),
+(622, 103, 8, '80 cm', 10, 0.00, 0.00),
+(623, 103, 8, '90 cm', 10, 0.00, 0.00),
+(624, 103, 8, '100cm', 10, 0.00, 0.00),
+(625, 104, 8, 'Corrido', 10, 0.00, 0.00),
+(626, 104, 8, '5 cm', 10, 0.00, 0.00),
+(627, 104, 8, '10 cm', 10, 0.00, 0.00),
+(628, 104, 8, '15 cm', 10, 0.00, 0.00),
+(629, 104, 8, '20 cm', 10, 0.00, 0.00),
+(630, 104, 8, '25 cm', 10, 0.00, 0.00),
+(631, 104, 8, '30 cm', 10, 0.00, 0.00),
+(632, 104, 8, '40 cm', 10, 0.00, 0.00),
+(633, 104, 8, '50 cm', 10, 0.00, 0.00),
+(634, 104, 8, '60 cm', 10, 0.00, 0.00),
+(635, 104, 8, '70 cm', 10, 0.00, 0.00),
+(636, 104, 8, '80 cm', 10, 0.00, 0.00),
+(637, 104, 8, '90 cm', 10, 0.00, 0.00),
+(638, 104, 8, '100cm', 10, 0.00, 0.00),
+(639, 105, 8, 'Corrido', 10, 0.00, 0.00),
+(640, 105, 8, '5 cm', 10, 0.00, 0.00),
+(641, 105, 8, '10 cm', 10, 0.00, 0.00),
+(642, 105, 8, '15 cm', 10, 0.00, 0.00),
+(643, 105, 8, '20 cm', 10, 0.00, 0.00),
+(644, 105, 8, '25 cm', 10, 0.00, 0.00),
+(645, 105, 8, '30 cm', 10, 0.00, 0.00),
+(646, 105, 8, '40 cm', 10, 0.00, 0.00),
+(647, 105, 8, '50 cm', 10, 0.00, 0.00),
+(648, 105, 8, '60 cm', 10, 0.00, 0.00),
+(649, 105, 8, '70 cm', 10, 0.00, 0.00),
+(650, 105, 8, '80 cm', 10, 0.00, 0.00),
+(651, 105, 8, '90 cm', 10, 0.00, 0.00),
+(652, 105, 8, '100cm', 10, 0.00, 0.00),
+(653, 106, 8, 'Corrido', 10, 0.00, 0.00),
+(654, 106, 8, '10 cm', 10, 0.00, 0.00),
+(655, 106, 8, '15 cm', 10, 0.00, 0.00),
+(656, 106, 8, '20 cm', 10, 0.00, 0.00),
+(657, 106, 8, '25 cm', 10, 0.00, 0.00),
+(658, 106, 8, '30 cm', 10, 0.00, 0.00),
+(659, 106, 8, '40 cm', 10, 0.00, 0.00),
+(660, 106, 8, '50 cm', 10, 0.00, 0.00),
+(661, 106, 8, '60 cm', 10, 0.00, 0.00),
+(662, 106, 8, '70 cm', 10, 0.00, 0.00),
+(663, 106, 8, '80 cm', 10, 0.00, 0.00),
+(664, 106, 8, '90 cm', 10, 0.00, 0.00),
+(665, 106, 8, '100cm', 10, 0.00, 0.00),
+(666, 107, 8, 'Corrido', 10, 0.00, 0.00),
+(667, 107, 8, '10 cm', 10, 0.00, 0.00),
+(668, 107, 8, '15 cm', 10, 0.00, 0.00),
+(669, 107, 8, '20 cm', 10, 0.00, 0.00),
+(670, 107, 8, '25 cm', 10, 0.00, 0.00),
+(671, 107, 8, '30 cm', 10, 0.00, 0.00),
+(672, 107, 8, '40 cm', 10, 0.00, 0.00),
+(673, 107, 8, '50 cm', 10, 0.00, 0.00),
+(674, 107, 8, '60 cm', 10, 0.00, 0.00),
+(675, 107, 8, '70 cm', 10, 0.00, 0.00),
+(676, 107, 8, '80 cm', 10, 0.00, 0.00),
+(677, 107, 8, '90 cm', 10, 0.00, 0.00),
+(678, 107, 8, '100cm', 10, 0.00, 0.00),
+(679, 108, 8, 'Corrido', 10, 0.00, 0.00),
+(680, 108, 8, '10 cm', 10, 0.00, 0.00),
+(681, 108, 8, '15 cm', 10, 0.00, 0.00),
+(682, 108, 8, '20 cm', 10, 0.00, 0.00),
+(683, 108, 8, '25 cm', 10, 0.00, 0.00),
+(684, 108, 8, '30 cm', 10, 0.00, 0.00),
+(685, 108, 8, '40 cm', 10, 0.00, 0.00),
+(686, 108, 8, '50 cm', 10, 0.00, 0.00),
+(687, 108, 8, '60 cm', 10, 0.00, 0.00),
+(688, 108, 8, '70 cm', 10, 0.00, 0.00),
+(689, 108, 8, '80 cm', 10, 0.00, 0.00),
+(690, 108, 8, '90 cm', 10, 0.00, 0.00),
+(691, 108, 8, '100cm', 10, 0.00, 0.00),
+(692, 109, 8, 'Corrido', 10, 0.00, 0.00),
+(693, 109, 8, '10 cm', 10, 0.00, 0.00),
+(694, 109, 8, '15 cm', 10, 0.00, 0.00),
+(695, 109, 8, '20 cm', 10, 0.00, 0.00),
+(696, 109, 8, '25 cm', 10, 0.00, 0.00),
+(697, 109, 8, '30 cm', 10, 0.00, 0.00),
+(698, 109, 8, '40 cm', 10, 0.00, 0.00),
+(699, 109, 8, '50 cm', 10, 0.00, 0.00),
+(700, 109, 8, '60 cm', 10, 0.00, 0.00),
+(701, 109, 8, '70 cm', 10, 0.00, 0.00),
+(702, 109, 8, '80 cm', 10, 0.00, 0.00),
+(703, 109, 8, '90 cm', 10, 0.00, 0.00),
+(704, 109, 8, '100cm', 10, 0.00, 0.00),
+(705, 171, 14, '1 ½\"', 8, 25.00, 10.00),
+(706, 171, 14, '2\"', 8, 25.00, 10.00),
+(707, 171, 14, '3\"', 8, 25.00, 10.00),
+(708, 171, 14, '4\"', 8, 25.00, 10.00),
+(709, 171, 14, '6\"', 8, 25.00, 10.00),
+(710, 171, 14, '8\"', 8, 25.00, 10.00),
+(711, 172, 14, '1 ½\"', 8, 25.00, 10.00),
+(712, 172, 14, '2\"', 8, 25.00, 10.00),
+(713, 172, 14, '3\"', 8, 25.00, 10.00),
+(714, 172, 14, '4\"', 8, 25.00, 10.00),
+(715, 172, 14, '6\"', 8, 25.00, 10.00),
+(716, 172, 14, '8\"', 8, 25.00, 10.00),
+(717, 173, 14, '1 ½\"', 8, 25.00, 10.00),
+(718, 173, 14, '2\"', 8, 25.00, 10.00),
+(719, 173, 14, '3\"', 8, 25.00, 10.00),
+(720, 173, 14, '4\"', 8, 25.00, 10.00),
+(721, 173, 14, '6\"', 8, 25.00, 10.00),
+(722, 173, 14, '8\"', 8, 25.00, 10.00),
+(723, 174, 14, '1 ½\"', 8, 25.00, 10.00),
+(724, 174, 14, '2\"', 8, 25.00, 10.00),
+(725, 174, 14, '3\"', 8, 25.00, 10.00),
+(726, 174, 14, '4\"-2\"', 8, 25.00, 10.00),
+(727, 174, 14, '4\"', 8, 25.00, 10.00),
+(728, 174, 14, '6\"', 8, 25.00, 10.00),
+(729, 175, 14, '1 ½\"', 8, 25.00, 10.00),
+(730, 175, 14, '2\"', 8, 25.00, 10.00),
+(731, 175, 14, '3\"', 8, 25.00, 10.00),
+(732, 175, 14, '4\"', 8, 25.00, 10.00),
+(733, 175, 14, '4\"-2\"', 8, 25.00, 10.00),
+(734, 175, 14, '6\"', 8, 25.00, 10.00),
+(735, 175, 14, '8\"', 8, 25.00, 10.00),
+(736, 176, 14, '4\"-2\"', 8, 25.00, 10.00),
+(737, 177, 14, '4\"-2\"', 8, 25.00, 10.00),
+(738, 178, 14, '1 ½\"', 8, 25.00, 10.00),
+(739, 178, 14, '2\"', 8, 25.00, 10.00),
+(740, 178, 14, '3\"', 8, 25.00, 10.00),
+(741, 178, 14, '4\"', 8, 25.00, 10.00),
+(742, 178, 14, '4\"-2\"', 8, 25.00, 10.00),
+(743, 178, 14, '6\"', 8, 25.00, 10.00),
+(745, 179, 14, '4\"-2\"', 8, 25.00, 10.00),
+(746, 180, 14, '4\"-2\"', 8, 25.00, 10.00),
+(748, 181, 14, '4\"-2\"', 8, 25.00, 10.00),
+(749, 182, 14, '4\"-2\"', 8, 25.00, 10.00),
+(750, 183, 14, '4\"', 8, 25.00, 10.00),
+(751, 184, 14, '4\"', 8, 25.00, 10.00),
+(752, 186, 14, '2\"-½\"', 8, 25.00, 10.00),
+(753, 186, 14, '3\"-2\"', 8, 25.00, 10.00),
+(754, 186, 14, '4\"-3\"', 8, 25.00, 10.00),
+(755, 186, 14, '4\"-2\"', 8, 25.00, 10.00),
+(756, 186, 14, '4\"-1½\"', 8, 25.00, 10.00),
+(757, 186, 14, '6\"-4\"', 8, 25.00, 10.00),
+(758, 187, 14, '2\"', 8, 25.00, 10.00),
+(759, 188, 14, '1 ½\"', 8, 25.00, 10.00),
+(760, 188, 14, '2\"', 8, 25.00, 10.00),
+(761, 188, 14, '3\"', 8, 25.00, 10.00),
+(762, 188, 14, '4\"', 8, 25.00, 10.00),
+(763, 189, 14, '1 ½\"', 8, 25.00, 10.00),
+(764, 189, 14, '2\"', 8, 25.00, 10.00),
+(765, 189, 14, '3\"', 8, 25.00, 10.00),
+(766, 189, 14, '4\"', 8, 25.00, 10.00),
+(768, 197, 14, '1 ½\"', 8, 25.00, 10.00),
+(769, 197, 14, '2\"', 8, 25.00, 10.00),
+(771, 197, 14, '3\"', 8, 25.00, 10.00),
+(772, 197, 14, '4\"', 8, 25.00, 10.00);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `recomendaciones_categoria`
+-- Estructura de tabla para la tabla `recomendaciones_categoria`
 --
 
 CREATE TABLE `recomendaciones_categoria` (
@@ -949,7 +1048,7 @@ CREATE TABLE `recomendaciones_categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Dumping data for table `recomendaciones_categoria`
+-- Volcado de datos para la tabla `recomendaciones_categoria`
 --
 
 INSERT INTO `recomendaciones_categoria` (`id`, `categoria_id`, `producto_id`, `orden`, `activo`, `created_at`, `rec_id`) VALUES
@@ -958,11 +1057,11 @@ INSERT INTO `recomendaciones_categoria` (`id`, `categoria_id`, `producto_id`, `o
 (3, 1, 54, 3, 1, '2025-10-07 20:43:06', 1);
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `categorias`
+-- Indices de la tabla `categorias`
 --
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id`),
@@ -970,7 +1069,7 @@ ALTER TABLE `categorias`
   ADD UNIQUE KEY `slug` (`slug`);
 
 --
--- Indexes for table `medidas_categoria`
+-- Indices de la tabla `medidas_categoria`
 --
 ALTER TABLE `medidas_categoria`
   ADD PRIMARY KEY (`id`),
@@ -978,14 +1077,14 @@ ALTER TABLE `medidas_categoria`
   ADD KEY `idx_categoria` (`categoria_id`);
 
 --
--- Indexes for table `productos`
+-- Indices de la tabla `productos`
 --
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `categoria_id` (`categoria_id`);
 
 --
--- Indexes for table `productos_medidas`
+-- Indices de la tabla `productos_medidas`
 --
 ALTER TABLE `productos_medidas`
   ADD PRIMARY KEY (`id`),
@@ -993,64 +1092,64 @@ ALTER TABLE `productos_medidas`
   ADD KEY `idx_producto_id` (`producto_id`);
 
 --
--- Indexes for table `recomendaciones_categoria`
+-- Indices de la tabla `recomendaciones_categoria`
 --
 ALTER TABLE `recomendaciones_categoria`
   ADD PRIMARY KEY (`id`),
   ADD KEY `producto_id` (`producto_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `categorias`
+-- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT for table `medidas_categoria`
+-- AUTO_INCREMENT de la tabla `medidas_categoria`
 --
 ALTER TABLE `medidas_categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
--- AUTO_INCREMENT for table `productos`
+-- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
 
 --
--- AUTO_INCREMENT for table `productos_medidas`
+-- AUTO_INCREMENT de la tabla `productos_medidas`
 --
 ALTER TABLE `productos_medidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1148;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=773;
 
 --
--- AUTO_INCREMENT for table `recomendaciones_categoria`
+-- AUTO_INCREMENT de la tabla `recomendaciones_categoria`
 --
 ALTER TABLE `recomendaciones_categoria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `productos`
+-- Filtros para la tabla `productos`
 --
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `productos_medidas`
+-- Filtros para la tabla `productos_medidas`
 --
 ALTER TABLE `productos_medidas`
   ADD CONSTRAINT `productos_medidas_ibfk_1` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `recomendaciones_categoria`
+-- Filtros para la tabla `recomendaciones_categoria`
 --
 ALTER TABLE `recomendaciones_categoria`
   ADD CONSTRAINT `recomendaciones_categoria_ibfk_1` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`);
