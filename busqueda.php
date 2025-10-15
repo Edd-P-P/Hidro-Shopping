@@ -13,8 +13,9 @@ $productos_por_pagina = 12;
 $offset = ($pagina > 0) ? ($pagina - 1) * $productos_por_pagina : 0;
 
 // Obtener categorías para el filtro
-$stmtCat = $con->query("SELECT id, nombre FROM categorias WHERE activo = 1 ORDER BY nombre");
-$categorias = $stmtCat->fetchAll(PDO::FETCH_ASSOC);
+$sql_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
+$sql_categorias->execute();
+$categorias = $sql_categorias->fetchAll(PDO::FETCH_ASSOC);
 
 // Construir consulta base
 $sql = "SELECT SQL_CALC_FOUND_ROWS p.id, p.nombre, p.precio, p.descuento, p.categoria_id, c.nombre AS categoria_nombre
@@ -63,72 +64,212 @@ $total_paginas = ceil($total / $productos_por_pagina);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos específicos para la página de búsqueda */
+        .search-page {
+            background-color: var(--light);
+            min-height: 70vh;
+            padding: 2rem 0;
+        }
+        
+        .container-products {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .results-count {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+        
+        .filter-badge {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            gap: 5px;
+        }
+        
+        .filter-badge.remove {
+            background: var(--gray);
+            cursor: pointer;
+        }
+        
+        .filter-badge.remove:hover {
+            background: #555;
+        }
+        
+        .filters-bar {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        
+        .form-select, .form-control {
+            padding: 10px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            background: white;
+            min-width: 200px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #030f3a;
+        }
+        
+        .btn-outline-secondary {
+            background: transparent;
+            border: 1px solid var(--gray);
+            color: var(--gray);
+        }
+        
+        .btn-outline-secondary:hover {
+            background: #f5f5f5;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        
+        .no-results p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .no-results .suggestions {
+            margin-top: 20px;
+            color: var(--gray);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 5px;
+        }
+        
+        .pagination a, .pagination span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            text-decoration: none;
+            border: 1px solid var(--light-gray);
+            color: var(--primary);
+            background: white;
+            border-radius: var(--border-radius);
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+        
+        .pagination a:hover {
+            background: #f5f5f5;
+        }
+        
+        .pagination .active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .form-select, .form-control {
+                min-width: 100%;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .pagination a, .pagination span {
+                padding: 6px 10px;
+                min-width: 36px;
+            }
+        }
+    </style>
 </head>
-
-<style>
-    :root{
-        --primary-color: #1375BA;
-        --secondary-color: #FFD54F;
-        --accent-color: #FF9800;
-        --text-color: #333;
-        --background-color: #FFF9C4;
-        --font-family: 'PT Sans', sans-serif;
-        --font-family-alt: 'Montserrat', sans-serif;
-    }
-    body{
-        background-color: var(--background-color);
-    }
-    .section-title {
-        color: #1375BA;
-    }
-    .container-products{
-        max-width: 1200px;
-        margin: 25px auto;
-        padding: 0 1rem;
-    }
-    .btn-secondary {
-        background: transparent;
-        border: 2px solid #1375BA;
-        color: #1375BA;
-    }
-    .container-footer{
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1rem;
-        justify-content: center;
-    }
-    .filters-bar {
-        background: white;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 2rem;
-        gap: 0.5rem;
-    }
-    .pagination a, .pagination span {
-        display: inline-block;
-        padding: 0.4rem 0.8rem;
-        text-decoration: none;
-        border: 1px solid #ddd;
-        color: #1375BA;
-        background: white;
-    }
-    .pagination .active {
-        background: #1375BA;
-        color: white;
-        border-color: #1375BA;
-    }
-    .no-results {
-        text-align: center;
-        padding: 2rem;
-        color: #666;
-    }
-</style>
 
 <body>
     <!-- Overlay para menú móvil -->
@@ -145,16 +286,19 @@ $total_paginas = ceil($total / $productos_por_pagina);
         
         <div class="mobile-categories">
             <ul>
-                <li><a href="index.php">Volver al inicio</a></li>
-                <?php foreach ($categorias as $cat): ?>
-                    <li><a href="busqueda.php?categoria=<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></a></li>
+                <?php foreach($categorias as $categoria): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
+                            <?php echo htmlspecialchars($categoria['nombre']); ?>
+                        </a>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </div>
         
         <div class="mobile-sidebar-footer">
             <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
-            <button href="#"><i class="fas fa-shopping-cart"></i> Carrito</button>
+            <a href="checkout.php" class="icon-wrapper"><i class="fas fa-shopping-cart"></i> Carrito</a>
             <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>
@@ -183,13 +327,12 @@ $total_paginas = ceil($total / $productos_por_pagina);
             
             <!-- Barra de búsqueda -->
             <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
+                <form action="busqueda.php" method="GET">
+                    <i class="fas fa-search"></i>
                     <input 
                         type="text" 
                         name="q" 
                         placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
                         value="<?php echo htmlspecialchars($busqueda); ?>"
                     >
                 </form>
@@ -205,52 +348,75 @@ $total_paginas = ceil($total / $productos_por_pagina);
         </div>
     </header>
 
-    <!-- Navegación de Categorías -->
     <nav class="categories-nav">
         <div class="container categories-container">
             <button class="hamburger" id="hamburgerMenu">
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <li><a href="index.php">Inicio</a></li>
-                <?php foreach ($categorias as $cat): ?>
-                    <li><a href="busqueda.php?categoria=<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></a></li>
+                <?php foreach($categorias as $categoria): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
+                            <?php echo htmlspecialchars($categoria['nombre']); ?>
+                        </a>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </div>
     </nav>
 
-    <!-- Filtros y resultados -->
-    <section class="products-CPVC_A" id="products">
+    <!-- Resultados de búsqueda -->
+    <section class="search-page">
         <div class="container-products">
-            <h2 class="section-title">Resultados de búsqueda</h2>
-
-            <!-- Mostrar términos activos -->
-            <div class="mb-3">
-                <?php if (!empty($busqueda)): ?>
-                    <span class="badge bg-primary me-2">Búsqueda: <?php echo htmlspecialchars($busqueda); ?></span>
+            <div class="page-header">
+                <h2 class="section-title">Resultados de búsqueda</h2>
+                
+                <?php if ($total > 0): ?>
+                    <div class="results-count">
+                        Se encontraron <strong><?php echo $total; ?></strong> producto<?php echo $total !== 1 ? 's' : ''; ?>
+                        <?php if (!empty($busqueda)): ?>
+                            para "<strong><?php echo htmlspecialchars($busqueda); ?></strong>"
+                        <?php endif; ?>
+                    </div>
                 <?php endif; ?>
-                <?php if ($categoria_filtro > 0):
-                    $cat_nombre = '';
-                    foreach ($categorias as $c) {
-                        if ($c['id'] == $categoria_filtro) {
-                            $cat_nombre = $c['nombre'];
-                            break;
+                
+                <!-- Mostrar filtros activos -->
+                <div class="active-filters">
+                    <?php if (!empty($busqueda)): ?>
+                        <span class="filter-badge">
+                            Búsqueda: <?php echo htmlspecialchars($busqueda); ?>
+                            <a href="?<?php echo http_build_query(array_filter(['categoria' => $categoria_filtro])); ?>" class="text-white ms-1">×</a>
+                        </span>
+                    <?php endif; ?>
+                    
+                    <?php if ($categoria_filtro > 0):
+                        $cat_nombre = '';
+                        foreach ($categorias as $c) {
+                            if ($c['id'] == $categoria_filtro) {
+                                $cat_nombre = $c['nombre'];
+                                break;
+                            }
                         }
-                    }
-                ?>
-                    <span class="badge bg-secondary me-2">Categoría: <?php echo htmlspecialchars($cat_nombre); ?></span>
-                    <a href="busqueda.php<?php echo !empty($busqueda) ? '?q=' . urlencode($busqueda) : ''; ?>" class="badge bg-light text-dark">× Quitar filtro</a>
-                <?php endif; ?>
+                    ?>
+                        <span class="filter-badge">
+                            Categoría: <?php echo htmlspecialchars($cat_nombre); ?>
+                            <a href="?<?php echo http_build_query(array_filter(['q' => $busqueda])); ?>" class="text-white ms-1">×</a>
+                        </span>
+                    <?php endif; ?>
+                    
+                    <?php if ($categoria_filtro || $busqueda): ?>
+                        <a href="busqueda.php" class="filter-badge remove">Limpiar todos ×</a>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <!-- Filtros -->
             <div class="filters-bar">
-                <form method="GET" class="d-flex flex-wrap align-items-center gap-3">
-                    <div>
-                        <label><strong>Categoría:</strong></label>
-                        <select name="categoria" class="form-select" style="width: auto; display: inline-block;">
-                            <option value="">Todas</option>
+                <form method="GET" class="filter-form">
+                    <div class="filter-group">
+                        <label for="categoria">Categoría:</label>
+                        <select name="categoria" id="categoria" class="form-select">
+                            <option value="">Todas las categorías</option>
                             <?php foreach ($categorias as $cat): ?>
                                 <option value="<?php echo $cat['id']; ?>" <?php echo ($categoria_filtro == $cat['id']) ? 'selected' : ''; ?>>
                                     <?php echo htmlspecialchars($cat['nombre']); ?>
@@ -258,22 +424,36 @@ $total_paginas = ceil($total / $productos_por_pagina);
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div>
-                        <input type="text" name="q" placeholder="Buscar en resultados..." value="<?php echo htmlspecialchars($busqueda); ?>" class="form-control" style="width: 200px;">
+                    
+                    <div class="filter-group">
+                        <label for="busqueda">Buscar:</label>
+                        <input type="text" name="q" id="busqueda" placeholder="Buscar productos..." value="<?php echo htmlspecialchars($busqueda); ?>" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-primary">Filtrar</button>
-                    <?php if ($categoria_filtro || $busqueda): ?>
-                        <a href="busqueda.php" class="btn btn-outline-secondary">Limpiar</a>
-                    <?php endif; ?>
+                    
+                    <div class="filter-group">
+                        <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+                        <?php if ($categoria_filtro || $busqueda): ?>
+                            <a href="busqueda.php" class="btn btn-outline-secondary" style="margin-top: 8px;">Limpiar</a>
+                        <?php endif; ?>
+                    </div>
                 </form>
             </div>
 
             <?php if (empty($productos)): ?>
                 <div class="no-results">
-                    <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
-                    <p>No se encontraron productos.</p>
+                    <i class="fas fa-search fa-3x mb-3"></i>
+                    <p>No se encontraron productos que coincidan con tu búsqueda.</p>
+                    <div class="suggestions">
+                        <p>Sugerencias:</p>
+                        <ul>
+                            <li>Revisa la ortografía de las palabras</li>
+                            <li>Utiliza términos más generales</li>
+                            <li>Prueba con otras categorías</li>
+                        </ul>
+                    </div>
                 </div>
             <?php else: ?>
+                <!-- Manteniendo EXACTAMENTE tu estructura original de productos -->
                 <div class="product-grid">
                     <?php foreach ($productos as $row): 
                         $precio = (float)$row['precio'];
@@ -319,18 +499,22 @@ $total_paginas = ceil($total / $productos_por_pagina);
                 <?php if ($total_paginas > 1): ?>
                     <nav class="pagination">
                         <?php if ($pagina > 1): ?>
-                            <a href="?<?php echo http_build_query(array_filter(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $pagina - 1])); ?>">&laquo; Anterior</a>
+                            <a href="?<?php echo http_build_query(array_merge(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $pagina - 1])); ?>">
+                                &laquo; Anterior
+                            </a>
                         <?php endif; ?>
 
                         <?php for ($i = max(1, $pagina - 2); $i <= min($total_paginas, $pagina + 2); $i++): ?>
-                            <a href="?<?php echo http_build_query(array_filter(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $i])); ?>" 
+                            <a href="?<?php echo http_build_query(array_merge(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $i])); ?>" 
                                class="<?php echo ($i == $pagina) ? 'active' : ''; ?>">
                                 <?php echo $i; ?>
                             </a>
                         <?php endfor; ?>
 
                         <?php if ($pagina < $total_paginas): ?>
-                            <a href="?<?php echo http_build_query(array_filter(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $pagina + 1])); ?>">Siguiente &raquo;</a>
+                            <a href="?<?php echo http_build_query(array_merge(['q' => $busqueda, 'categoria' => $categoria_filtro, 'pagina' => $pagina + 1])); ?>">
+                                Siguiente &raquo;
+                            </a>
                         <?php endif; ?>
                     </nav>
                 <?php endif; ?>
@@ -342,7 +526,7 @@ $total_paginas = ceil($total / $productos_por_pagina);
 
     <!-- Footer -->
     <footer id="contacto">
-        <div class="container-footer">
+        <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>HIDROSISTEMAS</h4>
