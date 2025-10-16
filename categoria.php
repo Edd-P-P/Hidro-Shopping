@@ -9,6 +9,11 @@ $id = $_GET['id'] ?? '';
 $slug = $_GET['slug'] ?? '';
 
 // Obtener información de la categoría
+$sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
+$sql_todas_categorias->execute();
+$todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener información de la categoría - ESTA PARTE FALTABA
 $sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
 $sql_categoria->execute([$id, $slug]);
 $categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
@@ -418,6 +423,34 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
             alert('Error de conexión');
         });
     }
+    // Script para el menú retráctil de categorías en ESCRITORIO
+document.addEventListener('DOMContentLoaded', function() {
+    const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
+    const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
+
+    if (categoriesToggleDesktop && categoriesDropdownDesktop) {
+        categoriesToggleDesktop.addEventListener('click', function() {
+            categoriesDropdownDesktop.classList.toggle('active');
+            categoriesToggleDesktop.classList.toggle('active');
+        });
+
+        // Cerrar el menú al hacer clic fuera de él
+        document.addEventListener('click', function(event) {
+            if (!categoriesToggleDesktop.contains(event.target) && !categoriesDropdownDesktop.contains(event.target)) {
+                categoriesDropdownDesktop.classList.remove('active');
+                categoriesToggleDesktop.classList.remove('active');
+            }
+        });
+
+        // Cerrar el menú al hacer clic en un enlace de categoría
+        const categoryLinks = categoriesDropdownDesktop.querySelectorAll('a');
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                categoriesDropdownDesktop.classList.remove('active');
+                categoriesToggleDesktop.classList.remove('active');
+            });
+        });
+    }});
     </script>
 </body>
 </html>

@@ -532,7 +532,7 @@ to me
     box-shadow: var(--shadow);
     transition: var(--transition);
     width: 275px;
-    height: 450px;
+    height: 480px;
 }
 
 .product-card:hover {

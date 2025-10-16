@@ -5,10 +5,18 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
+$id = $_GET['id'] ?? '';
+$slug = $_GET['slug'] ?? '';
+
 // OBTENER CATEGORÍAS PARA EL MENÚ - ESTO FALTABA
 $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
 $sql_todas_categorias->execute();
 $todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener información de la categoría - ESTA PARTE FALTABA
+$sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
+$sql_categoria->execute([$id, $slug]);
+$categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $categoria_id = isset($_GET['categoria_id']) ? (int)$_GET['categoria_id'] : 0;

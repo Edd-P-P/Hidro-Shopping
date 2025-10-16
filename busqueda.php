@@ -5,6 +5,19 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
+$id = $_GET['id'] ?? '';
+$slug = $_GET['slug'] ?? '';
+
+// Obtener información de la categoría
+$sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
+$sql_todas_categorias->execute();
+$todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener información de la categoría de manera independiente
+$sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
+$sql_categoria->execute([$id, $slug]);
+$categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
+
 // Parámetros de entrada
 $busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
 $categoria_filtro = isset($_GET['categoria']) ? (int)$_GET['categoria'] : 0;
@@ -348,16 +361,42 @@ $total_paginas = ceil($total / $productos_por_pagina);
         </div>
     </header>
 
+      <!-- Navegación de Categorías Retráctil - SOLO ESCRITORIO -->
+    <nav class="categories-nav-desktop">
+        <button class="categories-toggle-desktop" id="categoriesToggleDesktop">
+            <span><i class="fas fa-th-large me-2"></i> CATEGORÍAS</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="categories-dropdown-desktop" id="categoriesDropdownDesktop">
+            <div class="categories-dropdown-header">
+                <a href="index.php" class="back-home-btn">
+                    <i class="fas fa-home me-2"></i> Volver al Inicio
+                </a>
+                <span class="categories-title">Todas Nuestras Categorías</span>
+            </div>
+            <ul class="categories-dropdown-list">
+                <?php foreach($todas_categorias as $cat): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
+                            <?php echo htmlspecialchars($cat['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Navegación de Categorías Original (para móvil) -->
     <nav class="categories-nav">
         <div class="container categories-container">
             <button class="hamburger" id="hamburgerMenu">
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="categories-list">
-                <?php foreach($categorias as $categoria): ?>
+                <?php foreach($todas_categorias as $cat): ?>
                     <li>
-                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
-                            <?php echo htmlspecialchars($categoria['nombre']); ?>
+                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
+                            <?php echo htmlspecialchars($cat['nombre']); ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
