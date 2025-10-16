@@ -36,11 +36,33 @@ if (!file_exists($imagen_hero)) {
     $imagen_hero = "Imagenes/hero.png";
 }
 
-// Obtener productos de esta categoría
-$sql_productos = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = ?");
-$sql_productos->execute([$id]);
+// Obtener productos de esta categoría (combinando ambas fuentes)
+$sql_productos = $con->prepare("
+    SELECT DISTINCT p.id, p.nombre, p.precio, p.categoria_id 
+    FROM productos p 
+    WHERE p.activo = 1 AND p.categoria_id = ?
+    
+    UNION
+    
+    SELECT DISTINCT p.id, p.nombre, p.precio, p.categoria_id 
+    FROM productos p 
+    INNER JOIN producto_categorias pc ON p.id = pc.producto_id 
+    WHERE p.activo = 1 AND pc.categoria_id = ?
+    
+    ORDER BY id ASC
+");
+$sql_productos->execute([$id, $id]);
 $productos = $sql_productos->fetchAll(PDO::FETCH_ASSOC);
 
+// Después de obtener los productos, agrega esto temporalmente para debug
+error_log("Categoría ID: $id");
+error_log("Productos encontrados: " . count($productos));
+foreach($productos as $prod) {
+    error_log("Producto: " . $prod['id'] . " - " . $prod['nombre'] . " - Categoría: " . $prod['categoria_id']);
+}
+
+// También puedes verlo en el HTML (comenta después de debug)
+echo "<!-- DEBUG: " . count($productos) . " productos encontrados para categoría $id -->";
 // Obtener todas las categorías para el menú
 $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
 $sql_todas_categorias->execute();

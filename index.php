@@ -11,7 +11,7 @@ $sql_categorias->execute();
 $categorias = $sql_categorias->fetchAll(PDO::FETCH_ASSOC);
 
 // Obtener productos destacados
-$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 AND categoria_id = 9");
+$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 AND categoria_id = 16");
 $sql->execute();
 $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
