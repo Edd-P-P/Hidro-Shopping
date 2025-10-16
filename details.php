@@ -5,18 +5,19 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
-$id = $_GET['id'] ?? '';
-$slug = $_GET['slug'] ?? '';
-
-// OBTENER CATEGORÍAS PARA EL MENÚ - ESTO FALTABA
+// OBTENER CATEGORÍAS PARA EL MENÚ
 $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
 $sql_todas_categorias->execute();
 $todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtener información de la categoría - ESTA PARTE FALTABA
-$sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
-$sql_categoria->execute([$id, $slug]);
-$categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
+// ELIMINAR ESTAS LÍNEAS QUE CAUSAN EL ERROR:
+// $id = $_GET['id'] ?? '';
+// $slug = $_GET['slug'] ?? '';
+
+// ELIMINAR ESTA CONSULTA QUE NO SE USA EN DETAILS.PHP:
+// $sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
+// $sql_categoria->execute([$id, $slug]);
+// $categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $categoria_id = isset($_GET['categoria_id']) ? (int)$_GET['categoria_id'] : 0;
@@ -35,10 +36,11 @@ if (!hash_equals($token, $token_tmp)) {
 
 // Obtener información del producto base
 $stmt = $con->prepare("
-    SELECT id, nombre, descripcion, precio, descuento, stock, categoria_id, 
-           especificaciones, tabla_med, requiere_medidas
-    FROM productos 
-    WHERE id = ? AND categoria_id = ? AND activo = 1 
+    SELECT p.id, p.nombre, p.descripcion, p.precio, p.descuento, p.stock, p.categoria_id, 
+           p.especificaciones, p.tabla_med, p.requiere_medidas, c.nombre as categoria_nombre
+    FROM productos p
+    INNER JOIN categorias c ON p.categoria_id = c.id
+    WHERE p.id = ? AND p.categoria_id = ? AND p.activo = 1 
     LIMIT 1
 ");
 $stmt->execute([$id, $categoria_id]);
@@ -122,7 +124,8 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HidroBuy </title>
+    <!-- CORREGIR EL TÍTULO: USAR EL NOMBRE DEL PRODUCTO EN LUGAR DE LA CATEGORÍA -->
+    <title><?php echo htmlspecialchars($row['nombre']); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css  ">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="  https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css  " rel="stylesheet">
