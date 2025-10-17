@@ -5,17 +5,18 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
-$id = $_GET['id'] ?? '';
-$slug = $_GET['slug'] ?? '';
+// Obtener parámetros de la URL - CORREGIDO
+$id_categoria = $_GET['id'] ?? '';
+$slug_categoria = $_GET['slug'] ?? '';
 
-// Obtener información de la categoría
+// Obtener todas las categorías para el menú
 $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
 $sql_todas_categorias->execute();
 $todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtener información de la categoría - ESTA PARTE FALTABA
+// Obtener información de la categoría específica - CORREGIDO
 $sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
-$sql_categoria->execute([$id, $slug]);
+$sql_categoria->execute([$id_categoria, $slug_categoria]);
 $categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
 
 if (!$categoria) {
@@ -51,22 +52,18 @@ $sql_productos = $con->prepare("
     
     ORDER BY id ASC
 ");
-$sql_productos->execute([$id, $id]);
+$sql_productos->execute([$id_categoria, $id_categoria]);
 $productos = $sql_productos->fetchAll(PDO::FETCH_ASSOC);
 
 // Después de obtener los productos, agrega esto temporalmente para debug
-error_log("Categoría ID: $id");
+error_log("Categoría ID: $id_categoria");
 error_log("Productos encontrados: " . count($productos));
 foreach($productos as $prod) {
     error_log("Producto: " . $prod['id'] . " - " . $prod['nombre'] . " - Categoría: " . $prod['categoria_id']);
 }
 
 // También puedes verlo en el HTML (comenta después de debug)
-echo "<!-- DEBUG: " . count($productos) . " productos encontrados para categoría $id -->";
-// Obtener todas las categorías para el menú
-$sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
-$sql_todas_categorias->execute();
-$todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
+echo "<!-- DEBUG: " . count($productos) . " productos encontrados para categoría $id_categoria -->";
 
 // Función simple para ajustar brillo (solo para botones)
 function adjustBrightness($hex, $steps) {
@@ -102,7 +99,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($categoria['nombre']); ?></title>
+    <title><?php echo htmlspecialchars($categoria['nombre']); ?> - HidroBuy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -191,6 +188,169 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
     }
     footer {
         margin-top: 20px;
+    }
+
+    /* ESTILOS PARA EL MENÚ RETRÁCTIL - AGREGAR ESTOS */
+    .categories-nav-desktop {
+        position: relative;
+        background: #2c3e50;
+        display: none;
+    }
+
+    .categories-toggle-desktop {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 25px;
+        background: linear-gradient(135deg, #34495e, #2c3e50);
+        color: white;
+        border: none;
+        width: 100%;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 700;
+        font-family: 'Montserrat', sans-serif;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .categories-toggle-desktop:hover {
+        background: linear-gradient(135deg, #3d566e, #34495e);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .categories-toggle-desktop i {
+        transition: transform 0.3s ease;
+        font-size: 16px;
+    }
+
+    .categories-toggle-desktop.active i {
+        transform: rotate(180deg);
+    }
+
+    .categories-dropdown-desktop {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        z-index: 1000;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .categories-dropdown-desktop.active {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .categories-dropdown-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 25px;
+        background: linear-gradient(135deg, #ecf0f1, #dde4e6);
+        border-bottom: 2px solid #bdc3c7;
+        font-weight: 700;
+        color: #2c3e50;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .back-home-btn {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    }
+
+    .back-home-btn:hover {
+        background: linear-gradient(135deg, #2980b9, #2471a3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        color: white;
+    }
+
+    .back-home-btn i {
+        margin-right: 8px;
+        font-size: 14px;
+    }
+
+    .categories-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .categories-dropdown-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 0;
+    }
+
+    .categories-dropdown-list li {
+        border-bottom: 1px solid #ecf0f1;
+        border-right: 1px solid #ecf0f1;
+    }
+
+    .categories-dropdown-list li:nth-child(3n) {
+        border-right: none;
+    }
+
+    .categories-dropdown-list li:last-child {
+        border-bottom: none;
+    }
+
+    .categories-dropdown-list a {
+        display: block;
+        padding: 15px 25px;
+        color: #34495e;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-family: 'PT Sans', sans-serif;
+    }
+
+    .categories-dropdown-list a:hover {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        color: #2980b9;
+        padding-left: 30px;
+        border-left: 4px solid #3498db;
+    }
+
+    /* Mostrar solo en pantallas grandes */
+    @media (min-width: 1024px) {
+        .categories-nav-desktop {
+            display: block;
+        }
+        
+        /* Ocultar la navegación original de categorías en escritorio */
+        .categories-nav {
+            display: none;
+        }
+    }
+
+    /* Para móviles, mostrar la navegación original */
+    @media (max-width: 1023px) {
+        .categories-nav-desktop {
+            display: none;
+        }
+        
+        .categories-nav {
+            display: block;
+        }
     }
 </style>
 </head>
@@ -445,34 +605,36 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
             alert('Error de conexión');
         });
     }
+
     // Script para el menú retráctil de categorías en ESCRITORIO
-document.addEventListener('DOMContentLoaded', function() {
-    const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
-    const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
+        const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
 
-    if (categoriesToggleDesktop && categoriesDropdownDesktop) {
-        categoriesToggleDesktop.addEventListener('click', function() {
-            categoriesDropdownDesktop.classList.toggle('active');
-            categoriesToggleDesktop.classList.toggle('active');
-        });
-
-        // Cerrar el menú al hacer clic fuera de él
-        document.addEventListener('click', function(event) {
-            if (!categoriesToggleDesktop.contains(event.target) && !categoriesDropdownDesktop.contains(event.target)) {
-                categoriesDropdownDesktop.classList.remove('active');
-                categoriesToggleDesktop.classList.remove('active');
-            }
-        });
-
-        // Cerrar el menú al hacer clic en un enlace de categoría
-        const categoryLinks = categoriesDropdownDesktop.querySelectorAll('a');
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                categoriesDropdownDesktop.classList.remove('active');
-                categoriesToggleDesktop.classList.remove('active');
+        if (categoriesToggleDesktop && categoriesDropdownDesktop) {
+            categoriesToggleDesktop.addEventListener('click', function() {
+                categoriesDropdownDesktop.classList.toggle('active');
+                categoriesToggleDesktop.classList.toggle('active');
             });
-        });
-    }});
+
+            // Cerrar el menú al hacer clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (!categoriesToggleDesktop.contains(event.target) && !categoriesDropdownDesktop.contains(event.target)) {
+                    categoriesDropdownDesktop.classList.remove('active');
+                    categoriesToggleDesktop.classList.remove('active');
+                }
+            });
+
+            // Cerrar el menú al hacer clic en un enlace de categoría
+            const categoryLinks = categoriesDropdownDesktop.querySelectorAll('a');
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    categoriesDropdownDesktop.classList.remove('active');
+                    categoriesToggleDesktop.classList.remove('active');
+                });
+            });
+        }
+    });
     </script>
 </body>
 </html>
