@@ -95,6 +95,9 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
             max-width: 70px;
             text-align: center;
         }
+        .bg-transparent {
+            background-color: white !important;
+        }
 
         /* ESTILOS PARA EL MENÚ RETRÁCTIL - AGREGAR ESTOS */
         .categories-nav-desktop {
@@ -276,10 +279,11 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
         
         <div class="mobile-categories">
             <ul>
-                <?php foreach($todas_categorias as $cat): ?>
+                <?php foreach($categorias as $categoria): ?>
                     <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
+                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>" 
+                           target="_blank">
+                            <?php echo htmlspecialchars($categoria['nombre']); ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
@@ -314,6 +318,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
                 <div class="logo">HIDROSISTEMAS</div>
             </div>
+            <!-- Configuración para la barra de búsqueda -->
             <div class="search-bar">
                 <form action="busqueda.php" method="GET" class="d-flex align-items-center">
                     <i class="fas fa-search me-2"></i>
@@ -324,13 +329,15 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                         class="form-control border-0 bg-transparent"
                         value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
                     >
+                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
+                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
                 </form>
             </div>
             <div class="header-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
                 <a href="checkout.php" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count"><?php echo count($productos); ?></span>
+                    <span id="num_cart" class="cart-count">0</span>
                 </a>
             </div>
         </div>
@@ -462,7 +469,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 </div>
                 <div class="col-md-4 text-end">
                     <h3>Total: <?php echo MONEDA . number_format($total, 2, '.', ','); ?></h3>
-                    <button class="btn btn-success btn-lg mt-3">Proceder al Pago</button>
+                    <a href="pago.php" class="btn btn-success btn-lg mt-3">Proceder al Pago</a>
                 </div>
             </div>
         <?php endif; ?>
@@ -613,6 +620,36 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 });
             }
         });
+    // Script para el menú retráctil de categorías en ESCRITORIO
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
+        const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
+
+        if (categoriesToggleDesktop && categoriesDropdownDesktop) {
+            categoriesToggleDesktop.addEventListener('click', function() {
+                categoriesDropdownDesktop.classList.toggle('active');
+                categoriesToggleDesktop.classList.toggle('active');
+            });
+
+            // Cerrar el menú al hacer clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (!categoriesToggleDesktop.contains(event.target) && !categoriesDropdownDesktop.contains(event.target)) {
+                    categoriesDropdownDesktop.classList.remove('active');
+                    categoriesToggleDesktop.classList.remove('active');
+                }
+            });
+
+            // Cerrar el menú al hacer clic en un enlace de categoría
+            const categoryLinks = categoriesDropdownDesktop.querySelectorAll('a');
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    categoriesDropdownDesktop.classList.remove('active');
+                    categoriesToggleDesktop.classList.remove('active');
+                });
+            });
+        }
+    });
     </script>
+    <script src="js/app.js"></script>
 </body>
 </html>

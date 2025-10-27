@@ -761,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- Manejo de botones de medida CORREGIDO ---
+    // --- Manejo de botones de medida ---
     const measureButtons = document.querySelectorAll('.measure-btn:not([disabled])');
     measureButtons.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -850,7 +850,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }); 
 
-// --- Función para agregar al carrito con upgrade ---
+// --- Función para agregar al carrito---
 function addProducto(id, token) {
     const medidaTexto = document.getElementById('medida-texto-seleccionada').value;
     const stock = parseInt(document.getElementById('stock-seleccionado').value);
