@@ -334,7 +334,13 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 </form>
             </div>
             <div class="header-icons">
-                <a href="#"><i class="fas fa-user"></i></a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="#" class="btn btn-success">
+                        <i class="fas fa-user me-2"></i><?php echo $_SESSION['user_name']; ?>
+                    </a>
+                <?php else: ?>
+                    <a href="login.php" class="btn btn-outline-primary">Ingresar</a>
+                <?php endif; ?>
                 <a href="checkout.php" class="icon-wrapper">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="num_cart" class="cart-count">0</span>

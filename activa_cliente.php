@@ -1,17 +1,37 @@
 <?php
-require_once 'config/config.php';
+session_start();
 require_once 'config/database.php';
+require_once 'clases/cliente_funciones.php';
 
 $db = new Database();
 $con = $db->conectar();
 
-// OBTENER CATEGORÍAS PARA EL MENÚ
+$id = isset($_GET['id']) ? $_GET['id'] : '';
+$token = isset($_GET['token']) ? $_GET['token'] : '';
+
+if (empty($id) || empty($token)) {
+    header('Location: index.php');
+    exit;
+}
+
+$activado = false;
+$mensaje = "";
+
+if (valida_token($id, $token, $con)) {
+    if (activar_usuario($id, $con)) {
+        $activado = true;
+        $mensaje = "Cuenta activada correctamente. Ya puedes iniciar sesión.";
+    } else {
+        $mensaje = "Error al activar la cuenta.";
+    }
+} else {
+    $mensaje = "No existe el registro del cliente o error al encontrar datos.";
+}
+
+// OBTENER CATEGORÍAS PARA EL MENÚ (igual que en registro.php)
 $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
 $sql_todas_categorias->execute();
 $todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
-
-// Obtener ID del pedido si existe
-$orderId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 ?>
 
 <!DOCTYPE html>
@@ -19,105 +39,13 @@ $orderId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orden Completada - HidroBuy</title>
+    <title>Activación de Cuenta - Hidrosistemas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pago - HidroBuy</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        .bg-transparent {
-            background-color: white !important;
-        }
-        /* Estilos para el resumen de pago */
-        .order-summary, .payment-section {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .total-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid #eee;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-        #paypal-button-container {
-            margin-top: 20px;
-        }
-        .loading, .success-message, .error-message {
-            display: none;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .loading {
-            background-color: #d1ecf1;
-            color: #0c5460;
-        }
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Overlay para menú móvil -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
-    
-    <!-- Menú lateral móvil -->
-    <div class="mobile-sidebar" id="mobileSidebar">
-        <div class="mobile-sidebar-header">
-            <div class="logo">Categorias</div>
-            <button class="close-sidebar" id="closeSidebar">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="mobile-categories">
-            <ul>
-                <?php foreach($todas_categorias as $categoria): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>" 
-                           target="_blank">
-                            <?php echo htmlspecialchars($categoria['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        
-        <div class="mobile-sidebar-footer">
-            <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
-            <button href="#"><i class="fas fa-shopping-cart"></i> Carrito</button>
-            <a href="#"><i class="fas fa-phone"></i> Contacto</a>
-        </div>
-    </div>
 
     <!-- Top Bar -->
     <div class="top-bar">
@@ -140,7 +68,6 @@ $orderId = isset($_GET['id']) ? intval($_GET['id']) : 0;
                 <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
                 <div class="logo">HIDROSISTEMAS</div>
             </div>
-            <!-- Configuración para la barra de búsqueda -->
             <div class="search-bar">
                 <form action="busqueda.php" method="GET" class="d-flex align-items-center">
                     <i class="fas fa-search me-2"></i>
@@ -149,7 +76,6 @@ $orderId = isset($_GET['id']) ? intval($_GET['id']) : 0;
                         name="q" 
                         placeholder="Buscar productos..." 
                         class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
                     >
                 </form>
             </div>
@@ -169,24 +95,41 @@ $orderId = isset($_GET['id']) ? intval($_GET['id']) : 0;
         </div>
     </header>
 
+    <!-- Contenido Principal -->
     <main class="container my-5">
         <div class="row justify-content-center">
-            <div class="col-md-8 text-center">
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle fa-3x mb-3"></i>
-                    <h2>¡Pago Completado Exitosamente!</h2>
-                    <p class="lead">Gracias por tu compra. Tu pedido ha sido procesado correctamente.</p>
-                    
-                    <?php if ($orderId > 0): ?>
-                        <p><strong>Número de pedido: #<?php echo $orderId; ?></strong></p>
-                    <?php endif; ?>
-                    
-                    <p>Recibirás un correo de confirmación shortly.</p>
-                </div>
-                
-                <div class="mt-4">
-                    <a href="index.php" class="btn btn-primary">Volver al Inicio</a>
-                    <a href="productos.html" class="btn btn-outline-primary">Seguir Comprando</a>
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body text-center p-5">
+                        <?php if ($activado): ?>
+                            <div class="text-success mb-4">
+                                <i class="fas fa-check-circle fa-4x"></i>
+                            </div>
+                            <h2 class="card-title text-success">¡Activación Exitosa!</h2>
+                        <?php else: ?>
+                            <div class="text-danger mb-4">
+                                <i class="fas fa-exclamation-circle fa-4x"></i>
+                            </div>
+                            <h2 class="card-title text-danger">Error de Activación</h2>
+                        <?php endif; ?>
+                        
+                        <p class="card-text lead"><?php echo $mensaje; ?></p>
+                        
+                        <div class="mt-4">
+                            <?php if ($activado): ?>
+                                <a href="login.php" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                                </a>
+                            <?php else: ?>
+                                <a href="registro.php" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-user-plus me-2"></i>Registrarse Nuevamente
+                                </a>
+                            <?php endif; ?>
+                            <a href="index.php" class="btn btn-outline-secondary btn-lg ms-2">
+                                <i class="fas fa-home me-2"></i>Volver al Inicio
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -228,5 +171,7 @@ $orderId = isset($_GET['id']) ? intval($_GET['id']) : 0;
             </div>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
