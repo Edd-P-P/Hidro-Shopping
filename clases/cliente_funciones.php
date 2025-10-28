@@ -131,4 +131,25 @@ function login($usuario, $password, $conexion) {
         return "El usuario y/o contraseña son incorrectos";
     }
 }
+function solicita_password($user_id, $conexion) {
+    $token = generar_token();
+    
+    $sql = $conexion->prepare("UPDATE usuarios SET token_password = ?, password_request = 1 WHERE id = ?");
+    
+    if ($sql->execute([$token, $user_id])) {
+        return $token;
+    }
+    return null;
+}
+
+function verifica_token_request($user_id, $token, $conexion) {
+    $sql = $conexion->prepare("SELECT id FROM usuarios WHERE id = ? AND token_password = ? AND password_request = 1 LIMIT 1");
+    $sql->execute([$user_id, $token]);
+    return $sql->fetch() !== false;
+}
+
+function actualiza_password($user_id, $password_hash, $conexion) {
+    $sql = $conexion->prepare("UPDATE usuarios SET password = ?, token_password = NULL, password_request = 0 WHERE id = ?");
+    return $sql->execute([$password_hash, $user_id]);
+}
 ?>
