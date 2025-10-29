@@ -1,4 +1,8 @@
-<?php 
+<?php
+// Agregar session_start() al inicio
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once 'config/config.php';
 require_once 'config/database.php';
 
@@ -10,15 +14,7 @@ $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias W
 $sql_todas_categorias->execute();
 $todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
 
-// ELIMINAR ESTAS LÍNEAS QUE CAUSAN EL ERROR:
-// $id = $_GET['id'] ?? '';
-// $slug = $_GET['slug'] ?? '';
-
-// ELIMINAR ESTA CONSULTA QUE NO SE USA EN DETAILS.PHP:
-// $sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
-// $sql_categoria->execute([$id, $slug]);
-// $categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
-
+/* Se obtienen los datos particulares para cada producto */
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $categoria_id = isset($_GET['categoria_id']) ? (int)$_GET['categoria_id'] : 0;
 $token = isset($_GET['token']) ? $_GET['token'] : '';
@@ -71,15 +67,13 @@ foreach($productos_recomendados as $index => $prod) {
     echo "<!-- DEBUG: Recomendado $index - ID: " . $prod['id'] . ", Nombre: " . $prod['nombre'] . " -->";
 }
 
-// Resto de tu código existente...
 $especificaciones = !empty($row['especificaciones']) ? html_entity_decode($row['especificaciones'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
 $tabla_med = !empty($row['tabla_med']) ? html_entity_decode($row['tabla_med'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
 
 $requiere_medidas = (int)($row['requiere_medidas'] ?? 0);
 $stock_base = (int)($row['stock'] ?? 0);
 
-// CORRECIÓN: Obtener las medidas directamente de productos_medidas
-// SOLUCIÓN DINÁMICA: Ordenar después de obtener los datos
+//Obtener las medidas directamente de productos_medidas
 $variantes = [];
 if ($requiere_medidas === 1) {
     $stmtVar = $con->prepare("
@@ -124,11 +118,10 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CORREGIR EL TÍTULO: USAR EL NOMBRE DEL PRODUCTO EN LUGAR DE LA CATEGORÍA -->
     <title><?php echo htmlspecialchars($row['nombre']); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css  ">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="  https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css  " rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css  ">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="tables.css">
@@ -335,7 +328,8 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
     </style>
 </head>
 <body>
-
+    <!-- Menu con PHP perrón -->
+    <?php include 'menu.php'; ?>
     <!-- Overlay para menú móvil -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     
@@ -367,102 +361,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
         </div>
     </div>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container top-bar-container">
-            <div class="top-links">
-                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
-            </div>
-            <div class="help-link">
-                <i class="fas fa-phone"></i>
-                <span>Contáctanos 771 216 7150</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="container header-container">
-            <div class="logo-container">            
-                <a href="index.php"><img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas"></a>
-               <a href="index.php"> <div class="logo">HIDROSISTEMAS</div></a>
-            </div>
-            
-            <!-- Codigo para la busqueda de barra -->
-            <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
-                    >
-                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
-                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
-                </form>
-            </div>
-            
-            <div class="header-icons">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="#" class="btn btn-success">
-                        <i class="fas fa-user me-2"></i><?php echo $_SESSION['user_name']; ?>
-                    </a>
-                <?php else: ?>
-                    <a href="login.php" class="btn btn-outline-primary">Ingresar</a>
-                <?php endif; ?>
-                <a href="checkout.php" class="icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navegación de Categorías Retráctil - SOLO ESCRITORIO -->
-    <nav class="categories-nav-desktop">
-        <button class="categories-toggle-desktop" id="categoriesToggleDesktop">
-            <span><i class="fas fa-th-large me-2"></i> CATEGORÍAS</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="categories-dropdown-desktop" id="categoriesDropdownDesktop">
-            <div class="categories-dropdown-header">
-                <a href="index.php" class="back-home-btn">
-                    <i class="fas fa-home me-2"></i> Volver al Inicio
-                </a>
-                <span class="categories-title">Todas Nuestras Categorías</span>
-            </div>
-            <ul class="categories-dropdown-list">
-                <?php foreach($todas_categorias as $cat): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Navegación de Categorías Original (para móvil) -->
-    <nav class="categories-nav">
-        <div class="container categories-container">
-            <button class="hamburger" id="hamburgerMenu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="categories-list">
-                <?php foreach($todas_categorias as $cat): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
+    
 
 <!-- Products -->
 <main>
@@ -959,5 +858,6 @@ console.log("Token generado:", "<?php echo $token_tmp; ?>");
 console.log("Requiere medidas:", <?php echo $requiere_medidas; ?>);
 console.log("Variantes disponibles:", <?php echo json_encode($variantes); ?>);
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

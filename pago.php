@@ -77,7 +77,7 @@ if (empty($productos)) {
     <title>Pago - HidroBuy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
         .bg-transparent {
@@ -161,100 +161,8 @@ if (empty($productos)) {
             <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>
-
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container top-bar-container">
-            <div class="top-links">
-                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
-            </div>
-            <div class="help-link">
-                <i class="fas fa-phone"></i>
-                <span>Contáctanos 771 216 7150</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="container header-container">
-            <div class="logo-container">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <div class="logo">HIDROSISTEMAS</div>
-            </div>
-            <!-- Configuración para la barra de búsqueda -->
-            <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
-                    >
-                </form>
-            </div>
-            <div class="header-icons">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="#" class="btn btn-success">
-                        <i class="fas fa-user me-2"></i><?php echo $_SESSION['user_name']; ?>
-                    </a>
-                <?php else: ?>
-                    <a href="login.php" class="btn btn-outline-primary">Ingresar</a>
-                <?php endif; ?>
-                <a href="checkout.php" class="icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navegación de Categorías Retráctil - SOLO ESCRITORIO -->
-    <nav class="categories-nav-desktop">
-        <button class="categories-toggle-desktop" id="categoriesToggleDesktop">
-            <span><i class="fas fa-th-large me-2"></i> CATEGORÍAS</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="categories-dropdown-desktop" id="categoriesDropdownDesktop">
-            <div class="categories-dropdown-header">
-                <a href="index.php" class="back-home-btn">
-                    <i class="fas fa-home me-2"></i> Volver al Inicio
-                </a>
-                <span class="categories-title">Todas Nuestras Categorías</span>
-            </div>
-            <ul class="categories-dropdown-list">
-                <?php foreach($todas_categorias as $cat): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Navegación de Categorías Original (para móvil) -->
-    <nav class="categories-nav">
-        <div class="container categories-container">
-            <button class="hamburger" id="hamburgerMenu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="categories-list">
-                <?php foreach($todas_categorias as $cat): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
-
+    <!-- Menu con php --> 
+     <?php include 'menu.php'; ?>
     <!-- Contenido Principal -->
     <main class="container my-5">
         <h1 class="mb-4">Finalizar Compra</h1>
@@ -447,5 +355,6 @@ if (empty($productos)) {
     </script>
 
     <script src="js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
