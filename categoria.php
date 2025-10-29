@@ -1,11 +1,15 @@
 <?php
+// Agregar session_start() al inicio
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once 'config/config.php';
 require_once 'config/database.php';
 
 $db = new Database();
 $con = $db->conectar();
 
-// Obtener parámetros de la URL - CORREGIDO
+// Obtener parámetros de la URL
 $id_categoria = $_GET['id'] ?? '';
 $slug_categoria = $_GET['slug'] ?? '';
 
@@ -14,7 +18,7 @@ $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias W
 $sql_todas_categorias->execute();
 $todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtener información de la categoría específica - CORREGIDO
+// Obtener información de la categoría específica
 $sql_categoria = $con->prepare("SELECT id, nombre, slug, descripcion, color_fondo, color_titulo, texto_color, boton_primario, boton_secundario FROM categorias WHERE id = ? AND slug = ? AND activo = 1");
 $sql_categoria->execute([$id_categoria, $slug_categoria]);
 $categoria = $sql_categoria->fetch(PDO::FETCH_ASSOC);
@@ -23,10 +27,18 @@ if (!$categoria) {
     header("Location: index.php");
     exit;
 }
+if (isset($categoria['descripcion']) && $categoria['descripcion'] !== null && $categoria['descripcion'] !== '') {
+    $descripcion_final = $categoria['descripcion'];
+} else {
+    $descripcion_final = 'Descripción de ' . $categoria['nombre'];
+}
 
-// Establecer valores por defecto
-$categoria['descripcion'] = $categoria['descripcion'] ?? 'Descripción de ' . $categoria['nombre'];
+//Establecer valores por defecto de forma segura
+$categoria['descripcion'] = isset($categoria['descripcion']) && !empty(trim($categoria['descripcion'])) 
+    ? $categoria['descripcion'] 
+    : 'Descripción de ' . $categoria['nombre'];
 $categoria['color_fondo'] = $categoria['color_fondo'] ?? '#ffffff';
+$categoria['color_titulo'] = $categoria['color_titulo'] ?? '#000000';
 $categoria['texto_color'] = $categoria['texto_color'] ?? '#000000';
 $categoria['boton_primario'] = $categoria['boton_primario'] ?? '#007bff';
 $categoria['boton_secundario'] = $categoria['boton_secundario'] ?? '#6c757d';
@@ -54,16 +66,6 @@ $sql_productos = $con->prepare("
 ");
 $sql_productos->execute([$id_categoria, $id_categoria]);
 $productos = $sql_productos->fetchAll(PDO::FETCH_ASSOC);
-
-// Después de obtener los productos, agrega esto temporalmente para debug
-error_log("Categoría ID: $id_categoria");
-error_log("Productos encontrados: " . count($productos));
-foreach($productos as $prod) {
-    error_log("Producto: " . $prod['id'] . " - " . $prod['nombre'] . " - Categoría: " . $prod['categoria_id']);
-}
-
-// También puedes verlo en el HTML (comenta después de debug)
-echo "<!-- DEBUG: " . count($productos) . " productos encontrados para categoría $id_categoria -->";
 
 // Función simple para ajustar brillo (solo para botones)
 function adjustBrightness($hex, $steps) {
@@ -102,6 +104,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
     <title><?php echo htmlspecialchars($categoria['nombre']); ?> - HidroBuy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 <style>
     .section-title{
@@ -357,7 +360,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
 
 <body>
 
-    <!-- Overlay para menú móvil -->
+<!-- Overlay para menú móvil -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     
     <!-- Menú lateral móvil -->
@@ -371,6 +374,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         
         <div class="mobile-categories">
             <ul>
+                <!-- CORRECCIÓN: Cambiar $categoria por $cat en el foreach -->
                 <?php foreach($todas_categorias as $cat): ?>
                     <li>
                         <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
@@ -382,110 +386,26 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         </div>
         
         <div class="mobile-sidebar-footer">
-            <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
-            <button href="#"><i class="fas fa-shopping-cart"></i> Carrito</button>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="#"><i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                <a href="compras.php"><i class="fas fa-shopping-bag"></i> Mis Compras</a>
+                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+            <?php else: ?>
+                <a href="login.php"><i class="fas fa-user"></i> Mi Cuenta</a>
+            <?php endif; ?>
+            <a href="checkout.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
             <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container top-bar-container">
-            <div class="top-links">
-                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
-            </div>
-            <div class="help-link">
-                <i class="fas fa-phone"></i>
-                <span>Contáctanos 771 216 7150</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="container header-container">
-            <div class="logo-container">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <div class="logo">HIDROSISTEMAS</div>
-            </div>
-            <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
-                    >
-                </form>
-            </div>
-            <div class="header-icons">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="#" class="btn btn-success">
-                        <i class="fas fa-user me-2"></i><?php echo $_SESSION['user_name']; ?>
-                    </a>
-                <?php else: ?>
-                    <a href="login.php" class="btn btn-outline-primary">Ingresar</a>
-                <?php endif; ?>
-                <a href="checkout.php" class="icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navegación de Categorías Retráctil - SOLO ESCRITORIO -->
-    <nav class="categories-nav-desktop">
-        <button class="categories-toggle-desktop" id="categoriesToggleDesktop">
-            <span><i class="fas fa-th-large me-2"></i> CATEGORÍAS</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="categories-dropdown-desktop" id="categoriesDropdownDesktop">
-            <div class="categories-dropdown-header">
-                <a href="index.php" class="back-home-btn">
-                    <i class="fas fa-home me-2"></i> Volver al Inicio
-                </a>
-                <span class="categories-title">Todas Nuestras Categorías</span>
-            </div>
-            <ul class="categories-dropdown-list">
-                <?php foreach($todas_categorias as $cat): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Navegación de Categorías Original (para móvil) -->
-    <nav class="categories-nav">
-        <div class="container categories-container">
-            <button class="hamburger" id="hamburgerMenu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="categories-list">
-                <?php foreach($todas_categorias as $cat): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'menu.php'; ?>
 
     <!-- Hero Section Específico de la Categoría -->
     <section class="hero hero-categoria">
         <div class="container">
             <div class="hero-content">
                 <h1><?php echo htmlspecialchars($categoria['nombre']); ?></h1>
-                <p><?php echo nl2br(htmlspecialchars($categoria['descripcion'])); ?></p>
+                <p><?php echo nl2br(htmlspecialchars($descripcion_final)); ?></p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-categoria-primario">
                         <i class="fas fa-tools"></i> Explorar Productos
@@ -509,16 +429,37 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
                     <div class="product-card">
                         <?php
                         $id_producto = $row['id'];
-                        $imagen = "Imagenes/productos/" . $categoria['id'] . "/" . $id_producto . ".png";
+                        // CORRECCIÓN: Mejorar la lógica de búsqueda de imágenes
+                        $imagen = "Imagenes/productos/" . $row['categoria_id'] . "/" . $id_producto . ".png";
+                        
+                        if (!file_exists($imagen)) {
+                            $imagen = "Imagenes/productos/" . $row['categoria_id'] . "/" . $id_producto . ".jpg";
+                        }
+                        
+                        if (!file_exists($imagen)) {
+                            $imagen = "Imagenes/productos/" . $row['categoria_id'] . "/" . $id_producto . ".jpeg";
+                        }
+                        
+                        if (!file_exists($imagen)) {
+                            $imagen = "Imagenes/productos/default/" . $id_producto . ".png";
+                        }
+                        
+                        if (!file_exists($imagen)) {
+                            $imagen = "Imagenes/productos/default/" . $id_producto . ".jpg";
+                        }
+                        
                         if (!file_exists($imagen)) {
                             $imagen = "Imagenes/productos/default/" . $id_producto . ".jpeg";
-                            if (!file_exists($imagen)) {
-                                $imagen = "Imagenes/default.png";
-                            }
+                        }
+                        
+                        // Si aún no existe, usar imagen por defecto
+                        if (!file_exists($imagen)) {
+                            $imagen = "Imagenes/default.png";
                         }
                         ?>
                         <div class="product-img">
-                            <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>">
+                            <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>" 
+                                 onerror="this.src='Imagenes/default.png'">
                         </div>
                         <div class="product-content">
                             <div class="product-info">
@@ -642,5 +583,6 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         }
     });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

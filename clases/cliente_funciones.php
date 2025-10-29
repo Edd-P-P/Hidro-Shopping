@@ -109,8 +109,10 @@ function es_activo($usuario, $conexion) {
     return false;
 }
 
+// En la función login, actualizar para incluir user_cliente
 function login($usuario, $password, $conexion) {
-    $sql = $conexion->prepare("SELECT id, password FROM usuarios WHERE usuario = ? LIMIT 1");
+    // Modificar la consulta para obtener también id_cliente
+    $sql = $conexion->prepare("SELECT u.id, u.password, u.id_cliente FROM usuarios u WHERE u.usuario = ? LIMIT 1");
     $sql->execute([$usuario]);
     $row = $sql->fetch(PDO::FETCH_ASSOC);
 
@@ -119,8 +121,8 @@ function login($usuario, $password, $conexion) {
             if (password_verify($password, $row['password'])) {
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['user_name'] = $usuario;
-                header('Location: index.php');
-                exit();
+                $_SESSION['user_cliente'] = $row['id_cliente']; // Nuevo: guardar id_cliente
+                return true;
             } else {
                 return "El usuario y/o contraseña son incorrectos";
             }

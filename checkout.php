@@ -10,6 +10,12 @@ require_once 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
+// FORZAR LOGIN EN CHECKOUT
+if (!isset($_SESSION['user_cliente'])) {
+    header('Location: login.php?pago');
+    exit;
+}
+
 // OBTENER CATEGORÍAS PARA EL MENÚ - ESTO FALTABA
 $sql_todas_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
 $sql_todas_categorias->execute();
@@ -264,7 +270,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
     </style>
 </head>
 <body>
-
+    <?php include 'menu.php'; ?>
     <!-- Overlay para menú móvil -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     
@@ -296,101 +302,6 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
             <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>
-
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container top-bar-container">
-            <div class="top-links">
-                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
-            </div>
-            <div class="help-link">
-                <i class="fas fa-phone"></i>
-                <span>Contáctanos 771 216 7150</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="container header-container">
-            <div class="logo-container">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <div class="logo">HIDROSISTEMAS</div>
-            </div>
-            <!-- Configuración para la barra de búsqueda -->
-            <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
-                    >
-                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
-                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
-                </form>
-            </div>
-            <div class="header-icons">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="#" class="btn btn-success">
-                        <i class="fas fa-user me-2"></i><?php echo $_SESSION['user_name']; ?>
-                    </a>
-                <?php else: ?>
-                    <a href="login.php" class="btn btn-outline-primary">Ingresar</a>
-                <?php endif; ?>
-                <a href="checkout.php" class="icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navegación de Categorías Retráctil - SOLO ESCRITORIO -->
-    <nav class="categories-nav-desktop">
-        <button class="categories-toggle-desktop" id="categoriesToggleDesktop">
-            <span><i class="fas fa-th-large me-2"></i> CATEGORÍAS</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="categories-dropdown-desktop" id="categoriesDropdownDesktop">
-            <div class="categories-dropdown-header">
-                <a href="index.php" class="back-home-btn">
-                    <i class="fas fa-home me-2"></i> Volver al Inicio
-                </a>
-                <span class="categories-title">Todas Nuestras Categorías</span>
-            </div>
-            <ul class="categories-dropdown-list">
-                <?php foreach($todas_categorias as $cat): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Navegación de Categorías Original (para móvil) -->
-    <nav class="categories-nav">
-        <div class="container categories-container">
-            <button class="hamburger" id="hamburgerMenu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="categories-list">
-                <?php foreach($todas_categorias as $cat): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
-                            <?php echo htmlspecialchars($cat['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
 
     <!-- Contenido del Carrito -->
     <main class="container my-5">
@@ -657,5 +568,6 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
     });
     </script>
     <script src="js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

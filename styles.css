@@ -41,7 +41,27 @@ a {
     margin: 0 auto;
     padding: 0 1rem;
 }
-
+.bg-transparent {
+    background-color: white !important;
+}
+/* Login */
+ .login-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .login-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .login-body {
+            padding: 2rem;
+        }
 /* Top Bar */
 .top-bar {
     background-color: #2d3748;
@@ -174,7 +194,7 @@ header {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: -8px;
+    top: 2px;
     right: -8px;
 }
 
@@ -329,7 +349,7 @@ header {
 }
 
 .hero-content {
-    max-width: 600px;
+    max-width: 1200px;
     padding: 2rem;
     animation: fadeInUp 1.2s ease-out;
 }
@@ -349,6 +369,7 @@ header {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .btn {
@@ -385,7 +406,9 @@ header {
     transform: translateY(-3px);
 }
 
-
+ul{
+    padding-left: 0rem;
+}
 /*Seccion de la pagina details ######################################################################*/
 .container-details {
     margin-top: 30px;
@@ -505,8 +528,9 @@ to me
     text-align: center;
     margin-bottom: 2rem;
     position: relative;
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--primary);
+    font-weight: bold;
 }
 
 .section-title:after {

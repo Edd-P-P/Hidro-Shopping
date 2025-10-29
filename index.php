@@ -1,4 +1,8 @@
-<?php 
+<?php
+// Agregar session_start() al inicio
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once 'config/config.php';
 require_once 'config/database.php';
 
@@ -11,9 +15,12 @@ $sql_categorias->execute();
 $categorias = $sql_categorias->fetchAll(PDO::FETCH_ASSOC);
 
 // Obtener productos destacados
-$sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 AND categoria_id = 16");
+$sql = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = 16");
 $sql->execute();
 $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+// VARIABLE PARA OCULTAR MENÚ RETRÁCTIL EN INDEX
+$mostrar_menu_retractil = false;
 ?>
 
 <!DOCTYPE html>
@@ -21,9 +28,11 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HidroBuy </title>
+    <title>HidroBuy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- BOOTSTRAP CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -45,8 +54,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
             <ul>
                 <?php foreach($categorias as $categoria): ?>
                     <li>
-                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>" 
-                           target="_blank">
+                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
                             <?php echo htmlspecialchars($categoria['nombre']); ?>
                         </a>
                     </li>
@@ -55,81 +63,19 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         </div>
         
         <div class="mobile-sidebar-footer">
-            <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
-            <button href="#"><i class="fas fa-shopping-cart"></i> Carrito</button>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="#"><i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                <a href="compras.php"><i class="fas fa-shopping-bag"></i> Mis Compras</a>
+                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+            <?php else: ?>
+                <a href="login.php"><i class="fas fa-user"></i> Mi Cuenta</a>
+            <?php endif; ?>
+            <a href="checkout.php"><i class="fas fa-shopping-cart"></i> Carrito</a>
             <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container top-bar-container">
-            <div class="top-links">
-                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
-            </div>
-            <div class="help-link">
-                <i class="fas fa-phone"></i>
-                <span>Contáctanos 771 216 7150</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="container header-container">
-            <div class="logo-container">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <div class="logo">HIDROSISTEMAS</div>
-            </div>
-            <!-- Configuración para la barra de búsqueda -->
-            <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
-                    >
-                    <!-- Opcional: botón de envío (puedes ocultarlo si usas solo Enter) -->
-                    <!-- <button type="submit" class="btn btn-link p-0 ms-2"><i class="fas fa-search"></i></button> -->
-                </form>
-            </div>
-            <div class="header-icons">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="#" class="btn btn-success">
-                        <i class="fas fa-user me-2"></i><?php echo $_SESSION['user_name']; ?>
-                    </a>
-                <?php else: ?>
-                    <a href="login.php" class="btn btn-outline-primary">Ingresar</a>
-                <?php endif; ?>
-                <a href="checkout.php" class="icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navegación de Categorías -->
-    <nav class="categories-nav">
-        <div class="container categories-container">
-            <button class="hamburger" id="hamburgerMenu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="categories-list">
-                <?php foreach($categorias as $categoria): ?>
-                    <li>
-                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
-                            <?php echo htmlspecialchars($categoria['nombre']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'menu.php'; ?>
 
     <!-- Hero -->
     <section class="hero">
@@ -149,40 +95,40 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         </div> 
     </section>
 
-<!-- Products -->
-<section class="products" id="products">
-    <div class="container">
-        <h2 class="section-title">Nuestras catgorias</h2>
-        <div class="product-grid">
-            <?php foreach($resultado as $row): ?>
-            <div class="product-card">
-                <?php
-                $id = $row['id'];
-                $imagen = "Imagenes/productos/1/". $id.".jpeg";
-                if (!file_exists($imagen)) {
-                    $imagen = "Imagenes/default.png";
-                }
-                ?>
-                <div class="product-img">
-                    <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>">
-                </div>
-                <div class="product-content">
-                    <div class="product-info">
-                        <h3><?php echo $row['nombre']; ?></h3>
-                        <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
+    <!-- Products -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Nuestras categorías</h2>
+            <div class="product-grid">
+                <?php foreach($resultado as $row): ?>
+                <div class="product-card">
+                    <?php
+                    $id = $row['id'];
+                    $imagen = "Imagenes/productos/1/". $id.".jpeg";
+                    if (!file_exists($imagen)) {
+                        $imagen = "Imagenes/default.png";
+                    }
+                    ?>
+                    <div class="product-img">
+                        <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>">
                     </div>
-                    <div class="btn-action"> 
-                        <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
-                        <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
-                        Añadir al Carrito
-                        </button>
+                    <div class="product-content">
+                        <div class="product-info">
+                            <h3><?php echo $row['nombre']; ?></h3>
+                            <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
+                        </div>
+                        <div class="btn-action"> 
+                            <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
+                            <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
+                            Añadir al Carrito
+                            </button>
+                        </div>
                     </div>
                 </div>
+                <?php endforeach; ?>
             </div>
-            <?php endforeach; ?>
-        </div>
-    </div>         
-</section>
+        </div>         
+    </section>
 
     <section class="features">
         <div class="container features-container">
@@ -233,7 +179,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
                 <div class="footer-col">
                     <h4>Enlaces Rápidos</h4>
                     <ul>
-                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="index.php">Inicio</a></li>
                         <li><a href="Nosotros.html">Nosotros</a></li>
                         <li><a href="productos.html">Productos</a></li>
                         <li><a href="#contacto">Contacto</a></li>
@@ -246,43 +192,42 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </footer>
 
-    <div id="paypal-button-container" ></div>
+    <div id="paypal-button-container"></div>
 
     <script src="js/app.js"></script>
     <script src="js/carrito.js"></script>
     <script>
+        /*########### Funcionamiento carrito */
+        function addProducto(id, token, cantidad = 1) {  
+            let url = 'clases/carrito.php';
+            let formData = new FormData();
+            formData.append('id', id);
+            formData.append('token', token);
+            formData.append('cantidad', cantidad);  
 
-/*########### Funcionamiento carrito */
-function addProducto(id, token, cantidad = 1) {  
-
-    let url = 'clases/carrito.php';
-    let formData = new FormData();
-    formData.append('id', id);
-    formData.append('token', token);
-    formData.append('cantidad', cantidad);  
-
-    fetch(url, {
-        method: 'POST',
-        body: formData,
-        mode: 'cors'
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.ok) {
-            let elemento = document.getElementById("num_cart");
-            if (elemento) {
-                elemento.innerHTML = data.numero;
-            }
-            alert('Producto agregado al carrito');
-        } else {
-            alert('Error al agregar el producto');
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'cors'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    let elemento = document.getElementById("num_cart");
+                    if (elemento) {
+                        elemento.innerHTML = data.numero;
+                    }
+                    alert('Producto agregado al carrito');
+                } else {
+                    alert('Error al agregar el producto');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error de conexión');
+            });
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error de conexión');
-    });
-}
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -13,9 +13,13 @@ $todas_categorias = $sql_todas_categorias->fetchAll(PDO::FETCH_ASSOC);
 
 $errors = [];
 
+// VERIFICAR PARÁMETRO DE PAGO
+$proceso = isset($_GET['pago']) ? 'pago' : 'login';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = trim($_POST['usuario']);
     $password = trim($_POST['password']);
+    $proceso = $_POST['proceso']; // Obtener el proceso del formulario
 
     // Validar campos obligatorios
     if (es_nulo([$usuario, $password])) {
@@ -24,7 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errors)) {
         $resultado = login($usuario, $password, $con);
-        if ($resultado !== true) {
+        if ($resultado === true) {
+            // Redirigir según el proceso
+            if ($proceso === 'pago') {
+                header('Location: checkout.php');
+            } else {
+                header('Location: index.php');
+            }
+            exit();
+        } else {
             $errors[] = $resultado;
         }
     }
@@ -42,6 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
+        .bg-transparent {
+            background-color: white !important;
+        }
         .login-container {
             max-width: 400px;
             margin: 2rem auto;
@@ -62,68 +77,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container top-bar-container">
-            <div class="top-links">
-                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
-            </div>
-            <div class="help-link">
-                <i class="fas fa-phone"></i>
-                <span>Contáctanos 771 216 7150</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="container header-container">
-            <div class="logo-container">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <div class="logo">HIDROSISTEMAS</div>
-            </div>
-            <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
-                    >
-                </form>
-            </div>
-            <div class="header-icons">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="#" class="btn btn-success">
-                        <i class="fas fa-user me-2"></i><?php echo $_SESSION['user_name']; ?>
-                    </a>
-                <?php else: ?>
-                    <a href="login.php" class="btn btn-outline-primary">Ingresar</a>
-                <?php endif; ?>
-                <a href="checkout.php" class="icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
-
+    <?php include 'menu.php'; ?>
     <!-- Contenido Principal -->
     <main class="container my-5">
         <div class="login-container">
             <div class="login-header">
                 <h1><i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión</h1>
-                <p class="mb-0">Accede a tu cuenta</p>
+                <p class="mb-0"><?php echo $proceso === 'pago' ? 'Inicia sesión para continuar con tu compra' : 'Accede a tu cuenta'; ?></p>
             </div>
             
             <div class="login-body">
                 <?php mostrar_mensajes($errors); ?>
 
                 <form method="post" action="">
+                    <input type="hidden" name="proceso" value="<?php echo $proceso; ?>">
+                    
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="usuario" name="usuario" 
                                value="<?php echo isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : ''; ?>" 
@@ -193,5 +161,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            actualizarContadorCarrito();
+            // Script para el menú retráctil de categorías en ESCRITORIO
+            const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
+            const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
+
+            if (categoriesToggleDesktop && categoriesDropdownDesktop) {
+                categoriesToggleDesktop.addEventListener('click', function() {
+                    categoriesDropdownDesktop.classList.toggle('active');
+                    categoriesToggleDesktop.classList.toggle('active');
+                });
+
+                // Cerrar el menú al hacer clic fuera de él
+                document.addEventListener('click', function(event) {
+                    if (!categoriesToggleDesktop.contains(event.target) && !categoriesDropdownDesktop.contains(event.target)) {
+                        categoriesDropdownDesktop.classList.remove('active');
+                        categoriesToggleDesktop.classList.remove('active');
+                    }
+                });
+
+                // Cerrar el menú al hacer clic en un enlace de categoría
+                const categoryLinks = categoriesDropdownDesktop.querySelectorAll('a');
+                categoryLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        categoriesDropdownDesktop.classList.remove('active');
+                        categoriesToggleDesktop.classList.remove('active');
+                    });
+                });
+            }
+        });
+            // Script para el menú retráctil de categorías en ESCRITORIO
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
+        const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
+
+        if (categoriesToggleDesktop && categoriesDropdownDesktop) {
+            categoriesToggleDesktop.addEventListener('click', function() {
+                categoriesDropdownDesktop.classList.toggle('active');
+                categoriesToggleDesktop.classList.toggle('active');
+            });
+
+            // Cerrar el menú al hacer clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (!categoriesToggleDesktop.contains(event.target) && !categoriesDropdownDesktop.contains(event.target)) {
+                    categoriesDropdownDesktop.classList.remove('active');
+                    categoriesToggleDesktop.classList.remove('active');
+                }
+            });
+
+            // Cerrar el menú al hacer clic en un enlace de categoría
+            const categoryLinks = categoriesDropdownDesktop.querySelectorAll('a');
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    categoriesDropdownDesktop.classList.remove('active');
+                    categoriesToggleDesktop.classList.remove('active');
+                });
+            });
+        }
+    });
+    </script>
 </body>
 </html>
