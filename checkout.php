@@ -430,6 +430,18 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
     </footer>
 
     <script>
+         paypal.Buttons({
+            createOrder: function(data, actions) {
+                const total = <?php echo $total; ?>;
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: total.toFixed(2), // Ya está limpio
+                            currency_code: 'MXN'
+                        }
+                    }]
+                });
+            },
         // SOLUCIÓN AL ERROR: Reemplazar la función que busca el archivo que no existe
         function actualizarContadorCarrito() {
             // En lugar de hacer fetch a un archivo que no existe, actualizamos con los productos actuales
@@ -566,8 +578,9 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
             });
         }
     });
+        }).render('#paypal-button-container');
     </script>
     <script src="js/app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

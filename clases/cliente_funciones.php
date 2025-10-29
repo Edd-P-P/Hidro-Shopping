@@ -154,4 +154,26 @@ function actualiza_password($user_id, $password_hash, $conexion) {
     $sql = $conexion->prepare("UPDATE usuarios SET password = ?, token_password = NULL, password_request = 0 WHERE id = ?");
     return $sql->execute([$password_hash, $user_id]);
 }
+function convertir_utf8($cadena) {
+    if (function_exists('mb_convert_encoding')) {
+        return mb_convert_encoding($cadena, 'UTF-8', 'ISO-8859-1');
+    } else {
+        // Fallback si mbstring no está disponible
+        return utf8_encode($cadena);
+    }
+}
+
+function convertir_iso($cadena) {
+    if (function_exists('mb_convert_encoding')) {
+        return mb_convert_encoding($cadena, 'ISO-8859-1', 'UTF-8');
+    } else {
+        // Fallback si mbstring no está disponible
+        return utf8_decode($cadena);
+    }
+}
+
+// Función para limpiar valores monetarios
+function limpiar_moneda($valor) {
+    return str_replace([MONEDA, '$', '€', ',', ' '], '', $valor);
+}
 ?>
