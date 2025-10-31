@@ -484,16 +484,18 @@ ul{
     transform: translateY(-2px);
 }
 .btn-outline-primary {
-    color: var(--primary);
-    border-color: var(--primary);
+    color: var(--light-gray);
+    border-color: var(--green);
     padding: 12px 25px;
     font-weight: 600;
     transition: all 0.3s;
+    background: green;
 }
 .btn-outline-primary:hover {
-    background-color: var(--primary);
-    color: white;
+    background-color: var(--white);
+    color: green;
     transform: translateY(-2px);
+
 }
 .action-buttons {
     margin-top: 30px;

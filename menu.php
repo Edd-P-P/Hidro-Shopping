@@ -110,10 +110,10 @@ $mostrar_menu_retractil = isset($mostrar_menu_retractil) ? $mostrar_menu_retract
             $sql_categorias->execute();
             $categorias = $sql_categorias->fetchAll(PDO::FETCH_ASSOC);
             
-            foreach($categorias as $categoria): ?>
+            foreach($categorias as $cat): ?>
                 <li>
-                    <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
-                        <?php echo htmlspecialchars($categoria['nombre']); ?>
+                    <a href="categoria.php?id=<?php echo $cat['id']; ?>&slug=<?php echo $cat['slug']; ?>">
+                        <?php echo htmlspecialchars($cat['nombre']); ?>
                     </a>
                 </li>
             <?php endforeach; ?>

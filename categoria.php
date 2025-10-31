@@ -101,7 +101,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($categoria['nombre']); ?> - HidroBuy</title>
+    <title><?php echo htmlspecialchars($categoria['nombre']); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -404,7 +404,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
     <section class="hero hero-categoria">
         <div class="container">
             <div class="hero-content">
-                <h1><?php echo htmlspecialchars($categoria['nombre']); ?></h1>
+                <h1><?php echo nl2br(htmlspecialchars($categoria['nombre'])); ?></h1>
                 <p><?php echo nl2br(htmlspecialchars($descripcion_final)); ?></p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-categoria-primario">
