@@ -37,7 +37,7 @@ $mostrar_menu_retractil = false;
     .product-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        column-gap: 13.5rem;
+        column-gap: 6.5rem;
         justify-items: center;
     }
     .product-card {
@@ -46,7 +46,7 @@ $mostrar_menu_retractil = false;
         overflow: hidden;
         box-shadow: var(--shadow);
         transition: var(--transition);
-        width: 550px;
+        width: 385px;
         height: 350px;
     }
     /* Responsive para móviles */
