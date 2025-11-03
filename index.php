@@ -12,12 +12,12 @@ $con = $db->conectar();
 // Obtener categorías para el menú
 $sql_categorias = $con->prepare("SELECT id, nombre, slug FROM categorias WHERE activo = 1 ORDER BY id ASC");
 $sql_categorias->execute();
-$categorias = $sql_categorias->fetchAll(PDO::FETCH_ASSOC);
+$categorias_menu = $sql_categorias->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtener productos destacados
-$sql = $con->prepare("SELECT id, nombre, precio, categoria_id FROM productos WHERE activo = 1 AND categoria_id = 16");
-$sql->execute();
-$resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+// Obtener todas las categorías activas para mostrar en las tarjetas
+$sql_categorias_tarjetas = $con->prepare("SELECT id, nombre FROM categorias WHERE activo = 1 ORDER BY nombre ASC");
+$sql_categorias_tarjetas->execute();
+$categorias = $sql_categorias_tarjetas->fetchAll(PDO::FETCH_ASSOC);
 
 // VARIABLE PARA OCULTAR MENÚ RETRÁCTIL EN INDEX
 $mostrar_menu_retractil = false;
@@ -33,6 +33,68 @@ $mostrar_menu_retractil = false;
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+        <style>
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        column-gap: 13.5rem;
+        justify-items: center;
+    }
+    .product-card {
+        background: #d1d1d1;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        width: 550px;
+        height: 350px;
+    }
+    /* Responsive para móviles */
+    @media (max-width: 768px) {
+        .product-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 0 0.5rem;
+        }
+        
+        .product-card {
+            height: 250px;
+            max-width: 100%;
+        }
+        
+        .product-img {
+            height: 150px;
+        }
+        
+        .product-content {
+            padding: 0.75rem;
+        }
+        
+        .product-info h3 {
+            font-size: 1rem;
+        }
+        
+        .btn-det {
+            padding: 0.4rem 1.2rem;
+            font-size: 0.9rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .product-card {
+            height: 220px;
+            width: 320px;
+        }
+        
+        .product-img {
+            height: 130px;
+        }
+        
+        .product-info h3 {
+            font-size: 0.95rem;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -51,7 +113,7 @@ $mostrar_menu_retractil = false;
         
         <div class="mobile-categories">
             <ul>
-                <?php foreach($categorias as $categoria): ?>
+                <?php foreach($categorias_menu as $categoria): ?>
                     <li>
                         <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
                             <?php echo htmlspecialchars($categoria['nombre']); ?>
@@ -83,8 +145,8 @@ $mostrar_menu_retractil = false;
                 <h1>Soluciones Hidráulicas para Profesionales</h1>
                 <p>Somos distribuidores oficiales de las principales marcas del sector, ofreciendo productos de máxima calidad y rendimiento para tus proyectos más exigentes.</p>
                 <div class="hero-buttons">
-                    <a href="#products" class="btn btn-primary">
-                        <i class="fas fa-tools"></i> Explorar Productos
+                    <a href="#categories" class="btn btn-primary">
+                        <i class="fas fa-tools"></i> Explorar Categorías
                     </a>
                     <a href="https://api.whatsapp.com/send/?phone=527712167150&text&type=phone_number&app_absent=0" target="_blank" class="btn btn-secondary">
                         <i class="fas fa-headset"></i> Asesoramiento
@@ -94,33 +156,35 @@ $mostrar_menu_retractil = false;
         </div> 
     </section>
 
-    <!-- Products -->
-    <section class="products" id="products">
+    <!-- Categories -->
+    <section class="products" id="categories">
         <div class="container">
-            <h2 class="section-title">Nuestras categorías</h2>
+            <h2 class="section-title">Nuestras Categorías</h2>
             <div class="product-grid">
-                <?php foreach($resultado as $row): ?>
+                <?php foreach($categorias as $categoria): ?>
                 <div class="product-card">
                     <?php
-                    $id = $row['id'];
-                    $imagen = "Imagenes/productos/1/". $id.".jpeg";
+                    $id = $categoria['id'];
+                    $imagen = "Imagenes/hero/". $id.".png";
+                    
+                    // Verificar si existe la imagen, si no usar una por defecto
                     if (!file_exists($imagen)) {
-                        $imagen = "Imagenes/default.png";
+                        $imagen = "Imagenes/hero/default.jpg";
+                        // Si tampoco existe la default, usar una imagen genérica
+                        if (!file_exists($imagen)) {
+                            $imagen = "Imagenes/default.png";
+                        }
                     }
                     ?>
                     <div class="product-img">
-                        <img src="<?php echo $imagen; ?>" alt="<?php echo $row['nombre']; ?>">
+                        <img src="<?php echo $imagen; ?>" alt="<?php echo $categoria['nombre']; ?>">
                     </div>
                     <div class="product-content">
                         <div class="product-info">
-                            <h3><?php echo $row['nombre']; ?></h3>
-                            <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
+                            <h3><?php echo $categoria['nombre']; ?></h3>
                         </div>
                         <div class="btn-action"> 
-                            <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>
-                            <button class="btn-prod" type="button" onclick="addProducto(<?php echo $row['id']; ?>, '<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>', 1)">
-                            Añadir al Carrito
-                            </button>
+                            <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $cate['slug']; ?>" class="btn-det">Ver Productos</a>
                         </div>
                     </div>
                 </div>
