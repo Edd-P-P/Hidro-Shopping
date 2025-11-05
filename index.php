@@ -34,19 +34,7 @@ $mostrar_menu_retractil = false;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
         <style>
-    .product-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        column-gap: 6.5rem;
-        justify-items: center;
-    }
     .product-card {
-        background: #d1d1d1;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-        width: 385px;
         height: 350px;
     }
     /* Responsive para móviles */
@@ -184,7 +172,7 @@ $mostrar_menu_retractil = false;
                             <h3><?php echo $categoria['nombre']; ?></h3>
                         </div>
                         <div class="btn-action"> 
-                            <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $cate['slug']; ?>" class="btn-det">Ver Productos</a>
+                            <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>" class="btn-det">Ver Productos</a>
                         </div>
                     </div>
                 </div>
