@@ -21,7 +21,9 @@ SET time_zone = "+00:00";
 -- Database: `hidro-online2`
 --
 
--- --------------------------------------------------------
+-- CREAR Y SELECCIONAR LA BASE DE DATOS
+CREATE DATABASE IF NOT EXISTS `hidro-online2`;
+USE `hidro-online2`;
 
 --
 -- Table structure for table `admin`

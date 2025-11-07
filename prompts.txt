@@ -1,0 +1,44 @@
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especificaciones`, `precio`, `stock`, `imagen`, `categoria_id`, `requiere_medidas`, `activo`, `created_at`, `updated_at`, `descuento`, `Recomendaciones_id`) VALUES
+(1, 'Adaptador Hembra CPVC', '<strong>ADAPTADOR HEMBRA CPVC</strong><br>Conector que permite unir tuberías de CPVC con accesorios de rosca macho. Resistente a altas temperaturas y presión, ideal para instalaciones hidráulicas y de agua caliente.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 8.50, 50, '', 1, 1, 1, '2025-09-23 19:45:31', '2025-09-29 17:59:55', 0, NULL)2`;
+Quiero que me des un código en SQL para compilarlo con los productos de la lista que te adjunto, donde tomes el formato para el llenado de cada uno de los productos que hay en la imagen con ciertas adecuciones por ejemplo, la variable "tabla_med" coloca lo siguiente en todos los productos <table>
+  <tr>
+    <th>DIÁMETRO (pulg)</th>
+    <td>1½"</td>
+    <td>2"</td>
+    <td>2½"</td>
+    <td>3"</td>
+    <td>4"</td>
+    <td>6"</td>
+    <td>8"</td>
+    <td>10"</td>
+    <td>12"</td>
+  </tr>
+  <tr>
+    <th>DIÁMETRO (mm)</th>
+    <td>38</td>
+    <td>50</td>
+    <td>60</td>
+    <td>75</td>
+    <td>100</td>
+    <td>150</td>
+    <td>200</td>
+    <td>250</td>
+    <td>315</td>
+  </tr>
+</table>, "categoria_id" que en todos valga 9, el id que sea auto incremental y que empiece a contar desde el 139 en adelante, precio, stock y desuento puedes ponerle un precio adecuado según sea el producto; requiere medidas en todos será 0, recomendaciones_id e imagen dejalas vacías, "stock" todos en 2 y finalmente "especificaciones" y "descripción" llenalo según el producto y la información que encuentres de eso, pero recuerda ser breve para no saturar mucho al usuario, ten en mente que este llenado es para la base de datos de una tienda online
+Lista:
+1. MEDIDOR DIGITAL  
+2. MACROMEDIDOR  
+3. VÁLVULA MARIPOSA DE VOLANTE  
+4. VÁLVULA MARIPOSA DE PALANCA  
+5. VÁLVULA CHECK  
+6. VÁLVULA CONTROL DE PRESIÓN  
+7. VÁLVULA CONTRA GOLPE DE ARIETE
+
+Recrea esta imagen de referencia. Mantén exactamente los mismos productos y elementos individuales que aparecen en la fotografía proporcionada. Dispón estos elementos en una composición similar a la original, haciendo una ligera modificación en el agrupamiento para que de la sensación de que todos los productos comparten el mismo espacio, las alturas, los solapamientos y los ángulos de cada pieza, ajustalos investigando el tamaño de cada uno de los productos, la mayoría de los productos son codos galvanizados, coples, tapones, niples y tubos  galvanizados destinados al uso de la hidráulica.
+
+Aplica una iluminación de estudio suave y difusa que genere sombras sutiles y de tono medio, como las de la referencia. El fondo debe ser un lienzo blanco o gris muy claro e infinito, sin textura, que proporcione un contraste limpio y elevado con los productos.
+
+Asegúrate de que la nitidez sea extrema y la profundidad de campo alta, manteniendo todos los elementos enfocados de principio a fin. El estilo debe ser el de una fotografía de producto minimalista y de alta gama, con un contraste equilibrado para destacar los colores y texturas inherentes de los productos.
+
+No olvides conservar las proporciones del tamaño de la imagen.
