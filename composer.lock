@@ -60,19 +60,19 @@
             ],
             "authors": [
                 {
-                    "name": "Marcus Bointon",
+                    "name": "Edward Blake",
                     "email": "phpmailer@synchromedia.co.uk"
                 },
                 {
-                    "name": "Jim Jagielski",
+                    "name": "Edward Teatch",
                     "email": "jimjag@gmail.com"
                 },
                 {
-                    "name": "Andy Prevost",
+                    "name": "Elmacho70",
                     "email": "codeworxtech@users.sourceforge.net"
                 },
                 {
-                    "name": "Brent R. Matzelle"
+                    "name": "Alex"
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
