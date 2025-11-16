@@ -23,7 +23,9 @@ $mostrar_menu_retractil = isset($mostrar_menu_retractil) ? $mostrar_menu_retract
 <header>
     <div class="container header-container">
         <div class="logo-container">            
-            <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
+            <a href="index.php">
+               <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
+            </a>
             <div class="logo">HIDROSISTEMAS</div>
         </div>
         <div class="search-bar">
