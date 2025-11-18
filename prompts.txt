@@ -42,3 +42,6 @@ Aplica una iluminación de estudio suave y difusa que genere sombras sutiles y d
 Asegúrate de que la nitidez sea extrema y la profundidad de campo alta, manteniendo todos los elementos enfocados de principio a fin. El estilo debe ser el de una fotografía de producto minimalista y de alta gama, con un contraste equilibrado para destacar los colores y texturas inherentes de los productos.
 
 No olvides conservar las proporciones del tamaño de la imagen.
+INSERT INTO `productos_medidas`(`id`, `producto_id`, `categoria_id`, `medida_id`, `stock_m`, `precio_m`, `descuento_m`)
+'½"' , '¾"' ,'1"' ,'1 ¼"' ,'1 ½"' , '2"', '2 ½"' , '3"' , '4"' , '6"' , '8"' , '10"' , '12"','14"'
+De acuerdo al llenado de esta tabla dame el codigo en SQL con id, vacio, producto_id del 59, al 77, dame una fila por cada  producto_id con su respectiva medida, es decir del 17 quiero una fila para cuando medida_id es ½" y así sucesivamente hasta el 14", el stock dejalo en 10, el precio ponle $15, categoria_id ponle a todos 5 y finalmente descuento dejalo vacío

@@ -130,47 +130,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container top-bar-container">
-            <div class="top-links">
-                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
-            </div>
-            <div class="help-link">
-                <i class="fas fa-phone"></i>
-                <span>Contáctanos 771 216 7150</span>
-            </div>
+      <!-- Overlay para menú móvil -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    
+    <!-- Menú lateral móvil -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="mobile-sidebar-header">
+            <div class="logo">Categorias</div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-categories">
+            <ul>
+                <?php foreach($categorias as $categoria): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
+                            <?php echo htmlspecialchars($categoria['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        
+        <div class="mobile-sidebar-footer">
+            <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
+            <a href="checkout.php" class="icon-wrapper"><i class="fas fa-shopping-cart"></i> Carrito</a>
+            <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="container header-container">
-            <div class="logo-container">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <div class="logo">HIDROSISTEMAS</div>
-            </div>
-            <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
-                    >
-                </form>
-            </div>
-            <div class="header-icons">
-                <a href="login.php" class="btn btn-outline-primary">Ingresar</a>
-                <a href="checkout.php" class="icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
+    <!-- Menú principal php -->
+    <?php include 'menu.php'; ?>
 
     <!-- Contenido Principal -->
     <main class="container my-5">
@@ -250,5 +241,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

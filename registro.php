@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro - Hidrosistemas</title>
+    <title>Registro de usuario</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="Imagenes/h.png" type="image/png">
@@ -196,48 +196,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container top-bar-container">
-            <div class="top-links">
-                <a href="#"><i class="fas fa-briefcase"></i> Servicios</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Ubícanos</a>
-            </div>
-            <div class="help-link">
-                <i class="fas fa-phone"></i>
-                <span>Contáctanos 771 216 7150</span>
-            </div>
+    <!-- Overlay para menú móvil -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    
+    <!-- Menú lateral móvil -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="mobile-sidebar-header">
+            <div class="logo">Categorias</div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-categories">
+            <ul>
+                <?php foreach($categorias as $categoria): ?>
+                    <li>
+                        <a href="categoria.php?id=<?php echo $categoria['id']; ?>&slug=<?php echo $categoria['slug']; ?>">
+                            <?php echo htmlspecialchars($categoria['nombre']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        
+        <div class="mobile-sidebar-footer">
+            <a href="#"><i class="fas fa-user"></i> Mi Cuenta</a>
+            <a href="checkout.php" class="icon-wrapper"><i class="fas fa-shopping-cart"></i> Carrito</a>
+            <a href="#"><i class="fas fa-phone"></i> Contacto</a>
         </div>
     </div>
-
-    <!-- Header Principal -->
-    <header>
-        <div class="container header-container">
-            <div class="logo-container">            
-                <img src="Imagenes/logo-ajustado-2.png" alt="Logo Hidrosistemas" class="logo-hidrosistemas">
-                <div class="logo">HIDROSISTEMAS</div>
-            </div>
-            <div class="search-bar">
-                <form action="busqueda.php" method="GET" class="d-flex align-items-center">
-                    <i class="fas fa-search me-2"></i>
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Buscar productos..." 
-                        class="form-control border-0 bg-transparent"
-                        value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>"
-                    >
-                </form>
-            </div>
-            <div class="header-icons">
-                <a href="#"><i class="fas fa-user"></i></a>
-                <a href="checkout.php" class="icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="num_cart" class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
+    <?php include 'menu.php'; ?>
 
     <!-- Contenido Principal -->
     <main class="container my-5">
@@ -256,7 +245,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php endif; ?>
                 
                 <?php 
-                // ESTA ES LA LÍNEA 203 QUE DA ERROR - AHORA DEBERÍA FUNCIONAR
                 mostrar_mensajes($errors); 
                 ?>
 
@@ -496,6 +484,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         });
     </script>
+    <script src="js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
