@@ -85,7 +85,7 @@ if ($requiere_medidas === 1) {
     $variantes = $stmtVar->fetchAll(PDO::FETCH_ASSOC);
     
     // Definir el orden deseado
-    $orden_medidas = ['½"' , '¾"' ,'1"' ,'1 ¼"' ,'1 ½"' , '2"', '2 ½"' , '3"' , '4"' , '6"' , '8"' , '10"' , '12"','14"','16"','18"','20"','24"', '30"','36"','42"','48"'];
+    $orden_medidas = ['½"' , '¾"' ,'1"' ,'1 ¼"' ,'1 ½"' , '2"', '2 ½"' , '3"' , '4"' , '6"' , '8"' , '10"' , '12"','14"','16"','18"','20"','24"', '30"', '32"', '36"','42"','48"'];
     
     // Ordenar el array según el orden definido
     usort($variantes, function($a, $b) use ($orden_medidas) {
