@@ -430,75 +430,22 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
         </div>
     </footer>
 
-    <script>
-         paypal.Buttons({
-            createOrder: function(data, actions) {
-                const total = <?php echo $total; ?>;
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: total.toFixed(2), // Ya está limpio
-                            currency_code: 'MXN'
-                        }
-                    }]
-                });
-            },
-        // SOLUCIÓN AL ERROR: Reemplazar la función que busca el archivo que no existe
-        function actualizarContadorCarrito() {
-            // En lugar de hacer fetch a un archivo que no existe, actualizamos con los productos actuales
-            const count = <?php echo count($productos); ?>;
-            document.getElementById('num_cart').textContent = count;
+<script>
+    // Función para actualizar el contador del carrito
+    function actualizarContadorCarrito() {
+        const count = <?php echo count($productos); ?>;
+        const numCartElement = document.getElementById('num_cart');
+        if (numCartElement) {
+            numCartElement.textContent = count;
         }
+    }
 
-        function eliminarProducto(clave) {
-            if (confirm('¿Eliminar este producto del carrito?')) {
-                let formData = new FormData();
-                formData.append('clave', clave);
+    function eliminarProducto(clave) {
+        if (confirm('¿Eliminar este producto del carrito?')) {
+            let formData = new FormData();
+            formData.append('clave', clave);
 
-                fetch('clases/eliminar_carrito.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        actualizarContadorCarrito();
-                        location.reload();
-                    } else {
-                        alert('Error: ' + (data.mensaje || 'No se pudo eliminar'));
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error de conexión');
-                });
-            }
-        }
-
-        function cambiarCantidad(clave, cambio) {
-            const form = document.getElementById('form_actualizar_' + clave);
-            const input = form.querySelector('input[name="cantidad"]');
-            let valor = parseInt(input.value);
-
-            if (cambio === -1 && valor === 1) {
-                if (confirm('¿Eliminar este producto del carrito?')) {
-                    eliminarProducto(clave);
-                }
-                return;
-            }
-
-            valor += cambio;
-            if (valor < 1) valor = 1;
-            if (valor > 99) valor = 99;
-            input.value = valor;
-            actualizarCantidad(clave);
-        }
-
-        function actualizarCantidad(clave) {
-            const form = document.getElementById('form_actualizar_' + clave);
-            const formData = new FormData(form);
-
-            fetch('clases/actualizar_carrito.php', {
+            fetch('clases/eliminar_carrito.php', {
                 method: 'POST',
                 body: formData
             })
@@ -508,8 +455,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                     actualizarContadorCarrito();
                     location.reload();
                 } else {
-                    alert('Error: ' + (data.mensaje || 'No se pudo actualizar'));
-                    location.reload(); // Recargar para mostrar estado actual
+                    alert('Error: ' + (data.mensaje || 'No se pudo eliminar'));
                 }
             })
             .catch(error => {
@@ -517,41 +463,55 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
                 alert('Error de conexión');
             });
         }
+    }
 
-        // Inicializar contador al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            actualizarContadorCarrito();
-            
-            // Script para el menú retráctil de categorías en ESCRITORIO
-            const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
-            const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
+    function cambiarCantidad(clave, cambio) {
+        const form = document.getElementById('form_actualizar_' + clave);
+        const input = form.querySelector('input[name="cantidad"]');
+        let valor = parseInt(input.value);
 
-            if (categoriesToggleDesktop && categoriesDropdownDesktop) {
-                categoriesToggleDesktop.addEventListener('click', function() {
-                    categoriesDropdownDesktop.classList.toggle('active');
-                    categoriesToggleDesktop.classList.toggle('active');
-                });
-
-                // Cerrar el menú al hacer clic fuera de él
-                document.addEventListener('click', function(event) {
-                    if (!categoriesToggleDesktop.contains(event.target) && !categoriesDropdownDesktop.contains(event.target)) {
-                        categoriesDropdownDesktop.classList.remove('active');
-                        categoriesToggleDesktop.classList.remove('active');
-                    }
-                });
-
-                // Cerrar el menú al hacer clic en un enlace de categoría
-                const categoryLinks = categoriesDropdownDesktop.querySelectorAll('a');
-                categoryLinks.forEach(link => {
-                    link.addEventListener('click', function() {
-                        categoriesDropdownDesktop.classList.remove('active');
-                        categoriesToggleDesktop.classList.remove('active');
-                    });
-                });
+        if (cambio === -1 && valor === 1) {
+            if (confirm('¿Eliminar este producto del carrito?')) {
+                eliminarProducto(clave);
             }
+            return;
+        }
+
+        valor += cambio;
+        if (valor < 1) valor = 1;
+        if (valor > 99) valor = 99;
+        input.value = valor;
+        actualizarCantidad(clave);
+    }
+
+    function actualizarCantidad(clave) {
+        const form = document.getElementById('form_actualizar_' + clave);
+        const formData = new FormData(form);
+
+        fetch('clases/actualizar_carrito.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                actualizarContadorCarrito();
+                location.reload();
+            } else {
+                alert('Error: ' + (data.mensaje || 'No se pudo actualizar'));
+                location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error de conexión');
         });
-    // Script para el menú retráctil de categorías en ESCRITORIO
+    }
+    // Inicializar contador al cargar la página
     document.addEventListener('DOMContentLoaded', function() {
+        actualizarContadorCarrito();
+        
+        // Script para el menú retráctil de categorías en ESCRITORIO
         const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
         const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');
 
@@ -579,9 +539,8 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
             });
         }
     });
-        }).render('#paypal-button-container');
-    </script>
-    <script src="js/app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</script>
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

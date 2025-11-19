@@ -267,6 +267,14 @@ if (empty($productos)) {
     <script src="https://www.paypal.com/sdk/js?client-id=AeX5dn4cHn60Fpg2V_QumvmHNgITM-nv4eC_K_yoQC7uwzYR5hAqNHo6VS0kvOjNjjRpQ_VK1EBSVUib&currency=MXN"></script>
     
     <script>
+        // Función para actualizar el contador del carrito
+        function actualizarContadorCarrito() {
+            const count = <?php echo count($productos); ?>;
+            const numCartElement = document.getElementById('num_cart');
+            if (numCartElement) {
+                numCartElement.textContent = count;
+            }
+        }
         // Configurar botón de PayPal
         paypal.Buttons({
             style: {

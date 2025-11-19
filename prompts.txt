@@ -45,3 +45,6 @@ No olvides conservar las proporciones del tamaño de la imagen.
 INSERT INTO `productos_medidas`(`id`, `producto_id`, `categoria_id`, `medida_id`, `stock_m`, `precio_m`, `descuento_m`)
 '½"' , '¾"' ,'1"' ,'1 ¼"' ,'1 ½"' , '2"', '2 ½"' , '3"' , '4"' , '6"' , '8"' , '10"' , '12"','14"'
 De acuerdo al llenado de esta tabla dame el codigo en SQL con id, vacio, producto_id del 59, al 77, dame una fila por cada  producto_id con su respectiva medida, es decir del 17 quiero una fila para cuando medida_id es ½" y así sucesivamente hasta el 14", el stock dejalo en 10, el precio ponle $15, categoria_id ponle a todos 5 y finalmente descuento dejalo vacío
+
+Mejorar calidad de una imagen:
+Mejora la calidad de esta imagen: aumenta la resolución y el tamaño en píxeles (upscale) sin introducir distorsiones. Asegura una nitidez extrema en todos los detalles y texturas de los accesorios de metal, eliminando cualquier rastro de desenfoque o pixelación. Mantén la iluminación, las sombras, los colores y la composición original de la imagen intactos, pero con una claridad y definición significativamente superiores. El resultado debe ser una fotografía de producto de alta resolución y ultra-nítida.
