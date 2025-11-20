@@ -175,7 +175,7 @@ header {
     align-items: center;
 }
 
-.header-icons a:hover {
+.icon-wrapper:hover {
     color: var(--accent);
 }
 
@@ -492,9 +492,10 @@ ul{
     background: green;
 }
 .btn-outline-primary:hover {
-    background-color: var(--white);
-    color: green;
+    background-color: rgb(0, 116, 0);
+    color : var(--white);
     transform: translateY(-2px);
+    border-color: var(--green);
 
 }
 .action-buttons {
