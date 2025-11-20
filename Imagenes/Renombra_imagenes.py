@@ -31,7 +31,7 @@ def renombrar_imagenes(ruta_carpeta, nombre_base=""):
         archivos.sort()
 
     # Renombrar archivos
-    contador = 174
+    contador = 185
     for archivo in archivos:
         extension = os.path.splitext(archivo)[1]
         

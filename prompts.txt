@@ -48,3 +48,21 @@ De acuerdo al llenado de esta tabla dame el codigo en SQL con id, vacio, product
 
 Mejorar calidad de una imagen:
 Mejora la calidad de esta imagen: aumenta la resolución y el tamaño en píxeles (upscale) sin introducir distorsiones. Asegura una nitidez extrema en todos los detalles y texturas de los accesorios de metal, eliminando cualquier rastro de desenfoque o pixelación. Mantén la iluminación, las sombras, los colores y la composición original de la imagen intactos, pero con una claridad y definición significativamente superiores. El resultado debe ser una fotografía de producto de alta resolución y ultra-nítida.
+
+base promt nalguita HD:
+
+-- 1. Deshabilitar las restricciones de claves foráneas
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- 2. Actualizar PRIMERO la tabla padre (productos)
+UPDATE `productos` 
+SET id = id - 4 
+WHERE id BETWEEN 191 AND 219;
+
+-- 3. Actualizar LUEGO la tabla hija (productos_medidas)
+UPDATE `productos_medidas` 
+SET producto_id = producto_id - 4 
+WHERE producto_id BETWEEN 191 AND 219;
+
+-- 4. Reactivar las restricciones
+SET FOREIGN_KEY_CHECKS = 1;
