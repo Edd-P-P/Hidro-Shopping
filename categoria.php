@@ -194,7 +194,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         margin-top: 20px;
     }
 
-    /* ESTILOS PARA EL MENÚ RETRÁCTIL - AGREGAR ESTOS */
+    /* ESTILOS PARA EL MENÚ RETRÁCTIL*/
     .categories-nav-desktop {
         position: relative;
         background: #2c3e50;
@@ -268,7 +268,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         display: flex;
         align-items: center;
         padding: 10px 20px;
-        background: linear-gradient(135deg, #3498db, #2980b9);
+        background: var(--primary);
         color: white;
         text-decoration: none;
         border-radius: 25px;
@@ -278,7 +278,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
     }
 
     .back-home-btn:hover {
-        background: linear-gradient(135deg, #2980b9, #2471a3);
+        background: var(--primary);
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
         color: white;
@@ -329,9 +329,9 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
 
     .categories-dropdown-list a:hover {
         background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        color: #2980b9;
+        color: var(--primary);
         padding-left: 30px;
-        border-left: 4px solid #3498db;
+        border-left: 4px solid var(--primary);
     }
 
     /* Mostrar solo en pantallas grandes */
@@ -430,7 +430,7 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
                     <div class="product-card">
                         <?php
                         $id_producto = $row['id'];
-                        // CORRECCIÓN: Mejorar la lógica de búsqueda de imágenes
+                        //Mejorar la lógica de búsqueda de imágenes
                         $imagen = "Imagenes/productos/" . $row['categoria_id'] . "/" . $id_producto . ".png";
                         
                         if (!file_exists($imagen)) {
@@ -465,7 +465,6 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
                         <div class="product-content">
                             <div class="product-info">
                                 <h3><?php echo $row['nombre']; ?></h3>
-                                <p class="product-price-index">$<?php echo number_format($row['precio'], 2); ?></p>
                             </div>
                             <div class="btn-action"> 
                                 <a href="details.php?id=<?php echo $row['id']; ?>&categoria_id=<?php echo $row['categoria_id']; ?>&token=<?php echo hash_hmac('sha1', $row['id'], KEY_TOKEN); ?>" class="btn-det">Detalles</a>

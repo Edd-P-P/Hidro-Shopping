@@ -560,7 +560,7 @@ to me
     box-shadow: var(--shadow);
     transition: var(--transition);
     width: 275px;
-    height: 480px;
+    height: 390px;
 }
 
 .product-card:hover {
