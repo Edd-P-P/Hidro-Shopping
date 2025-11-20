@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2025 at 09:13 PM
+-- Generation Time: Nov 20, 2025 at 05:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -25,6 +25,7 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `hidro-online2`;
 USE `hidro-online2`;
 
+--
 -- Table structure for table `admin`
 --
 
@@ -73,17 +74,17 @@ CREATE TABLE `categorias` (
 
 INSERT INTO `categorias` (`id`, `nombre`, `slug`, `descripcion`, `activo`, `created_at`, `color_fondo`, `texto_color`, `boton_primario`, `boton_secundario`, `color_titulo`) VALUES
 (1, 'CPVC agua caliente', 'cpvc-agua-caliente', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-09-23 23:46:58', '#FFF9C4', '#000000', '#007bff', '#6c757d', '#1972eb'),
-(2, 'Tubería PPR', 'tuberia-ppr', '', 1, '2025-09-23 23:46:58', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
+(2, 'Tubería PPR', 'tuberia-ppr', 'Tubos y conexiones de Polipropileno es un termoplástico resistente a impactos, para presiones hasta 20 kg ( a 20 °C), bicapa', 1, '2025-09-23 23:46:58', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
 (3, 'Hidráulica C-40 PVC', 'ingles-c40-pvc', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-10-07 22:55:26', '#398cac', '#000000', '#007bff', '#6c757d', '#ffffff'),
-(4, 'Cementos', 'cementos', '', 1, '2025-10-07 22:26:08', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(5, 'Hidráulica C-80 PVC', 'ingles-c80-pvc', '', 1, '2025-10-07 22:55:26', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(6, 'Hidráulica con campana PVC', 'campana-CPVC', '', 1, '2025-10-07 22:58:27', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
+(4, 'Cementos', 'cementos', 'Cementos para la unión de tubería de acuerdo a su material y presión', 1, '2025-10-07 22:26:08', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
+(5, 'Hidráulica C-80 PVC', 'ingles-c80-pvc', 'Tubos y conexiones de Policloruro de vinilo (PVC) es un termoplástico producido a partir de la resina de policloruro de vinilo (PVC), la tubería C-80 es gris y se une mediante cemento especial y existen piezas para roscar y cementar', 1, '2025-10-07 22:55:26', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
+(6, 'Hidráulica con campana PVC', 'campana-CPVC', 'Tubos y conexiones de Policloruro de vinilo (PVC) es un termoplástico de la resina de policloruro de vinilo (PVC). Unión Campana-Espiga. Todos bajo la medida inglesa.', 1, '2025-10-07 22:58:27', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
 (7, 'Tubería galvanizada', 'tuberia-galvanizada', 'Tubos y conexiones de fierro galvanizado, ideales para conducción exterior y de alta presión', 1, '2025-09-23 23:46:58', '#7b797a', '#ff070e', '#007bff', '#6c757d', '#ffffff'),
 (8, 'Toma domiciliaria', 'toma-domi', 'La toma domiciliaria, es un \"estándar\" que puede ser de diferentes materiales e inicia en la conexión de agua a partir de la red general hidráulica, de la ciudad o de la infraestructura autorizada para suministro de agua a viviendas, edificios, centros comerciales, etc.', 1, '2025-09-23 23:46:58', '#797979', '#ffcf00', '#007bff', '#6c757d', '#f7f7f7'),
 (9, 'Medidores y valvulas', 'medidores-y-valvulas', 'Los micro-medidores son una parte esencial en todo sistema de agua para cuantificar la cantidad de líquido que pasa en determinado punto para el abastecimiento de líneas y la extracción de los pozos por lo que se divide en micro medidores (½\", ¾\", 1\", 1 ½\", 2\") y macro medidores (2\", 2 ½\", 3\", 4\", 6\", 8\", 10\", 12\" etc.) así como también existen varios tipos de medidores', 1, '2025-09-23 23:46:58', '#28486c', '#ffffff', '#007bff', '#6c757d', '#ffffff'),
 (10, 'Conexiones fierro fundido', 'Conexiones fierro fundido', 'Conexiones de Fierro fundido para unión bridada son de medida Inglesa, su uso es común en los arreglos de los trenes de conexión de pozos y sistemas de agua dada su resistencia a la intemperie y capacidad de soporte de presiones.\n\n', 1, '2025-10-07 23:02:15', '#26304b', '#ffffff', '#007bff', '#6c757d', '#ffffff'),
-(11, 'Alacantarillado ', 'métrico-campana', '', 1, '2025-10-07 23:02:15', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(12, 'Tubería polietileno corrugado', 'polietileno-corrugado', '', 1, '2025-10-07 23:08:28', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
+(11, 'Alacantarillado ', 'métrico-campana', 'Las tuberías de alcantarillado están diseñadas para la resistencia a aguas negras y desechos comerciales que se llegan a derramar en el drenaje así como la resistencia a la carga para su colocación bajo tierra', 1, '2025-10-07 23:02:15', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
+(12, 'Tubería polietileno corrugado', 'polietileno-corrugado', 'Tubos y conexiones de Polietileno de alta densidad (PEAD o PAD) es un termoplástico producido por etilenos con alta densidad para la resistencia a CARGAS.', 1, '2025-10-07 23:08:28', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
 (13, 'Sanitaria', 'linea-sanitaria', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-09-23 23:46:58', '#917d70', '#000000', '#007bff', '#6c757d', '#ffffff');
 
 -- --------------------------------------------------------
@@ -441,15 +442,12 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especifica
 (181, 'Unión de Servicio Recto Campana PVC', '<strong>UNIÓN DE SERVICIO PVC-PEAD</strong><br>Adaptador para conectar tubería de Polietileno Corrugado (PEAD) a una tubería de PVC sanitario. Asegura una transición hermética.', '', 'Material: Adaptador PEAD-PVC <br> Sello: Anillo elastomérico (lado PEAD) <br> Unión: Campana (lado PVC) <br> Uso: Descargas domiciliarias', 75.00, 2, '', 12, 1, 1, '2025-11-10 17:45:00', '2025-11-18 16:32:43', 0, NULL),
 (182, 'Unión de Servicio a 45° Campana PVC', '<strong>UNIÓN DE SERVICIO PVC-PEAD</strong><br>Adaptador para conectar tubería de Polietileno Corrugado (PEAD) a una tubería de PVC sanitario. Asegura una transición hermética.', '', 'Material: Adaptador PEAD-PVC <br> Sello: Anillo elastomérico (lado PEAD) <br> Unión: Campana (lado PVC) <br> Uso: Descargas domiciliarias', 75.00, 2, '', 12, 1, 1, '2025-11-10 17:45:00', '2025-11-18 16:32:49', 0, NULL),
 (183, 'Unión de Servicio a 45° Cementar PVC', '<strong>UNIÓN DE SERVICIO PVC-PEAD</strong><br>Adaptador para conectar tubería de Polietileno Corrugado (PEAD) a una tubería de PVC sanitario. Asegura una transición hermética.', '', 'Material: Adaptador PEAD-PVC <br> Sello: Anillo elastomérico (lado PEAD) <br> Unión: Campana (lado PVC) <br> Uso: Descargas domiciliarias', 75.00, 2, '', 12, 1, 1, '2025-11-10 17:45:00', '2025-11-18 16:32:51', 0, NULL),
-(184, 'TEE WYE Pead Corrugado', '<strong>TEE WYE PEAD CORRUGADO</strong><br>Derivación de PEAD a 90° con barrido para tubería corrugada. Permite una incorporación de flujo suave de un ramal a la línea principal.', '', 'Material: Polietileno (PEAD) <br> Ángulo: 90° con barrido <br> Unión: Campana-Campana-Espiga (corrugado) <br> Uso: Alcantarillado pluvial y sanitario', 150.00, 2, '', 12, 1, 1, '2025-11-10 17:45:00', '2025-11-18 16:32:58', 0, NULL),
-(185, 'Cople Pead Corrugado', '<strong>COPLE PEAD CORRUGADO</strong><br>Conexión recta para unir dos tramos de tubería corrugada de PEAD (espiga con espiga). Utiliza anillos elastoméricos para un sello hermético.', '', 'Material: Polietileno (PEAD) <br> Tipo: Recto (Doble Campana) <br> Unión: Corrugado-Corrugado <br> Uso: Alcantarillado pluvial y sanitario', 60.00, 2, '', 12, 1, 1, '2025-11-10 17:45:00', '2025-11-18 16:33:03', 0, NULL),
-(186, 'Codo 45° Pead Corrugado', '<strong>CODO 45° PEAD CORRUGADO</strong><br>Curva de PEAD para cambiar la dirección de la línea de tubería corrugada en 45 grados. Mantiene la hermeticidad del sistema.', '', 'Material: Polietileno (PEAD) <br> Ángulo: 45° <br> Unión: Campana-Espiga (corrugado) <br> Uso: Alcantarillado pluvial y sanitario', 85.00, 2, '', 12, 1, 1, '2025-11-10 17:45:00', '2025-11-18 16:33:12', 0, NULL),
-(187, 'Anillo Elastométrico para Pead Corrugado', '<strong>ANILLO ELASTOMÉRICO (PEAD)</strong><br>Empaque de hule para uniones de tubería corrugada de PEAD. Se coloca en la campana para garantizar un sello 100% hermético contra fugas.', '', 'Material: Hule (Elastómero) <br> Función: Sello hermético <br> Ubicación: Campana de tubería/conexión <br> Norma: NMX-T-021-SCFI', 20.00, 2, '', 12, 0, 1, '2025-11-10 17:45:00', '2025-11-18 16:27:20', 0, NULL),
-(189, 'Codo 90° ', '<strong>CODO 90° PVC</strong><br>Codo de 90 grados para cambio de dirección en tuberías de PVC. Ideal para sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo 90° <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(190, 'Codo 45° ', '<strong>CODO 45° PVC</strong><br>Codo de 45 grados para cambio de dirección suave en tuberías de PVC. Utilizado en sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo 45° <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL);
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especificaciones`, `precio`, `stock`, `imagen`, `categoria_id`, `requiere_medidas`, `activo`, `created_at`, `updated_at`, `descuento`, `Recomendaciones_id`) VALUES
+(184, 'Cople Pead Corrugado', '<strong>COPLE PEAD CORRUGADO</strong><br>Conexión recta para unir dos tramos de tubería corrugada de PEAD (espiga con espiga). Utiliza anillos elastoméricos para un sello hermético.', '', 'Material: Polietileno (PEAD) <br> Tipo: Recto (Doble Campana) <br> Unión: Corrugado-Corrugado <br> Uso: Alcantarillado pluvial y sanitario', 60.00, 2, '', 12, 1, 1, '2025-11-10 17:45:00', '2025-11-20 16:37:17', 0, NULL),
+(185, 'Codo 90° ', '<strong>CODO 90° PVC</strong><br>Codo de 90 grados para cambio de dirección en tuberías de PVC. Ideal para sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo 90° <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 16:37:17', 0, NULL),
+(186, 'Codo 45° ', '<strong>CODO 45° PVC</strong><br>Codo de 45 grados para cambio de dirección suave en tuberías de PVC. Utilizado en sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo 45° <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 16:37:17', 0, NULL),
 (191, 'Cople ', '<strong>COPLE PVC</strong><br>Conexión recta para unir dos tuberías de PVC en línea recta. Usado en sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cople <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(192, 'Yee ', '<strong>YEE PVC</strong><br>Conexión en forma de Y para derivaciones en tuberías de PVC. Permite la salida lateral en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
+(192, 'Yee ', '<strong>YEE PVC</strong><br>Conexión en forma de Y para derivaciones en tuberías de PVC. Permite la salida lateral en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL);
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especificaciones`, `precio`, `stock`, `imagen`, `categoria_id`, `requiere_medidas`, `activo`, `created_at`, `updated_at`, `descuento`, `Recomendaciones_id`) VALUES
 (193, 'Tee ', '<strong>TEE PVC</strong><br>Conexión en forma de T para derivaciones en tuberías de PVC. Permite la salida perpendicular en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
 (194, 'Codo Salida Lateral ', '<strong>CODO SALIDA LATERAL PVC</strong><br>Codo con salida lateral para conexiones especiales en tuberías de PVC. Usado en sistemas de drenaje con necesidades específicas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Lateral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
 (195, 'Codo Salida Trasera ', '<strong>CODO SALIDA TRASERA PVC</strong><br>Codo con salida trasera para conexiones especiales en tuberías de PVC. Ideal para espacios reducidos en instalaciones de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Trasera <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
@@ -1374,18 +1372,6 @@ INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id
 (2096, 170, 11, '24\"', 3, 2.00, 0.00),
 (2097, 170, 11, '30\"', 3, 2.00, 0.00),
 (2098, 170, 11, '36\"', 3, 2.00, 0.00),
-(2187, 189, 14, '1 ½\"', 8, 25.00, 10.00),
-(2188, 189, 14, '2\"', 8, 25.00, 10.00),
-(2189, 189, 14, '3\"', 8, 25.00, 10.00),
-(2190, 189, 14, '4\"', 8, 25.00, 10.00),
-(2191, 189, 14, '6\"', 8, 25.00, 10.00),
-(2192, 189, 14, '8\"', 8, 25.00, 10.00),
-(2193, 190, 14, '1 ½\"', 8, 25.00, 10.00),
-(2194, 190, 14, '2\"', 8, 25.00, 10.00),
-(2195, 190, 14, '3\"', 8, 25.00, 10.00),
-(2196, 190, 14, '4\"', 8, 25.00, 10.00),
-(2197, 190, 14, '6\"', 8, 25.00, 10.00),
-(2198, 190, 14, '8\"', 8, 25.00, 10.00),
 (2199, 191, 14, '1 ½\"', 8, 25.00, 10.00),
 (2200, 191, 14, '2\"', 8, 25.00, 10.00),
 (2201, 191, 14, '3\"', 8, 25.00, 10.00),
@@ -1845,8 +1831,7 @@ INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id
 (2655, 76, 5, '10\"', 10, 15.00, NULL),
 (2656, 76, 5, '12\"', 10, 15.00, NULL),
 (2657, 76, 5, '14\"', 10, 15.00, NULL),
-(2658, 77, 5, '½\"', 10, 15.00, NULL);
-INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id`, `stock_m`, `precio_m`, `descuento_m`) VALUES
+(2658, 77, 5, '½\"', 10, 15.00, NULL),
 (2659, 77, 5, '¾\"', 10, 15.00, NULL),
 (2660, 77, 5, '1\"', 10, 15.00, NULL),
 (2661, 77, 5, '1 ¼\"', 10, 15.00, NULL),
@@ -1859,7 +1844,8 @@ INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id
 (2668, 77, 5, '8\"', 10, 15.00, NULL),
 (2669, 77, 5, '10\"', 10, 15.00, NULL),
 (2670, 77, 5, '12\"', 10, 15.00, NULL),
-(2671, 77, 5, '14\"', 10, 15.00, NULL),
+(2671, 77, 5, '14\"', 10, 15.00, NULL);
+INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id`, `stock_m`, `precio_m`, `descuento_m`) VALUES
 (2672, 174, 11, '4\"', 0, 0.00, 0.00),
 (2673, 174, 11, '6\"', 0, 0.00, 0.00),
 (2674, 174, 11, '8\"', 0, 0.00, 0.00),
@@ -1944,22 +1930,28 @@ INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id
 (2792, 183, 12, '4\"', 0, 0.00, 0.00),
 (2793, 183, 12, '6\"', 0, 0.00, 0.00),
 (2794, 183, 12, '8\"', 0, 0.00, 0.00),
-(2804, 184, 12, '4\"', 0, 0.00, 0.00),
-(2805, 184, 12, '6\"', 0, 0.00, 0.00),
-(2806, 184, 12, '8\"', 0, 0.00, 0.00),
-(2807, 186, 12, '4\"', 0, 0.00, 0.00),
-(2808, 186, 12, '6\"', 0, 0.00, 0.00),
-(2809, 186, 12, '8\"', 0, 0.00, 0.00),
-(2810, 185, 12, '4\"', 0, 0.00, 0.00),
-(2811, 185, 12, '6\"', 0, 0.00, 0.00),
-(2812, 185, 12, '8\"', 0, 0.00, 0.00),
-(2813, 185, 12, '10\"', 0, 0.00, 0.00),
-(2814, 185, 12, '12\"', 0, 0.00, 0.00),
-(2815, 185, 12, '14\"', 0, 0.00, 0.00),
-(2816, 185, 12, '16\"', 0, 0.00, 0.00),
-(2817, 185, 12, '18\"', 0, 0.00, 0.00),
-(2818, 185, 12, '20\"', 0, 0.00, 0.00),
-(2819, 185, 12, '24\"', 0, 0.00, 0.00);
+(2820, 184, 12, '10\"', 0, 0.00, 0.00),
+(2821, 184, 12, '12\"', 0, 0.00, 0.00),
+(2822, 184, 12, '14\"', 0, 0.00, 0.00),
+(2823, 184, 12, '16\"', 0, 0.00, 0.00),
+(2824, 184, 12, '18\"', 0, 0.00, 0.00),
+(2825, 184, 12, '20\"', 0, 0.00, 0.00),
+(2826, 184, 12, '24\"', 0, 0.00, 0.00),
+(2827, 184, 12, '4\"', 0, 0.00, 0.00),
+(2828, 184, 12, '6\"', 0, 0.00, 0.00),
+(2829, 184, 12, '8\"', 0, 0.00, 0.00),
+(2835, 185, 14, '1 ½\"', 8, 25.00, 10.00),
+(2836, 185, 14, '2\"', 8, 25.00, 10.00),
+(2837, 185, 14, '3\"', 8, 25.00, 10.00),
+(2838, 185, 14, '4\"', 8, 25.00, 10.00),
+(2839, 185, 14, '6\"', 8, 25.00, 10.00),
+(2840, 185, 14, '8\"', 8, 25.00, 10.00),
+(2841, 186, 14, '1 ½\"', 8, 25.00, 10.00),
+(2842, 186, 14, '2\"', 8, 25.00, 10.00),
+(2843, 186, 14, '3\"', 8, 25.00, 10.00),
+(2844, 186, 14, '4\"', 8, 25.00, 10.00),
+(2845, 186, 14, '6\"', 8, 25.00, 10.00),
+(2846, 186, 14, '8\"', 8, 25.00, 10.00);
 
 -- --------------------------------------------------------
 
@@ -2185,7 +2177,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT for table `productos_medidas`
 --
 ALTER TABLE `productos_medidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2820;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2850;
 
 --
 -- AUTO_INCREMENT for table `recomendaciones_categoria`
