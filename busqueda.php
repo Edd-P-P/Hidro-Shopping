@@ -433,15 +433,6 @@ $total_paginas = ceil($total / $productos_por_pagina);
                         <div class="product-content">
                             <div class="product-info">
                                 <h3><?php echo htmlspecialchars($row['nombre']); ?></h3>
-                                <p class="product-price-index">
-                                    <?php if ($descuento > 0): ?>
-                                        <del>$<?php echo number_format($precio, 2); ?></del><br>
-                                    <?php endif; ?>
-                                    $<?php echo number_format($precio_final, 2); ?>
-                                    <?php if ($descuento > 0): ?>
-                                        <small class="text-success ms-2"><?php echo $descuento; ?>% OFF</small>
-                                    <?php endif; ?>
-                                </p>
                                 <small class="text-muted"><?php echo htmlspecialchars($row['categoria_nombre']); ?></small>
                             </div>
                             <div class="btn-action"> 

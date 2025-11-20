@@ -786,14 +786,6 @@ function buyNow() {
     const precio = parseFloat(document.getElementById('precio-base').value);
     const descuento = parseFloat(document.getElementById('descuento-seleccionado').value);
 
-    console.log("=== DATOS PARA COMPRA INMEDIATA ===");
-    console.log("Producto ID:", id);
-    console.log("Medida:", medidaTexto);
-    console.log("Stock disponible:", stock);
-    console.log("Cantidad solicitada:", cantidad);
-    console.log("Precio:", precio);
-    console.log("Descuento:", descuento);
-
     // Validaciones básicas
     if (cantidad < 1) {
         alert('La cantidad debe ser al menos 1');
@@ -919,8 +911,6 @@ function addProducto(id, token) {
         formData.append('medida', medidaTexto);
     <?php endif; ?>
 
-    console.log("Enviando datos a: clases/carrito.php");
-
     // Enviar al servidor con mejor manejo de errores
     fetch('clases/carrito.php', {
         method: 'POST',
@@ -963,13 +953,6 @@ function addProducto(id, token) {
 }
 </script>
 <script src="js/carrito.js"></script>
-<script>
-console.log("=== INFORMACIÓN DEL PRODUCTO ===");
-console.log("ID del producto:", <?php echo $id; ?>);
-console.log("Token generado:", "<?php echo $token_tmp; ?>");
-console.log("Requiere medidas:", <?php echo $requiere_medidas; ?>);
-console.log("Variantes disponibles:", <?php echo json_encode($variantes); ?>);
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
