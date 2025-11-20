@@ -127,6 +127,29 @@ if (empty($productos)) {
             background-color: #f8d7da;
             color: #721c24;
         }
+        /* Estilos para la sección de cancelar */
+        .cancel-section {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef !important;
+        }
+
+        .cancel-section:hover {
+            background-color: #f1f3f4;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-outline-danger {
+            border-color: #dc3545;
+            color: #dc3545;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -210,6 +233,16 @@ if (empty($productos)) {
                     <h2>Método de Pago</h2>
                     <div id="paypal-button-container"></div>
                     
+                    <!-- Botón de cancelar compra -->
+                    <div class="cancel-section mt-4 p-3 border rounded text-center">
+                        <p class="text-muted mb-3">¿Cambiaste de opinión?</p>
+                        <a href="checkout.php" class="btn btn-outline-danger btn-lg w-100">
+                            <i class="fas fa-shopping-cart me-2"></i>Cancelar y editar pedido
+                        </a>
+                        <small class="text-muted d-block mt-2">Podrás editar tus productos en el carrito</small>
+                    </div>
+                    <!-- Fin del botón de cancelar -->
+
                     <div class="loading" id="loading">
                         <p>Procesando pago...</p>
                     </div>
@@ -361,6 +394,12 @@ if (empty($productos)) {
             }
             
         }).render('#paypal-button-container');
+        // Función para confirmar cancelación
+        function confirmCancel() {
+            if (confirm('¿Estás seguro de que quieres modificar tu pedido?\nSerás redirigido al carrito para editar los productos.')) {
+                window.location.href = 'checkout.php';
+            }
+        }
     </script>
 
     <script src="js/app.js"></script>

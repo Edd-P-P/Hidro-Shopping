@@ -127,6 +127,16 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="tables.css">
     <style>
+    /* Para que no se salga del margen */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .container-details {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
         ul {
             padding-left: 1rem;
         }
@@ -141,7 +151,9 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
             color: #333;
             font-size: 1.5rem;
         }
-
+        .product-image {
+            margin-left: -11px;
+        }
         .product-card-link {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 1px solid #dee2e6;
@@ -152,8 +164,11 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         .row{
-            margin-left: calc(1.4 * var(--bs-gutter-x));
+            margin-left: calc(0.4 * var(--bs-gutter-x));
             justify-content: space-between;
+        }
+        .mt-4 {
+            margin-right: 27px
         }
         .card-title {
             font-size: 0.9rem;
@@ -324,6 +339,11 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
             
             .categories-nav {
                 display: block;
+            }
+        }
+        @media (min-width: 768px) {
+            .col-md-6 {
+                padding-right: 20px;
             }
         }
     </style>
@@ -552,7 +572,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $rutaImg)) {
                 
                 <!-- Botones de acción -->
                 <div class="d-grid gap-3 col-10 mx-auto action-buttons">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button" onclick="buyNow()">
                         <i class="fas fa-bolt me-2"></i>Comprar ahora
                     </button>
                     <button class="btn btn-outline-primary" type="button" onclick="addProducto(<?php echo $id; ?>, '<?php echo $token_tmp; ?>')">
@@ -754,7 +774,105 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-}); 
+});
+
+/* Funciónn para comprar ahora */
+function buyNow() {
+    const id = <?php echo $id; ?>;
+    const token = "<?php echo $token_tmp; ?>";
+    const medidaTexto = document.getElementById('medida-texto-seleccionada').value;
+    const stock = parseInt(document.getElementById('stock-seleccionado').value);
+    const cantidad = parseInt(document.getElementById('quantity').value) || 1;
+    const precio = parseFloat(document.getElementById('precio-base').value);
+    const descuento = parseFloat(document.getElementById('descuento-seleccionado').value);
+
+    console.log("=== DATOS PARA COMPRA INMEDIATA ===");
+    console.log("Producto ID:", id);
+    console.log("Medida:", medidaTexto);
+    console.log("Stock disponible:", stock);
+    console.log("Cantidad solicitada:", cantidad);
+    console.log("Precio:", precio);
+    console.log("Descuento:", descuento);
+
+    // Validaciones básicas
+    if (cantidad < 1) {
+        alert('La cantidad debe ser al menos 1');
+        return;
+    }
+
+    // Validación de stock
+    if (cantidad > stock) {
+        alert('No hay suficiente stock disponible. Stock actual: ' + stock + ' unidades');
+        return;
+    }
+
+    <?php if ($requiere_medidas === 1): ?>
+    // Validaciones específicas para productos con medidas
+    if (!medidaTexto || medidaTexto.trim() === '') {
+        alert('Por favor selecciona una medida.');
+        return;
+    }
+    if (stock <= 0) {
+        alert('Lo sentimos, no hay inventario disponible para esta medida.');
+        return;
+    }
+    <?php endif; ?>
+
+    // Preparar datos para enviar
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('token', token);
+    formData.append('cantidad', cantidad);
+    formData.append('precio', precio);
+    formData.append('descuento', descuento);
+    formData.append('buynow', 'true'); // Bandera para identificar compra inmediata
+    
+    <?php if ($requiere_medidas === 1): ?>
+        formData.append('medida', medidaTexto);
+    <?php endif; ?>
+
+    console.log("Enviando datos de compra inmediata...");
+
+    // Enviar al servidor
+    fetch('clases/buynow.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        console.log("Estado de la respuesta:", response.status);
+        return response.text().then(text => {
+            console.log("Respuesta completa:", text);
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error("Error parseando JSON:", e);
+                throw new Error('El servidor devolvió una respuesta no válida');
+            }
+        });
+    })
+    .then(data => {
+        console.log("Respuesta parseada:", data);
+        if (data.ok) {
+            if (data.redirect) {
+                // Redirigir a la página de pago
+                window.location.href = data.redirect;
+            } else {
+                window.location.href = 'pago.php';
+            }
+        } else {
+            if (data.redirect) {
+                // Redirigir al login si no está autenticado
+                window.location.href = data.redirect;
+            } else {
+                alert('Error: ' + (data.mensaje || 'No se pudo procesar la compra'));
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error en la petición:', error);
+        alert('Error de conexión: ' + error.message);
+    });
+}
 
 // --- Función para agregar al carrito---
 function addProducto(id, token) {
@@ -764,13 +882,6 @@ function addProducto(id, token) {
     const precio = parseFloat(document.getElementById('precio-base').value);
     const descuento = parseFloat(document.getElementById('descuento-seleccionado').value);
 
-    console.log("=== DATOS PARA AGREGAR AL CARRITO ===");
-    console.log("Producto ID:", id);
-    console.log("Medida:", medidaTexto);
-    console.log("Stock disponible:", stock);
-    console.log("Cantidad solicitada:", cantidad);
-    console.log("Precio:", precio);
-    console.log("Descuento:", descuento);
 
     // Validaciones básicas
     if (cantidad < 1) {
