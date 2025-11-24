@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2025 at 05:38 PM
+-- Generation Time: Nov 24, 2025 at 08:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,10 +20,10 @@ SET time_zone = "+00:00";
 --
 -- Database: `hidro-online2`
 --
-
--- CREAR Y SELECCIONAR LA BASE DE DATOS
-CREATE DATABASE IF NOT EXISTS `hidro-online2`;
+CREATE DATABASE IF NOT EXISTS `hidro-online2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `hidro-online2`;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `admin`
@@ -65,27 +65,27 @@ CREATE TABLE `categorias` (
   `texto_color` varchar(7) DEFAULT '#000000',
   `boton_primario` varchar(7) DEFAULT '#007bff',
   `boton_secundario` varchar(7) DEFAULT '#6c757d',
-  `color_titulo` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `color_titulo` varchar(7) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categorias`
 --
 
 INSERT INTO `categorias` (`id`, `nombre`, `slug`, `descripcion`, `activo`, `created_at`, `color_fondo`, `texto_color`, `boton_primario`, `boton_secundario`, `color_titulo`) VALUES
-(1, 'CPVC agua caliente', 'cpvc-agua-caliente', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-09-23 23:46:58', '#FFF9C4', '#000000', '#007bff', '#6c757d', '#1972eb'),
-(2, 'Tubería PPR', 'tuberia-ppr', 'Tubos y conexiones de Polipropileno es un termoplástico resistente a impactos, para presiones hasta 20 kg ( a 20 °C), bicapa', 1, '2025-09-23 23:46:58', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(3, 'Hidráulica C-40 PVC', 'ingles-c40-pvc', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-10-07 22:55:26', '#398cac', '#000000', '#007bff', '#6c757d', '#ffffff'),
-(4, 'Cementos', 'cementos', 'Cementos para la unión de tubería de acuerdo a su material y presión', 1, '2025-10-07 22:26:08', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(5, 'Hidráulica C-80 PVC', 'ingles-c80-pvc', 'Tubos y conexiones de Policloruro de vinilo (PVC) es un termoplástico producido a partir de la resina de policloruro de vinilo (PVC), la tubería C-80 es gris y se une mediante cemento especial y existen piezas para roscar y cementar', 1, '2025-10-07 22:55:26', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(6, 'Hidráulica con campana PVC', 'campana-CPVC', 'Tubos y conexiones de Policloruro de vinilo (PVC) es un termoplástico de la resina de policloruro de vinilo (PVC). Unión Campana-Espiga. Todos bajo la medida inglesa.', 1, '2025-10-07 22:58:27', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(7, 'Tubería galvanizada', 'tuberia-galvanizada', 'Tubos y conexiones de fierro galvanizado, ideales para conducción exterior y de alta presión', 1, '2025-09-23 23:46:58', '#7b797a', '#ff070e', '#007bff', '#6c757d', '#ffffff'),
-(8, 'Toma domiciliaria', 'toma-domi', 'La toma domiciliaria, es un \"estándar\" que puede ser de diferentes materiales e inicia en la conexión de agua a partir de la red general hidráulica, de la ciudad o de la infraestructura autorizada para suministro de agua a viviendas, edificios, centros comerciales, etc.', 1, '2025-09-23 23:46:58', '#797979', '#ffcf00', '#007bff', '#6c757d', '#f7f7f7'),
-(9, 'Medidores y valvulas', 'medidores-y-valvulas', 'Los micro-medidores son una parte esencial en todo sistema de agua para cuantificar la cantidad de líquido que pasa en determinado punto para el abastecimiento de líneas y la extracción de los pozos por lo que se divide en micro medidores (½\", ¾\", 1\", 1 ½\", 2\") y macro medidores (2\", 2 ½\", 3\", 4\", 6\", 8\", 10\", 12\" etc.) así como también existen varios tipos de medidores', 1, '2025-09-23 23:46:58', '#28486c', '#ffffff', '#007bff', '#6c757d', '#ffffff'),
-(10, 'Conexiones fierro fundido', 'Conexiones fierro fundido', 'Conexiones de Fierro fundido para unión bridada son de medida Inglesa, su uso es común en los arreglos de los trenes de conexión de pozos y sistemas de agua dada su resistencia a la intemperie y capacidad de soporte de presiones.\n\n', 1, '2025-10-07 23:02:15', '#26304b', '#ffffff', '#007bff', '#6c757d', '#ffffff'),
-(11, 'Alacantarillado ', 'métrico-campana', 'Las tuberías de alcantarillado están diseñadas para la resistencia a aguas negras y desechos comerciales que se llegan a derramar en el drenaje así como la resistencia a la carga para su colocación bajo tierra', 1, '2025-10-07 23:02:15', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(12, 'Tubería polietileno corrugado', 'polietileno-corrugado', 'Tubos y conexiones de Polietileno de alta densidad (PEAD o PAD) es un termoplástico producido por etilenos con alta densidad para la resistencia a CARGAS.', 1, '2025-10-07 23:08:28', '#ffffff', '#000000', '#007bff', '#6c757d', '#000000'),
-(13, 'Sanitaria', 'linea-sanitaria', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-09-23 23:46:58', '#917d70', '#000000', '#007bff', '#6c757d', '#ffffff');
+(1, 'CPVC agua caliente', 'cpvc-agua-caliente', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-09-24 05:46:58', '#ddc565', '#050040', '#1db954', '#6c757d', '#050040'),
+(2, 'Tubería PPR', 'tuberia-ppr', 'Tubos y conexiones de Polipropileno es un termoplástico resistente a impactos, para presiones hasta 20 kg ( a 20 °C), bicapa', 1, '2025-09-24 05:46:58', '#336a53', '#000000', '#1db954', '#6c757d', '#050040'),
+(3, 'Hidráulica C-40 PVC', 'ingles-c40-pvc', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-10-08 04:55:26', '#398cac', '#000000', '#1db954', '#6c757d', '#ffffff'),
+(4, 'Cementos', 'cementos', 'Cementos para la unión de tubería de acuerdo a su material y presión', 1, '2025-10-08 04:26:08', '#398cac', '#000000', '#1db954', '#6c757d', '#ffffff'),
+(5, 'Hidráulica C-80 PVC', 'ingles-c80-pvc', 'Tubos y conexiones de Policloruro de vinilo (PVC) es un termoplástico producido a partir de la resina de policloruro de vinilo (PVC), la tubería C-80 es gris y se une mediante cemento especial y existen piezas para roscar y cementar', 1, '2025-10-08 04:55:26', '#b3afae', '#7879a0', '#1db954', '#6c757d', '#130e83'),
+(6, 'Hidráulica con campana PVC', 'campana-CPVC', 'Tubos y conexiones de Policloruro de vinilo (PVC) es un termoplástico de la resina de policloruro de vinilo (PVC). Unión Campana-Espiga. Todos bajo la medida inglesa.', 1, '2025-10-08 04:58:27', '#13aeeb', '#000000', '#1db954', '#6c757d', '#ffffff'),
+(7, 'Tubería galvanizada', 'tuberia-galvanizada', 'Tubos y conexiones de fierro galvanizado, ideales para conducción exterior y de alta presión', 1, '2025-09-24 05:46:58', '#7b797a', '#ff070e', '#1db954', '#6c757d', '#ffffff'),
+(8, 'Toma domiciliaria', 'toma-domi', 'La toma domiciliaria, es un \"estándar\" que puede ser de diferentes materiales e inicia en la conexión de agua a partir de la red general hidráulica, de la ciudad o de la infraestructura autorizada para suministro de agua a viviendas, edificios, centros comerciales, etc.', 1, '2025-09-24 05:46:58', '#5883ca', '#ffffff', '#1db954', '#6c757d', '#000000'),
+(9, 'Medidores y valvulas', 'medidores-y-valvulas', 'Los micro-medidores son una parte esencial en todo sistema de agua para cuantificar la cantidad de líquido que pasa en determinado punto para el abastecimiento de líneas y la extracción de los pozos por lo que se divide en micro medidores (½\", ¾\", 1\", 1 ½\", 2\") y macro medidores (2\", 2 ½\", 3\", 4\", 6\", 8\", 10\", 12\" etc.) así como también existen varios tipos de medidores', 1, '2025-09-24 05:46:58', '#0c378b', '#ffffff', '#1db954', '#6c757d', '#ffffff'),
+(10, 'Conexiones fierro fundido', 'conexiones-fierro-fundido', 'Conexiones de Fierro fundido para unión bridada son de medida Inglesa, su uso es común en los arreglos de los trenes de conexión de pozos y sistemas de agua dada su resistencia a la intemperie y capacidad de soporte de presiones.', 1, '2025-10-08 05:02:15', '#26304b', '#ffffff', '#1db954', '#6c757d', '#ffffff'),
+(11, 'Alcantarillado', 'metrico-campana', 'Las tuberías de alcantarillado están diseñadas para la resistencia a aguas negras y desechos comerciales que se llegan a derramar en el drenaje así como la resistencia a la carga para su colocación bajo tierra', 1, '2025-10-08 05:02:15', '#ff7300', '#ffffff', '#1db954', '#6c757d', '#ffffff'),
+(12, 'Tubería polietileno corrugado', 'polietileno-corrugado', 'Tubos y conexiones de Polietileno de alta densidad (PEAD o PAD) es un termoplástico producido por etilenos con alta densidad para la resistencia a CARGAS.', 1, '2025-10-08 05:08:28', '#4f4f4f', '#ffffff', '#1db954', '#6c757d', '#ffffff'),
+(13, 'Sanitaria', 'linea-sanitaria', 'Tubos y conexiones de Policloruro de vinilo clorado(CPVC), termoplástico producido por coloración de la resina de policloruro de vinilo(PVC).', 1, '2025-09-24 05:46:58', '#917d70', '#000000', '#1db954', '#6c757d', '#ffffff');
 
 -- --------------------------------------------------------
 
@@ -266,13 +266,13 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especifica
 (7, 'Codo 45° CPVC', '<strong>CODO 45° CPVC</strong><br>Codo que permite desviar el flujo a 45 grados. Reduce pérdidas de presión y se usa en trayectos donde se requiere una ligera desviación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 8.50, 50, '', 1, 1, 1, '2025-09-23 20:20:19', '2025-09-29 16:04:36', NULL, NULL),
 (8, 'Cople CPVC', '<strong>COPLE CPVC</strong><br>Conector recto para unir dos tramos de tubería CPVC del mismo diámetro. Sencillo y práctico para alargar o reparar tuberías.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 5.50, 50, '', 1, 1, 1, '2025-09-23 20:20:19', '2025-09-29 16:04:36', NULL, NULL),
 (9, 'Reducción Cople CPVC', '<strong>REDUCCIÓN COPLE CPVC</strong><br>Pieza que une tuberías de diferente diámetro, permitiendo la transición entre medidas. Resistente a la presión y a la corrosión.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 7.00, 50, '', 1, 1, 1, '2025-09-23 20:20:19', '2025-09-29 16:04:36', NULL, NULL),
-(10, 'TEE CPVC', '<strong>TEE CPVC</strong><br>Accesorio en forma de “T” que permite ramificar el flujo en tres direcciones. Ideal para distribuir agua en diferentes puntos de la instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 15.00, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-09-29 16:04:36', NULL, NULL),
-(11, 'TEE REDUCIDA CPVC', '<strong>TEE REDUCIDA CPVC</strong><br>Tee que permite la unión de tres tuberías, con una salida de diámetro menor. Perfecta para derivaciones que requieren reducción de flujo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', '', 16.50, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-09-29 16:05:15', NULL, NULL),
-(12, 'REDUCCIÓN BUSHING CPVC', '<strong>REDUCCIÓN BUSHING CPVC</strong><br>Accesorio reductor que facilita la conexión entre tuberías de diferentes diámetros. Compacto, durable y de fácil instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 9.00, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-09-29 16:05:58', NULL, NULL),
-(13, 'PINZAS PARA CORTE', '<strong>PINZAS PARA CORTE</strong><br>Herramienta diseñada para cortar tubería de CPVC de manera precisa y sin rebabas. Facilita el trabajo en instalaciones limpias y seguras.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div>\r\n<table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 35.00, 1, '', 1, 0, 1, '2025-09-23 20:59:54', '2025-09-30 16:00:27', 20, NULL),
-(14, 'VÁLVULA BOLA CEMENTAR CPVC', '<strong>VÁLVULA BOLA CEMENTAR CPVC</strong><br>Válvula de bola fabricada en CPVC que se instala con cemento. Permite abrir o cerrar el paso del agua de forma rápida y confiable.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 22.00, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-09-29 16:05:59', NULL, NULL),
-(15, 'TAPA CPVC', '<strong>TAPA CPVC</strong><br>Pieza utilizada para cerrar extremos de tubería. Se emplea en pruebas de presión o para dejar derivaciones listas para futuras conexiones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 6.50, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-09-29 16:05:59', NULL, NULL),
-(16, 'CODO PIPA ROSCADO OREJA CPVC', '<strong>CODO PIPA ROSCADO OREJA CPVC</strong><br>Accesorio en codo con base de fijación y salida roscada. Diseñado para instalaciones donde se requiere sujeción firme a muros o superficies.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 18.00, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-09-29 16:05:59', NULL, NULL),
+(10, 'Tee CPVC', '<strong>TEE CPVC</strong><br>Accesorio en forma de “T” que permite ramificar el flujo en tres direcciones. Ideal para distribuir agua en diferentes puntos de la instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 15.00, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-11-24 15:31:50', NULL, NULL),
+(11, 'Tee Reducida CPVC', '<strong>TEE REDUCIDA CPVC</strong><br>Tee que permite la unión de tres tuberías, con una salida de diámetro menor. Perfecta para derivaciones que requieren reducción de flujo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', '', 16.50, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-11-24 15:31:45', NULL, NULL),
+(12, 'Reducción Bushing CPVC', '<strong>REDUCCIÓN BUSHING CPVC</strong><br>Accesorio reductor que facilita la conexión entre tuberías de diferentes diámetros. Compacto, durable y de fácil instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 9.00, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-11-24 15:30:23', NULL, NULL),
+(13, 'Pinzas Para Corte', '<strong>PINZAS PARA CORTE</strong><br>Herramienta diseñada para cortar tubería de CPVC de manera precisa y sin rebabas. Facilita el trabajo en instalaciones limpias y seguras.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div>\r\n<table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 35.00, 1, '', 1, 0, 1, '2025-09-23 20:59:54', '2025-11-24 15:30:45', 20, NULL),
+(14, 'Válvula Bola Cementar CPVC', '<strong>VÁLVULA BOLA CEMENTAR CPVC</strong><br>Válvula de bola fabricada en CPVC que se instala con cemento. Permite abrir o cerrar el paso del agua de forma rápida y confiable.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 22.00, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-11-24 15:31:08', NULL, NULL),
+(15, 'Tapa CPVC', '<strong>TAPA CPVC</strong><br>Pieza utilizada para cerrar extremos de tubería. Se emplea en pruebas de presión o para dejar derivaciones listas para futuras conexiones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 6.50, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-11-24 15:31:17', NULL, NULL),
+(16, 'Codo Pipa Roscado Oreja CPVC', '<strong>CODO PIPA ROSCADO OREJA CPVC</strong><br>Accesorio en codo con base de fijación y salida roscada. Diseñado para instalaciones donde se requiere sujeción firme a muros o superficies.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA CPVC</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr></tbody></table><div class=\"info-extra\">Tubo en tramo de 6.10 m</div></div>', 'Material CPVC <br> Rosca NTP Estándar <br> Soporta hasta 80°C <br> Estandar ASTMD2846 <br> RD11', 18.00, 50, '', 1, 1, 1, '2025-09-23 20:59:54', '2025-11-24 15:31:38', NULL, NULL),
 (17, 'Codo 45° PPR', '<strong>CODO 45° PPR</strong><br>Conector en ángulo de 45° para desviar el flujo en instalaciones PPR. Aporta una unión segura y resistente a la presión.', '<table>\r\n  <tr>\r\n    <th colspan=\"2\">Medidas de tubería PPR</th>\r\n  </tr>\r\n  <tr>\r\n    <th>Tubo clase 16 de:</th>\r\n    <th>Pulgadas</th>\r\n  </tr>\r\n  <tr>\r\n    <td>20 mm</td>\r\n    <td>½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>25 mm</td>\r\n    <td>¾\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>32 mm</td>\r\n    <td>1\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>40 mm</td>\r\n    <td>1¼\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>50 mm</td>\r\n    <td>1½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>63 mm</td>\r\n    <td>2\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>75 mm</td>\r\n    <td>2½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>90 mm</td>\r\n    <td>3\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>110 mm</td>\r\n    <td>4\"</td>\r\n  </tr>\r\n</table>', 'Material PPR <br>Conexión por termofusión <br>Resistente a la presión y temperatura', 6.50, 2, '', 2, 1, 1, '2025-11-04 16:13:15', '2025-11-04 16:23:46', 0, NULL),
 (18, 'Codo 90° PPR', '<strong>CODO 90° PPR</strong><br>Accesorio para cambiar la dirección a 90° en sistemas de tubería PPR. Uso en agua fría y caliente.', '<table>\r\n  <tr>\r\n    <th colspan=\"2\">Medidas de tubería PPR</th>\r\n  </tr>\r\n  <tr>\r\n    <th>Tubo clase 16 de:</th>\r\n    <th>Pulgadas</th>\r\n  </tr>\r\n  <tr>\r\n    <td>20 mm</td>\r\n    <td>½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>25 mm</td>\r\n    <td>¾\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>32 mm</td>\r\n    <td>1\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>40 mm</td>\r\n    <td>1¼\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>50 mm</td>\r\n    <td>1½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>63 mm</td>\r\n    <td>2\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>75 mm</td>\r\n    <td>2½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>90 mm</td>\r\n    <td>3\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>110 mm</td>\r\n    <td>4\"</td>\r\n  </tr>\r\n</table>', 'Material PPR <br>Alta durabilidad <br>Conexión por termofusión', 6.80, 2, '', 2, 1, 1, '2025-11-04 16:13:15', '2025-11-04 16:23:46', 0, NULL),
 (19, 'Cople PPR', '<strong>COPLE PPR</strong><br>Conector recto para unir dos tramos de tubería PPR del mismo diámetro; proporciona unión hermética y uniforme.', '<table>\r\n  <tr>\r\n    <th colspan=\"2\">Medidas de tubería PPR</th>\r\n  </tr>\r\n  <tr>\r\n    <th>Tubo clase 16 de:</th>\r\n    <th>Pulgadas</th>\r\n  </tr>\r\n  <tr>\r\n    <td>20 mm</td>\r\n    <td>½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>25 mm</td>\r\n    <td>¾\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>32 mm</td>\r\n    <td>1\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>40 mm</td>\r\n    <td>1¼\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>50 mm</td>\r\n    <td>1½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>63 mm</td>\r\n    <td>2\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>75 mm</td>\r\n    <td>2½\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>90 mm</td>\r\n    <td>3\"</td>\r\n  </tr>\r\n  <tr>\r\n    <td>110 mm</td>\r\n    <td>4\"</td>\r\n  </tr>\r\n</table>', 'Material PPR <br>Unión por termofusión <br>Uso residencial e industrial', 5.20, 2, '', 2, 1, 1, '2025-11-04 16:13:15', '2025-11-04 16:23:46', 0, NULL),
@@ -316,47 +316,47 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especifica
 (56, 'Ares verde toda presión', '\n<strong>ARES VERDE TODA PRESIÓN</strong><br>Cemento solvente para tuberías y conexiones de PVC de toda presión. Asegura una unión fuerte y duradera, incluso en condiciones exigentes. Ideal para sistemas hidráulicos y sanitarios.', '<table><caption>Rendimiento por bote de 500 ML</caption><thead><tr><th>Diametro mm</th><th>Diametro pulgadas</th><th>Uniones</th></tr></thead><tbody><tr><td>13</td><td>1/2</td><td>200</td></tr><tr><td>19</td><td>3/4</td><td>125</td></tr><tr><td>25</td><td>1</td><td>110</td></tr><tr><td>32</td><td>1¼</td><td>75</td></tr><tr><td>38</td><td>1½</td><td>65</td></tr><tr><td>50</td><td>2</td><td>50</td></tr><tr><td>60</td><td>2½</td><td>40</td></tr><tr><td>75</td><td>3</td><td>35</td></tr><tr><td>100</td><td>4</td><td>20</td></tr><tr><td>150</td><td>6</td><td>10</td></tr></tbody></table>', 'Material: PVC (Policloruro de Vinilo) <br> Norma: ASTM D2241 <br> Color: Verde <br> Clase de presión: Series 160, 200, 250 <br> Temperatura máxima: 60°C <br> Aplicación: Riego agrícola, paisajismo, agua a presión <br> Resistencia: Rayos UV, intemperie <br> Diámetros disponibles: 1/2\" a 8\" <br> Certificación: NSF 61 para agua potable <br> Unión: Tipo campana con anillo de hule', 0.00, 0, NULL, 4, 1, 1, '2025-10-07 17:59:50', '2025-10-15 20:28:57', NULL, NULL),
 (57, 'Lubricante Ares 500 ml', '<strong>LUBRICANTE ARES 500 ml/strong><br>Lubricante especializado para facilitar el ensamble de tuberías y conexiones hidráulicas. Reduce la fricción y protege las juntas, garantizando un montaje rápido y seguro. Presentación de 500 ml.', '<table><caption>Rendimiento por bote de 500 ML</caption><thead><tr><th>Diametro mm</th><th>Diametro pulgadas</th><th>Uniones</th></tr></thead><tbody><tr><td>13</td><td>1/2</td><td>200</td></tr><tr><td>19</td><td>3/4</td><td>125</td></tr><tr><td>25</td><td>1</td><td>110</td></tr><tr><td>32</td><td>1¼</td><td>75</td></tr><tr><td>38</td><td>1½</td><td>65</td></tr><tr><td>50</td><td>2</td><td>50</td></tr><tr><td>60</td><td>2½</td><td>40</td></tr><tr><td>75</td><td>3</td><td>35</td></tr><tr><td>100</td><td>4</td><td>20</td></tr><tr><td>150</td><td>6</td><td>10</td></tr></tbody></table>', 'Contenido: 500 ml <br> Tipo: Lubricante para juntas <br> Base: Silicona o fórmula especial no tóxica <br> Aplicación: Tuberías PVC, CPVC, conexiones <br> Certificación: NSF 61 para agua potable <br> No mancha: No deja residuos <br> Fácil aplicación: Dosificador práctico <br> Compatible: Con juntas de goma y plástico <br> No daña materiales: Seguro para plásticos', 0.00, 0, NULL, 4, 1, 1, '2025-10-07 17:59:50', '2025-10-15 20:33:11', NULL, NULL),
 (58, 'Limpiador Ares 500 ml', '<strong>LIMPIADOR ARES 500 ml</strong><br>Solución limpiadora para preparar superficies de PVC antes del cementado. Elimina grasa, polvo y residuos, mejorando la adherencia del adhesivo. Ideal para lograr uniones limpias y profesionales.', '<table><caption>Rendimiento por bote de 500 ML</caption><thead><tr><th>Diametro mm</th><th>Diametro pulgadas</th><th>Uniones</th></tr></thead><tbody><tr><td>13</td><td>1/2</td><td>200</td></tr><tr><td>19</td><td>3/4</td><td>125</td></tr><tr><td>25</td><td>1</td><td>110</td></tr><tr><td>32</td><td>1¼</td><td>75</td></tr><tr><td>38</td><td>1½</td><td>65</td></tr><tr><td>50</td><td>2</td><td>50</td></tr><tr><td>60</td><td>2½</td><td>40</td></tr><tr><td>75</td><td>3</td><td>35</td></tr><tr><td>100</td><td>4</td><td>20</td></tr><tr><td>150</td><td>6</td><td>10</td></tr></tbody></table>', 'Contenido: 500 ml <br> Tipo: Limpiador para PVC/CPVC <br> Aplicación: Preparación de superficies <br> Efectivo: Elimina grasa, polvo y contaminantes <br> Secado rápido: Evapora sin dejar residuos <br> Compatible: Con cementos y adhesivos para plástico <br> Empaque: Botella con aplicador <br> Uso: Pre-pegado de tuberías y conexiones <br> Seguridad: Uso en áreas ventiladas', 0.00, 0, NULL, 4, 1, 1, '2025-10-07 17:59:50', '2025-10-15 20:37:10', NULL, NULL),
-(59, 'CODO 90° CEMENTAR C-80', '<strong>CODO 90° CEMENTAR C-80</strong><br>Accesorio de PVC Cédula 80 que permite unir tuberías en ángulo recto. Ideal para sistemas hidráulicos de alta presión, con unión por cementar solvente.', '<table><tr><th>DIÁMETRO (pulg)</th><td>½\"</td><td>¾\"</td><td>1\"</td><td>1¼\"</td><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td><td>14\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>13</td><td>19</td><td>25</td><td>32</td><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td><td>355</td></tr></table>', 'Material PVC rígido ASTM D1784<br>Conexión cementar ASTM D2467<br>Presión nominal 150 psi a 23°C<br>Ángulo 90° reforzado', 12.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(60, 'CODO 45° CEMENTAR C-80', '<strong>CODO 45° CEMENTAR C-80</strong><br>Accesorio en ángulo de 45° para desvíos suaves en sistemas hidráulicos. Unión cementada que garantiza estanqueidad y durabilidad.', '<table><tr><th>DIÁMETRO (pulg)</th><td>½\"</td><td>¾\"</td><td>1\"</td><td>1¼\"</td><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td><td>14\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>13</td><td>19</td><td>25</td><td>32</td><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td><td>355</td></tr></table>', 'Material PVC Cédula 80<br>Norma ASTM D2467<br>Alta resistencia a la presión<br>Ángulo 45° de transición', 11.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(61, 'TEE CEMENTAR C-80', '<strong>TEE CEMENTAR C-80</strong><br>Accesorio en forma de “T” que permite la derivación de flujo en sistemas hidráulicos. Unión por cementar que ofrece resistencia y sellado hermético.', '<table><tr><th>DIÁMETRO (pulg)</th><td>½\"</td><td>¾\"</td><td>1\"</td><td>1¼\"</td><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td><td>14\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>13</td><td>19</td><td>25</td><td>32</td><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td><td>355</td></tr></table>', 'Material PVC rígido ASTM D1784<br>Conexión cementar ASTM D2467<br>Derivación 90° reforzada', 14.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(62, 'COUPLE CEMENTAR C-80', '<strong>COUPLE CEMENTAR C-80</strong><br>Manguito para unir dos tramos de tubería PVC Cédula 80 mediante cementado. Asegura una conexión recta y hermética.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2467<br>Resistente a alta presión<br>Uso hidráulico e industrial', 9.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(63, 'REDUCCIÓN CEM ROSC C-80', '<strong>REDUCCIÓN CEM ROSC C-80</strong><br>Pieza combinada con extremo cementar y roscar, usada para adaptar diámetros diferentes en instalaciones de PVC Cédula 80.', '<table>...</table>', 'Material PVC ASTM D1784<br>Normas ASTM D2464/D2467<br>Rosca NPT estándar<br>Transición segura entre medidas', 10.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(64, 'TAPA CEMENTAR C-80', '<strong>TAPA CEMENTAR C-80</strong><br>Accesorio que sella el extremo de la tubería PVC Cédula 80. Unión cementada para cierre hermético y seguro.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2467<br>Diseño para alta presión', 7.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(65, 'TUERCA UNIÓN CEMENTAR C-80', '<strong>TUERCA UNIÓN CEMENTAR C-80</strong><br>Conector desmontable de PVC Cédula 80 que permite separar tuberías sin cortar. Unión por cementar en ambos extremos.', '<table>...</table>', 'Material PVC Cédula 80<br>Norma ASTM D2467<br>Rosca interior para desmontaje<br>Alta resistencia mecánica', 18.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(66, 'YEE CEMENTAR C-80', '<strong>YEE CEMENTAR C-80</strong><br>Accesorio en “Y” que facilita una derivación en ángulo suave. Ideal para sistemas de flujo continuo.', '<table>...</table>', 'Material PVC Cédula 80<br>Norma ASTM D2467<br>Derivación en ángulo de 45°', 15.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(67, 'CRUZ CEMENTAR C-80', '<strong>CRUZ CEMENTAR C-80</strong><br>Accesorio de cuatro vías que permite interconectar tuberías PVC Cédula 80 en forma de cruz. Unión por cementar.', '<table>...</table>', 'Material PVC ASTM D1784<br>Norma ASTM D2467<br>Conexión de cuatro salidas<br>Alta presión y rigidez', 17.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(68, 'REDUCCIÓN CEM C-80', '<strong>REDUCCIÓN CEM C-80</strong><br>Pieza cementar que permite conectar tuberías de distinto diámetro manteniendo estanqueidad y resistencia.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2467<br>Conexión hembra-hembra cementar', 9.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(69, 'CODO 90° ROSCAR C-80', '<strong>CODO 90° ROSCAR C-80</strong><br>Accesorio roscado de PVC Cédula 80 en ángulo recto. Ideal para sistemas desmontables o de mantenimiento frecuente.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Rosca NPT ASTM D2464<br>Presión nominal 150 psi<br>Fácil instalación', 13.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(70, 'CODO 45° ROSCAR C-80', '<strong>CODO 45° ROSCAR C-80</strong><br>Permite cambio de dirección a 45° con conexión roscada. Fabricado en PVC Cédula 80.', '<table>...</table>', 'Material PVC Cédula 80<br>Norma ASTM D2464<br>Rosca NPT hembra<br>Alta durabilidad', 12.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(71, 'TEE ROSCAR C-80', '<strong>TEE ROSCAR C-80</strong><br>Accesorio roscado en “T” para ramificaciones. Permite fácil desmontaje y mantenimiento en sistemas hidráulicos.', '<table>...</table>', 'Material PVC Cédula 80<br>Norma ASTM D2464<br>Rosca NPT hembra<br>Uso en alta presión', 15.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(72, 'COUPLE ROSCAR C-80', '<strong>COUPLE ROSCAR C-80</strong><br>Unión recta roscada hembra PVC Cédula 80 para conexión de tramos desmontables.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2464<br>Rosca NPT<br>Alta resistencia', 10.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(73, 'REDUCCIÓN ROSCAR C-80', '<strong>REDUCCIÓN ROSCAR C-80</strong><br>Pieza roscada que permite unir tuberías de distintos diámetros. Resistente a presión y productos químicos.', '<table>...</table>', 'Material PVC ASTM D1784<br>Norma ASTM D2464<br>Rosca NPT hembra-macho', 11.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(74, 'TAPA ROSCAR C-80', '<strong>TAPA ROSCAR C-80</strong><br>Accesorio de cierre roscado para sellar extremos de tubería PVC Cédula 80. Facilita desmontaje y reutilización.', '<table>...</table>', 'Material PVC ASTM D1784<br>Norma ASTM D2464<br>Rosca NPT macho<br>Alta hermeticidad', 8.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(75, 'TUERCA UNIÓN ROSCAR C-80', '<strong>TUERCA UNIÓN ROSCAR C-80</strong><br>Conector roscado desmontable de PVC Cédula 80 para unir o separar secciones de tubería con facilidad.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2464<br>Rosca NPT<br>Reutilizable y hermético', 18.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(76, 'ADAPTADOR MACHO C-80', '<strong>ADAPTADOR MACHO C-80</strong><br>Accesorio de transición con extremo roscado macho y cementar. Permite conexión entre sistemas roscados y cementados.', '<table>...</table>', 'Material PVC ASTM D1784<br>Normas ASTM D2464/D2467<br>Rosca NPT macho<br>Alta presión y durabilidad', 9.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(77, 'ADAPTADOR HEMBRA C-80', '<strong>ADAPTADOR HEMBRA C-80</strong><br>Transición de unión cementar a rosca hembra para sistemas PVC Cédula 80. Ideal en instalaciones mixtas o modulares.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Normas ASTM D2464/D2467<br>Rosca NPT hembra<br>Resistencia térmica y química', 9.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-04 16:52:46', 0, NULL),
-(78, 'ADAPTADOR HEMBRA CAMPANA', '<strong>Adaptador Hembra Campana</strong><br>Permite la transición de tubería sanitaria a conexión roscada hembra. Ideal para uniones en sistemas de drenaje y desalojo.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'Material PVC Sanitario rígido<br>Unión campana con anillo de hule<br>Norma ASTM D3034 | ISO 4435', 42.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(79, 'ADAPTADOR MACHO CAMPANA', '<strong>Adaptador Macho Campana</strong><br>Conecta tubería sanitaria con conexiones de rosca macho. Usado en salidas hacia registros o equipos.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC Sanitario rígido<br>Campana con sello hermético EPDM<br>Norma ASTM D3034', 41.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(80, 'TAPÓN ESPIGA', '<strong>Tapón Espiga</strong><br>Elemento para cerrar terminaciones de tubería sanitaria por espiga. Útil en líneas provisionales o sellos finales.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'Material PVC sanitario rígido<br>Conexión tipo espiga<br>Norma ASTM D3034', 27.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(81, 'TAPÓN CAMPANA', '<strong>Tapón Campana</strong><br>Cierra líneas de drenaje por extremo tipo campana, garantizando sellado sin fugas.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Sello por anillo de hule EPDM<br>ASTM D3034', 29.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(82, 'EXTREMIDAD ESPIGA', '<strong>Extremidad Espiga</strong><br>Permite convertir un extremo campana a espiga para continuar una línea o reparar tramos.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Conexión espiga estándar<br>Norma ASTM D3034', 26.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(83, 'EXTREMIDAD CAMPANA', '<strong>Extremidad Campana</strong><br>Convierte un tramo recto en unión campana para continuar líneas con sello hermético.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Campana con junta EPDM<br>Norma ASTM D3034', 28.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(84, 'CODO 22° CON CAMPANA', '<strong>Codo 22° con Campana</strong><br>Cambio suave de dirección de 22°, evitando pérdida de flujo en drenaje.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Ángulo 22°<br>ASTM D3034', 38.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(85, 'CODO 45° CON CAMPANA', '<strong>Codo 45° con Campana</strong><br>Facilita desviaciones de tubería sanitaria con unión hermética.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Ángulo 45°<br>Norma ASTM D3034', 41.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(86, 'COPLE DE REPARACIÓN', '<strong>Cople de Reparación</strong><br>Permite reparar o unir tubería existente sin desmontar tramos completos.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Unión deslizante<br>Norma ASTM D3034', 55.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(87, 'CODO 90° CON CAMPANA', '<strong>Codo 90° con Campana</strong><br>Cambia la dirección de una línea sanitaria en ángulo recto.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Ángulo 90°<br>ASTM D3034', 48.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-06 16:10:54', 0, NULL),
-(88, 'CODO GALVANIZADO DE 90°', '<strong>Codo galvanizado 90°</strong><br>Cambio de dirección en sistemas de conducción', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Acabado: Zinc por inmersión <br> Radio: Corto <br>  Presión máx: 150 PSI <br> Norma: ASTM A53', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(89, 'CODO GALVANIZADO DE 45°', '<strong>Codo galvanizado 45°</strong><br>Desviación suave en redes hidráulicas', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Angulación: 45° exactos <br> Junta: Metal-metal <br> Aplicación: Reducción de turbulencia', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(90, 'TEE GALVANIZADA ROSCADA', '<strong>Tee roscada galvanizada</strong><br>Derivación en sistemas de distribución', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Configuración: Igual o reducida <br>  Rosca: Cónica NPT <br>  Estanqueidad: Sin soldadura', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(91, 'TAPON MACHO ROSCADO', '<strong>Tapón macho roscado</strong><br>Cierre terminal para inspección', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Tipo: Externo <br>  Sellado: Por contacto metal <br>  Reutilizable: Sí', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(92, 'TAPA ROSCADA', '<strong>Tapa roscada galvanizada</strong><br>Cierre interno para accesos', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Tipo: Interno | Profundidad: Standard <br>  Acabado: Liso galvanizado', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(93, 'TUERCA UNION ROSCADA', '<strong>Tapa de unión roscada</strong><br>Punto de acceso desmontable', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Sistema: Brida integrada <br>  Mantenimiento: Acceso rápido <br>  Junta: Mecánica', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(94, 'YEE ROSCADA', '<strong>Yee roscada galvanizada</strong><br>Derivación lateral en sistemas', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Geometría: 45° lateral <br>  Flujo: Minimiza pérdida <br>  Aplicación: Drenajes', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(95, 'CRUZ ROSCADA', '<strong>Cruz roscada galvanizada</strong><br>Intersección completa en redes', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Configuración: 4 vías <br>  Estructura: Refuerzo integrado <br>  Uso: Distribución múltiple', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(96, 'COPLE HM GALVANIZADO ROSCADO C-40', '<strong>Cople roscado galvanizado</strong><br>Extensión lineal en instalaciones', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Función: Empalme recto <br>  Longitud: Standard <br>  Instalación: Sin preparación', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(97, 'COPLE LISO GALVANIZADO ROSCADO C-40', '<strong>Cople roscado galvanizado</strong><br>Extensión lineal en instalaciones', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Función: Empalme recto <br>  Longitud: Standard <br>  Instalación: Sin preparación', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-06 17:25:03', 0, NULL),
-(98, 'REDUCCIONES BUSHING', 'Fabricada en acero con un acabado brushing galvanizado que ofrece una excelente resistencia a la corrosión y un aspecto profesional. Cumple con el estándar C-40 para garantizar la seguridad y durabilidad de tu instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Norma:C-40<br>\r\nMaterial:Acabado Galvanizado Brushing <br> \r\nUso Interior y Exterior (gracias a su protección galvanizada)', 0.00, 50, '', 7, 1, 1, '2025-10-13 21:46:43', '2025-11-06 17:25:03', 0, NULL),
-(99, 'REDUCCIONES CAMPANA', 'Conexión especializada para unir tubos conduit de diferentes diámetros de forma rápida y segura. Fabricada en acero con galvanizado anti-corrosivo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Material: Acero de Alta Resistencia<br>\r\nUso Recomendado	Interior y Exterior', 0.00, 52, NULL, 7, 1, 1, '2025-10-13 21:50:35', '2025-11-06 17:25:03', 0, NULL),
+(59, 'Codo 90° Cementar C-80', '<strong>CODO 90° CEMENTAR C-80</strong><br>Accesorio de PVC Cédula 80 que permite unir tuberías en ángulo recto. Ideal para sistemas hidráulicos de alta presión, con unión por cementar solvente.', '<table><tr><th>DIÁMETRO (pulg)</th><td>½\"</td><td>¾\"</td><td>1\"</td><td>1¼\"</td><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td><td>14\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>13</td><td>19</td><td>25</td><td>32</td><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td><td>355</td></tr></table>', 'Material PVC rígido ASTM D1784<br>Conexión cementar ASTM D2467<br>Presión nominal 150 psi a 23°C<br>Ángulo 90° reforzado', 12.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:33:07', 0, NULL),
+(60, 'Codo 45° Cementar C-80', '<strong>CODO 45° CEMENTAR C-80</strong><br>Accesorio en ángulo de 45° para desvíos suaves en sistemas hidráulicos. Unión cementada que garantiza estanqueidad y durabilidad.', '<table><tr><th>DIÁMETRO (pulg)</th><td>½\"</td><td>¾\"</td><td>1\"</td><td>1¼\"</td><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td><td>14\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>13</td><td>19</td><td>25</td><td>32</td><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td><td>355</td></tr></table>', 'Material PVC Cédula 80<br>Norma ASTM D2467<br>Alta resistencia a la presión<br>Ángulo 45° de transición', 11.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:33:21', 0, NULL),
+(61, 'Tee Cementar C-80', '<strong>TEE CEMENTAR C-80</strong><br>Accesorio en forma de “T” que permite la derivación de flujo en sistemas hidráulicos. Unión por cementar que ofrece resistencia y sellado hermético.', '<table><tr><th>DIÁMETRO (pulg)</th><td>½\"</td><td>¾\"</td><td>1\"</td><td>1¼\"</td><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td><td>14\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>13</td><td>19</td><td>25</td><td>32</td><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td><td>355</td></tr></table>', 'Material PVC rígido ASTM D1784<br>Conexión cementar ASTM D2467<br>Derivación 90° reforzada', 14.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:33:33', 0, NULL),
+(62, 'Cople Cementar C-80', '<strong>COUPLE CEMENTAR C-80</strong><br>Manguito para unir dos tramos de tubería PVC Cédula 80 mediante cementado. Asegura una conexión recta y hermética.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2467<br>Resistente a alta presión<br>Uso hidráulico e industrial', 9.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:33:47', 0, NULL),
+(63, 'Reducción Cementar Roscado C-80', '<strong>REDUCCIÓN CEM ROSC C-80</strong><br>Pieza combinada con extremo cementar y roscar, usada para adaptar diámetros diferentes en instalaciones de PVC Cédula 80.', '<table>...</table>', 'Material PVC ASTM D1784<br>Normas ASTM D2464/D2467<br>Rosca NPT estándar<br>Transición segura entre medidas', 10.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:34:13', 0, NULL),
+(64, 'Tapa Cementar C-80', '<strong>TAPA CEMENTAR C-80</strong><br>Accesorio que sella el extremo de la tubería PVC Cédula 80. Unión cementada para cierre hermético y seguro.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2467<br>Diseño para alta presión', 7.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:34:58', 0, NULL),
+(65, 'Tuerca Unión Cementar C-80', '<strong>TUERCA UNIÓN CEMENTAR C-80</strong><br>Conector desmontable de PVC Cédula 80 que permite separar tuberías sin cortar. Unión por cementar en ambos extremos.', '<table>...</table>', 'Material PVC Cédula 80<br>Norma ASTM D2467<br>Rosca interior para desmontaje<br>Alta resistencia mecánica', 18.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:35:21', 0, NULL),
+(66, 'Yee Cementar C-80', '<strong>YEE CEMENTAR C-80</strong><br>Accesorio en “Y” que facilita una derivación en ángulo suave. Ideal para sistemas de flujo continuo.', '<table>...</table>', 'Material PVC Cédula 80<br>Norma ASTM D2467<br>Derivación en ángulo de 45°', 15.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:35:40', 0, NULL),
+(67, 'Cruz Cementar C-80', '<strong>CRUZ CEMENTAR C-80</strong><br>Accesorio de cuatro vías que permite interconectar tuberías PVC Cédula 80 en forma de cruz. Unión por cementar.', '<table>...</table>', 'Material PVC ASTM D1784<br>Norma ASTM D2467<br>Conexión de cuatro salidas<br>Alta presión y rigidez', 17.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:36:03', 0, NULL),
+(68, 'Reducción Cementar C-80', '<strong>REDUCCIÓN CEM C-80</strong><br>Pieza cementar que permite conectar tuberías de distinto diámetro manteniendo estanqueidad y resistencia.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2467<br>Conexión hembra-hembra cementar', 9.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:36:25', 0, NULL),
+(69, 'Codo 90° Roscar C-80', '<strong>CODO 90° ROSCAR C-80</strong><br>Accesorio roscado de PVC Cédula 80 en ángulo recto. Ideal para sistemas desmontables o de mantenimiento frecuente.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Rosca NPT ASTM D2464<br>Presión nominal 150 psi<br>Fácil instalación', 13.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:36:38', 0, NULL),
+(70, 'Codo 45° Roscar C-80', '<strong>CODO 45° ROSCAR C-80</strong><br>Permite cambio de dirección a 45° con conexión roscada. Fabricado en PVC Cédula 80.', '<table>...</table>', 'Material PVC Cédula 80<br>Norma ASTM D2464<br>Rosca NPT hembra<br>Alta durabilidad', 12.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:37:05', 0, NULL),
+(71, 'Tee Roscar C-80', '<strong>TEE ROSCAR C-80</strong><br>Accesorio roscado en “T” para ramificaciones. Permite fácil desmontaje y mantenimiento en sistemas hidráulicos.', '<table>...</table>', 'Material PVC Cédula 80<br>Norma ASTM D2464<br>Rosca NPT hembra<br>Uso en alta presión', 15.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:37:51', 0, NULL),
+(72, 'Cople Roscar C-80', '<strong>COUPLE ROSCAR C-80</strong><br>Unión recta roscada hembra PVC Cédula 80 para conexión de tramos desmontables.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2464<br>Rosca NPT<br>Alta resistencia', 10.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:38:08', 0, NULL),
+(73, 'Reducción Roscar C-80', '<strong>REDUCCIÓN ROSCAR C-80</strong><br>Pieza roscada que permite unir tuberías de distintos diámetros. Resistente a presión y productos químicos.', '<table>...</table>', 'Material PVC ASTM D1784<br>Norma ASTM D2464<br>Rosca NPT hembra-macho', 11.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:38:25', 0, NULL),
+(74, 'Tapa Roscar C-80', '<strong>TAPA ROSCAR C-80</strong><br>Accesorio de cierre roscado para sellar extremos de tubería PVC Cédula 80. Facilita desmontaje y reutilización.', '<table>...</table>', 'Material PVC ASTM D1784<br>Norma ASTM D2464<br>Rosca NPT macho<br>Alta hermeticidad', 8.00, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:38:41', 0, NULL),
+(75, 'Tuerca Unión Roscar C-80', '<strong>TUERCA UNIÓN ROSCAR C-80</strong><br>Conector roscado desmontable de PVC Cédula 80 para unir o separar secciones de tubería con facilidad.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Norma ASTM D2464<br>Rosca NPT<br>Reutilizable y hermético', 18.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:39:31', 0, NULL),
+(76, 'Adaptador Macho C-80', '<strong>ADAPTADOR MACHO C-80</strong><br>Accesorio de transición con extremo roscado macho y cementar. Permite conexión entre sistemas roscados y cementados.', '<table>...</table>', 'Material PVC ASTM D1784<br>Normas ASTM D2464/D2467<br>Rosca NPT macho<br>Alta presión y durabilidad', 9.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:40:04', 0, NULL),
+(77, 'Adaptador Hembra C-80', '<strong>ADAPTADOR HEMBRA C-80</strong><br>Transición de unión cementar a rosca hembra para sistemas PVC Cédula 80. Ideal en instalaciones mixtas o modulares.', '<table>...</table>', 'Material PVC rígido ASTM D1784<br>Normas ASTM D2464/D2467<br>Rosca NPT hembra<br>Resistencia térmica y química', 9.50, 2, '', 5, 1, 1, '2025-11-04 16:52:46', '2025-11-24 15:40:20', 0, NULL),
+(78, 'Adaptador Hembra Campana', '<strong>Adaptador Hembra Campana</strong><br>Permite la transición de tubería sanitaria a conexión roscada hembra. Ideal para uniones en sistemas de drenaje y desalojo.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'Material PVC Sanitario rígido<br>Unión campana con anillo de hule<br>Norma ASTM D3034 | ISO 4435', 42.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:40:42', 0, NULL),
+(79, 'Adaptador Macho Campana', '<strong>Adaptador Macho Campana</strong><br>Conecta tubería sanitaria con conexiones de rosca macho. Usado en salidas hacia registros o equipos.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC Sanitario rígido<br>Campana con sello hermético EPDM<br>Norma ASTM D3034', 41.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:41:06', 0, NULL),
+(80, 'Tapón Espiga', '<strong>Tapón Espiga</strong><br>Elemento para cerrar terminaciones de tubería sanitaria por espiga. Útil en líneas provisionales o sellos finales.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'Material PVC sanitario rígido<br>Conexión tipo espiga<br>Norma ASTM D3034', 27.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:41:42', 0, NULL),
+(81, 'Tapón Campana', '<strong>Tapón Campana</strong><br>Cierra líneas de drenaje por extremo tipo campana, garantizando sellado sin fugas.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Sello por anillo de hule EPDM<br>ASTM D3034', 29.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:41:56', 0, NULL),
+(82, 'Extremidad Espiga', '<strong>Extremidad Espiga</strong><br>Permite convertir un extremo campana a espiga para continuar una línea o reparar tramos.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Conexión espiga estándar<br>Norma ASTM D3034', 26.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:42:12', 0, NULL),
+(83, 'Extremidad Campana', '<strong>Extremidad Campana</strong><br>Convierte un tramo recto en unión campana para continuar líneas con sello hermético.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Campana con junta EPDM<br>Norma ASTM D3034', 28.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:42:27', 0, NULL),
+(84, 'Codo 22° Con Campana', '<strong>Codo 22° con Campana</strong><br>Cambio suave de dirección de 22°, evitando pérdida de flujo en drenaje.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Ángulo 22°<br>ASTM D3034', 38.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:42:43', 0, NULL),
+(85, 'Codo 45° Con Campana', '<strong>Codo 45° con Campana</strong><br>Facilita desviaciones de tubería sanitaria con unión hermética.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Ángulo 45°<br>Norma ASTM D3034', 41.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:43:10', 0, NULL),
+(86, 'Cople de Reparación', '<strong>Cople de Reparación</strong><br>Permite reparar o unir tubería existente sin desmontar tramos completos.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Unión deslizante<br>Norma ASTM D3034', 55.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:43:32', 0, NULL),
+(87, 'Codo 90° Con Campana', '<strong>Codo 90° con Campana</strong><br>Cambia la dirección de una línea sanitaria en ángulo recto.', '<table><tr><th>DIÁMETRO (pulg)</th><td>1½\"</td><td>2\"</td><td>2½\"</td><td>3\"</td><td>4\"</td><td>6\"</td><td>8\"</td><td>10\"</td><td>12\"</td></tr><tr><th>DIÁMETRO (mm)</th><td>38</td><td>50</td><td>60</td><td>75</td><td>100</td><td>150</td><td>200</td><td>250</td><td>315</td></tr></table>', 'PVC sanitario rígido<br>Ángulo 90°<br>ASTM D3034', 48.00, 2, '', 6, 1, 1, '2025-11-06 16:10:54', '2025-11-24 15:43:53', 0, NULL),
+(88, 'Codo Galvanizado De 90°', '<strong>Codo galvanizado 90°</strong><br>Cambio de dirección en sistemas de conducción', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Acabado: Zinc por inmersión <br> Radio: Corto <br>  Presión máx: 150 PSI <br> Norma: ASTM A53', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:44:29', 0, NULL),
+(89, 'Codo Galvanizado De 45°', '<strong>Codo galvanizado 45°</strong><br>Desviación suave en redes hidráulicas', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Angulación: 45° exactos <br> Junta: Metal-metal <br> Aplicación: Reducción de turbulencia', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:44:54', 0, NULL),
+(90, 'Tee Galvanizada Roscada', '<strong>Tee roscada galvanizada</strong><br>Derivación en sistemas de distribución', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Configuración: Igual o reducida <br>  Rosca: Cónica NPT <br>  Estanqueidad: Sin soldadura', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:45:19', 0, NULL),
+(91, 'Tapón Macho Roscado', '<strong>Tapón macho roscado</strong><br>Cierre terminal para inspección', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Tipo: Externo <br>  Sellado: Por contacto metal <br>  Reutilizable: Sí', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:45:40', 0, NULL),
+(92, 'Tapa Roscada', '<strong>Tapa roscada galvanizada</strong><br>Cierre interno para accesos', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Tipo: Interno | Profundidad: Standard <br>  Acabado: Liso galvanizado', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:45:54', 0, NULL),
+(93, 'Tuerca Unión Roscada', '<strong>Tapa de unión roscada</strong><br>Punto de acceso desmontable', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Sistema: Brida integrada <br>  Mantenimiento: Acceso rápido <br>  Junta: Mecánica', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:46:18', 0, NULL),
+(94, 'Yee Roscada', '<strong>Yee roscada galvanizada</strong><br>Derivación lateral en sistemas', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Geometría: 45° lateral <br>  Flujo: Minimiza pérdida <br>  Aplicación: Drenajes', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:46:37', 0, NULL),
+(95, 'Cruz Roscada', '<strong>Cruz roscada galvanizada</strong><br>Intersección completa en redes', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Configuración: 4 vías <br>  Estructura: Refuerzo integrado <br>  Uso: Distribución múltiple', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:46:51', 0, NULL),
+(96, 'Cople HM Galvanizado Roscado C-40', '<strong>Cople roscado galvanizado</strong><br>Extensión lineal en instalaciones', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Función: Empalme recto <br>  Longitud: Standard <br>  Instalación: Sin preparación', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:48:48', 0, NULL),
+(97, 'Cople Liso Galvanizado Roscado C-40', '<strong>Cople roscado galvanizado</strong><br>Extensión lineal en instalaciones', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Función: Empalme recto <br>  Longitud: Standard <br>  Instalación: Sin preparación', 0.00, 50, '', 7, 1, 1, '0000-00-00 00:00:00', '2025-11-24 15:49:29', 0, NULL),
+(98, 'Reducciones Bushing', 'Fabricada en acero con un acabado brushing galvanizado que ofrece una excelente resistencia a la corrosión y un aspecto profesional. Cumple con el estándar C-40 para garantizar la seguridad y durabilidad de tu instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Norma:C-40<br>\r\nMaterial:Acabado Galvanizado Brushing <br> \r\nUso Interior y Exterior (gracias a su protección galvanizada)', 0.00, 50, '', 7, 1, 1, '2025-10-13 21:46:43', '2025-11-24 15:50:00', 0, NULL),
+(99, 'Reducciones Campana', 'Conexión especializada para unir tubos conduit de diferentes diámetros de forma rápida y segura. Fabricada en acero con galvanizado anti-corrosivo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Material: Acero de Alta Resistencia<br>\r\nUso Recomendado	Interior y Exterior', 0.00, 52, NULL, 7, 1, 1, '2025-10-13 21:50:35', '2025-11-24 15:50:15', 0, NULL),
 (100, 'Niple Galvanizado ½\"', '<strong>NIPLE GALVANIZADO 1/2\"</strong><br>Conector roscado en ambos extremos, fabricado en acero galvanizado para máxima resistencia a la corrosión. Ideal para uniones en tuberías de agua, gas y sistemas de riego.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Material: Acero Galvanizado <br> Rosca: NPT Estándar <br> Presión Máxima: 150 PSI <br> Temperatura: -20°C a 120°C <br> Norma: ASTM A153', 5.50, 100, '', 7, 1, 1, '2025-10-13 23:37:41', '2025-11-06 17:25:03', 0, NULL),
 (101, 'Niple Galvanizado ¾\"', '<strong>NIPLE GALVANIZADO 3/4\"</strong><br>Conector de acero galvanizado de uso universal, proporciona durabilidad y resistencia en instalaciones hidráulicas y neumáticas. Excelente para conexiones en sistemas de presión.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Material: Acero Galvanizado <br> Rosca: NPT Estándar <br> Presión Máxima: 150 PSI <br> Aplicación: Agua, Aire, Gas <br> Norma: ASTM A153', 7.80, 85, '', 7, 1, 1, '2025-10-13 23:37:41', '2025-11-06 17:25:03', 0, NULL),
 (102, 'Niple Galvanizado 1\"', '<strong>NIPLE GALVANIZADO 1\"</strong><br>Conector robusto para tuberías de mayor diámetro, fabricado en acero de alta resistencia con galvanizado por inmersión en caliente. Perfecto para sistemas industriales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">TUBERÍA GALVANIZADA</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>½\"</td><td>13</td></tr><tr><td>¾\"</td><td>19</td></tr><tr><td>1\"</td><td>25</td></tr><tr><td>1 ¼\"</td><td>32</td></tr><tr><td>1 ½\"</td><td>38</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>2 ½\"</td><td>60</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>100</td></tr><tr><td>6\"</td><td>150</td></tr></tbody></table></div>', 'Material: Acero Galvanizado <br> Rosca: NPT Estándar <br> Presión Máxima: 150 PSI <br> Galvanizado: Inmersión en Caliente <br> Norma: ASTM A153', 12.50, 70, '', 7, 1, 1, '2025-10-13 23:37:41', '2025-11-06 17:25:03', 0, NULL),
@@ -445,36 +445,36 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especifica
 (184, 'Cople Pead Corrugado', '<strong>COPLE PEAD CORRUGADO</strong><br>Conexión recta para unir dos tramos de tubería corrugada de PEAD (espiga con espiga). Utiliza anillos elastoméricos para un sello hermético.', '', 'Material: Polietileno (PEAD) <br> Tipo: Recto (Doble Campana) <br> Unión: Corrugado-Corrugado <br> Uso: Alcantarillado pluvial y sanitario', 60.00, 2, '', 12, 1, 1, '2025-11-10 17:45:00', '2025-11-20 16:37:17', 0, NULL),
 (185, 'Codo 90° ', '<strong>CODO 90° PVC</strong><br>Codo de 90 grados para cambio de dirección en tuberías de PVC. Ideal para sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo 90° <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 16:37:17', 0, NULL),
 (186, 'Codo 45° ', '<strong>CODO 45° PVC</strong><br>Codo de 45 grados para cambio de dirección suave en tuberías de PVC. Utilizado en sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo 45° <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 16:37:17', 0, NULL),
-(191, 'Cople ', '<strong>COPLE PVC</strong><br>Conexión recta para unir dos tuberías de PVC en línea recta. Usado en sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cople <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(192, 'Yee ', '<strong>YEE PVC</strong><br>Conexión en forma de Y para derivaciones en tuberías de PVC. Permite la salida lateral en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL);
+(187, 'Cople ', '<strong>COPLE PVC</strong><br>Conexión recta para unir dos tuberías de PVC en línea recta. Usado en sistemas de drenaje sanitario y pluvial.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cople <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(188, 'Yee ', '<strong>YEE PVC</strong><br>Conexión en forma de Y para derivaciones en tuberías de PVC. Permite la salida lateral en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL);
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `tabla_med`, `especificaciones`, `precio`, `stock`, `imagen`, `categoria_id`, `requiere_medidas`, `activo`, `created_at`, `updated_at`, `descuento`, `Recomendaciones_id`) VALUES
-(193, 'Tee ', '<strong>TEE PVC</strong><br>Conexión en forma de T para derivaciones en tuberías de PVC. Permite la salida perpendicular en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(194, 'Codo Salida Lateral ', '<strong>CODO SALIDA LATERAL PVC</strong><br>Codo con salida lateral para conexiones especiales en tuberías de PVC. Usado en sistemas de drenaje con necesidades específicas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Lateral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(195, 'Codo Salida Trasera ', '<strong>CODO SALIDA TRASERA PVC</strong><br>Codo con salida trasera para conexiones especiales en tuberías de PVC. Ideal para espacios reducidos en instalaciones de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Trasera <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(196, 'Tapa ', '<strong>TAPA PVC</strong><br>Tapa para cerrar extremos de tuberías de PVC. Evita la entrada de desechos y asegura el sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tapa <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(197, 'Yee Reducida ', '<strong>YEE REDUCIDA PVC</strong><br>Conexión en Y con reducción de diámetro para derivaciones en tuberías de PVC. Permite conectar tuberías de diferentes tamaños.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee Reducida <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(198, 'Tee Reducida ', '<strong>TEE REDUCIDA PVC</strong><br>Conexión en T con reducción de diámetro para derivaciones en tuberías de PVC. Permite conectar tuberías de diferentes tamaños.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tee Reducida <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(199, 'Codo Salida Izquierda Derecha ', '<strong>CODO SALIDA IZQUIERDA DERECHA PVC</strong><br>Codo con salida a izquierda y derecha para conexiones complejas en tuberías de PVC. Usado en instalaciones con múltiples direcciones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Izquierda Derecha <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(200, 'Codo Salida Trasera Lateral ', '<strong>CODO SALIDA TRASERA LATERAL PVC</strong><br>Codo con salida trasera y lateral para conexiones múltiples en tuberías de PVC. Ideal para sistemas de drenaje con espacios limitados.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Trasera Lateral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(201, 'Tapon Registro con Tapa de Bronce', '<strong>TAPÓN REGISTRO CON TAPA DE BRONCE</strong><br>Tapón de registro con tapa de bronce para inspección y limpieza de tuberías de PVC. Proporciona acceso fácil al sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC con tapa de bronce <br> Tipo: Tapón de registro <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(202, 'Yee Doble ', '<strong>YEE DOBLE PVC</strong><br>Conexión en Y doble para derivaciones múltiples en tuberías de PVC. Permite dos salidas laterales en el mismo punto.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee Doble <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(203, 'Salida Lateral Tee ', '<strong>SALIDA LATERAL TEE PVC</strong><br>Conexión T con salida lateral para derivaciones especiales en tuberías de PVC. Combina funciones de tee y salida lateral.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Salida Lateral Tee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(204, 'Reducción ', '<strong>REDUCCIÓN PVC</strong><br>Conexión reductora para unir tuberías de PVC de diferentes diámetros. Permite transiciones suaves entre secciones de tubería.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Reducción <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 12.00, 45, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(205, 'Remate Ventilación', '<strong>REMATE VENTILACIÓN PVC</strong><br>Remate especial para terminación de tuberías de ventilación. Protege contra la entrada de objetos y animales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Remate Ventilación <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de ventilación sanitaria <br> Temperatura: Hasta 60°C <br> Diseño: Rejilla de protección', 8.50, 60, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(206, 'Adaptador Galvanizado Campana ', '<strong>ADAPTADOR GALVANIZADO CAMPANA PVC</strong><br>Adaptador para conectar tubería galvanizada con PVC en conexión tipo campana. Ideal para transiciones entre materiales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC y acero galvanizado <br> Tipo: Adaptador campana <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje mixtos <br> Temperatura: Hasta 60°C <br> Resistente a la corrosión', 15.00, 35, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(207, 'Adaptador Galvanizado Espiga ', '<strong>ADAPTADOR GALVANIZADO ESPIGA PVC</strong><br>Adaptador para conectar tubería galvanizada con PVC en conexión tipo espiga. Facilita uniones seguras entre diferentes materiales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC y acero galvanizado <br> Tipo: Adaptador espiga <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje mixtos <br> Temperatura: Hasta 60°C <br> Resistente a la corrosión', 14.50, 40, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(208, 'Cespol Bote Corto 1 Salida', '<strong>CESPOL BOTE CORTO 1 SALIDA</strong><br>Caja de registro corta con una salida para instalaciones de drenaje. Ideal para conexiones simples en sistemas sanitarios.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cespol bote corto <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Salidas: 1', 25.00, 25, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(209, 'Cespol Bote Corto 2 Salidas', '<strong>CESPOL BOTE CORTO 2 SALIDAS</strong><br>Caja de registro corta con dos salidas para instalaciones de drenaje más complejas. Permite múltiples conexiones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cespol bote corto <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Salidas: 2', 28.00, 20, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(210, 'Coladera Integral ', '<strong>COLADERA INTEGRAL PVC</strong><br>Coladera con cuerpo integrado para captación de aguas pluviales. Diseño completo para instalación directa.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera integral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Incluye: Cuerpo y rejilla', 35.00, 30, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(211, 'Coladera Insta ', '<strong>COLADERA INSTA PVC</strong><br>Coladera de instalación rápida para sistemas de drenaje. Diseño práctico para montaje sencillo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera insta <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Característica: Instalación rápida', 32.00, 28, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(212, 'Coladera Universal ', '<strong>COLADERA UNIVERSAL PVC</strong><br>Coladera de uso universal para diferentes aplicaciones de drenaje. Versátil y adaptable a múltiples necesidades.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera universal <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Ventaja: Uso múltiple', 30.00, 32, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(213, 'Cono para Coladera ', '<strong>CONO PARA COLADERA PVC</strong><br>Cono adaptador para coladeras que permite conexiones adicionales. Amplía las funcionalidades del sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cono para coladera <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Función: Adaptador', 18.00, 40, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(214, 'Rejilla Cromada para Coladera', '<strong>REJILLA CROMADA PARA COLADERA</strong><br>Rejilla cromada de alta resistencia para coladeras. Proporciona durabilidad y acabado estético.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: Acero cromado <br> Tipo: Rejilla <br> Norma: ASTM A366 <br> Aplicación: Sistemas de drenaje <br> Característica: Alta resistencia <br> Acabado: Cromado decorativo', 22.00, 50, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(215, 'Adaptador Sanitario Cespol ', '<strong>ADAPTADOR SANITARIO CESPOL PVC</strong><br>Adaptador especial para conexión de cestones polivalentes en sistemas sanitarios. Garantiza uniones estancas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Adaptador sanitario <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Especial: Para cestones', 16.50, 35, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(216, 'Resumidero Figura 46-Z', '<strong>RESUMIDERO FIGURA 46-Z</strong><br>Resumidero tipo figura 46-Z para captación de aguas pluviales. Diseño específico para alto flujo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 46-Z <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Capacidad: Alto flujo', 42.00, 22, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(217, 'Resumidero Figura 47-C', '<strong>RESUMIDERO FIGURA 47-C</strong><br>Resumidero tipo figura 47-C para aplicaciones específicas de drenaje. Diseño optimizado para rendimiento.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 47-C <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Característica: Diseño especial', 45.00, 18, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(218, 'Resumidero Figura 46-P', '<strong>RESUMIDERO FIGURA 46-P</strong><br>Resumidero tipo figura 46-P para captación de aguas con diseño específico. Ideal para condiciones particulares de instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 46-P <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Especificación: Diseño particular', 40.00, 20, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-10 17:01:56', 0, NULL),
-(219, 'Adaptador sanitario cespol', '<strong>ADAPTADOR SANITARIO TIPO BOTA</strong><br>Empaque flexible de goma para conectar la tubería del céspol  a la descarga sanitaria en la pared . Proporciona un sello hermético que previene fugas y malos olores.', '', 'Material: Goma flexible <br> Uso: Sanitario / Drenaje <br> Tipo: Bota / Empaque / Reducción\n', 15.00, 2, '', 13, 1, 1, '2025-11-06 20:15:00', '2025-11-10 17:01:56', 0, NULL);
+(189, 'Tee ', '<strong>TEE PVC</strong><br>Conexión en forma de T para derivaciones en tuberías de PVC. Permite la salida perpendicular en sistemas de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(190, 'Codo Salida Lateral ', '<strong>CODO SALIDA LATERAL PVC</strong><br>Codo con salida lateral para conexiones especiales en tuberías de PVC. Usado en sistemas de drenaje con necesidades específicas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Lateral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(191, 'Codo Salida Trasera ', '<strong>CODO SALIDA TRASERA PVC</strong><br>Codo con salida trasera para conexiones especiales en tuberías de PVC. Ideal para espacios reducidos en instalaciones de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Trasera <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(192, 'Tapa ', '<strong>TAPA PVC</strong><br>Tapa para cerrar extremos de tuberías de PVC. Evita la entrada de desechos y asegura el sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tapa <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(193, 'Yee Reducida ', '<strong>YEE REDUCIDA PVC</strong><br>Conexión en Y con reducción de diámetro para derivaciones en tuberías de PVC. Permite conectar tuberías de diferentes tamaños.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee Reducida <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(194, 'Tee Reducida ', '<strong>TEE REDUCIDA PVC</strong><br>Conexión en T con reducción de diámetro para derivaciones en tuberías de PVC. Permite conectar tuberías de diferentes tamaños.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Tee Reducida <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(195, 'Codo Salida Izquierda Derecha ', '<strong>CODO SALIDA IZQUIERDA DERECHA PVC</strong><br>Codo con salida a izquierda y derecha para conexiones complejas en tuberías de PVC. Usado en instalaciones con múltiples direcciones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Izquierda Derecha <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(196, 'Codo Salida Trasera Lateral ', '<strong>CODO SALIDA TRASERA LATERAL PVC</strong><br>Codo con salida trasera y lateral para conexiones múltiples en tuberías de PVC. Ideal para sistemas de drenaje con espacios limitados.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Codo Salida Trasera Lateral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(197, 'Tapon Registro con Tapa de Bronce', '<strong>TAPÓN REGISTRO CON TAPA DE BRONCE</strong><br>Tapón de registro con tapa de bronce para inspección y limpieza de tuberías de PVC. Proporciona acceso fácil al sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC con tapa de bronce <br> Tipo: Tapón de registro <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(198, 'Yee Doble ', '<strong>YEE DOBLE PVC</strong><br>Conexión en Y doble para derivaciones múltiples en tuberías de PVC. Permite dos salidas laterales en el mismo punto.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Yee Doble <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(199, 'Salida Lateral Tee ', '<strong>SALIDA LATERAL TEE PVC</strong><br>Conexión T con salida lateral para derivaciones especiales en tuberías de PVC. Combina funciones de tee y salida lateral.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table><div class=\"info-extra\">Aplicación: Desagüe doméstico y pluvial</div></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Salida Lateral Tee <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 10.00, 50, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(200, 'Reducción ', '<strong>REDUCCIÓN PVC</strong><br>Conexión reductora para unir tuberías de PVC de diferentes diámetros. Permite transiciones suaves entre secciones de tubería.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Reducción <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Resistente a productos químicos comunes', 12.00, 45, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(201, 'Remate Ventilación', '<strong>REMATE VENTILACIÓN PVC</strong><br>Remate especial para terminación de tuberías de ventilación. Protege contra la entrada de objetos y animales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Remate Ventilación <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de ventilación sanitaria <br> Temperatura: Hasta 60°C <br> Diseño: Rejilla de protección', 8.50, 60, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(202, 'Adaptador Galvanizado Campana ', '<strong>ADAPTADOR GALVANIZADO CAMPANA PVC</strong><br>Adaptador para conectar tubería galvanizada con PVC en conexión tipo campana. Ideal para transiciones entre materiales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC y acero galvanizado <br> Tipo: Adaptador campana <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje mixtos <br> Temperatura: Hasta 60°C <br> Resistente a la corrosión', 15.00, 35, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(203, 'Adaptador Galvanizado Espiga ', '<strong>ADAPTADOR GALVANIZADO ESPIGA PVC</strong><br>Adaptador para conectar tubería galvanizada con PVC en conexión tipo espiga. Facilita uniones seguras entre diferentes materiales.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC y acero galvanizado <br> Tipo: Adaptador espiga <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje mixtos <br> Temperatura: Hasta 60°C <br> Resistente a la corrosión', 14.50, 40, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(204, 'Cespol Bote Corto 1 Salida', '<strong>CESPOL BOTE CORTO 1 SALIDA</strong><br>Caja de registro corta con una salida para instalaciones de drenaje. Ideal para conexiones simples en sistemas sanitarios.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cespol bote corto <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Salidas: 1', 25.00, 25, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(205, 'Cespol Bote Corto 2 Salidas', '<strong>CESPOL BOTE CORTO 2 SALIDAS</strong><br>Caja de registro corta con dos salidas para instalaciones de drenaje más complejas. Permite múltiples conexiones.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cespol bote corto <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Salidas: 2', 28.00, 20, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(206, 'Coladera Integral ', '<strong>COLADERA INTEGRAL PVC</strong><br>Coladera con cuerpo integrado para captación de aguas pluviales. Diseño completo para instalación directa.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera integral <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Incluye: Cuerpo y rejilla', 35.00, 30, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(207, 'Coladera Insta ', '<strong>COLADERA INSTA PVC</strong><br>Coladera de instalación rápida para sistemas de drenaje. Diseño práctico para montaje sencillo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera insta <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Característica: Instalación rápida', 32.00, 28, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(208, 'Coladera Universal ', '<strong>COLADERA UNIVERSAL PVC</strong><br>Coladera de uso universal para diferentes aplicaciones de drenaje. Versátil y adaptable a múltiples necesidades.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Coladera universal <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario y pluvial <br> Temperatura: Hasta 60°C <br> Ventaja: Uso múltiple', 30.00, 32, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(209, 'Cono para Coladera ', '<strong>CONO PARA COLADERA PVC</strong><br>Cono adaptador para coladeras que permite conexiones adicionales. Amplía las funcionalidades del sistema de drenaje.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Cono para coladera <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Función: Adaptador', 18.00, 40, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(210, 'Rejilla Cromada para Coladera', '<strong>REJILLA CROMADA PARA COLADERA</strong><br>Rejilla cromada de alta resistencia para coladeras. Proporciona durabilidad y acabado estético.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: Acero cromado <br> Tipo: Rejilla <br> Norma: ASTM A366 <br> Aplicación: Sistemas de drenaje <br> Característica: Alta resistencia <br> Acabado: Cromado decorativo', 22.00, 50, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(211, 'Adaptador Sanitario Cespol ', '<strong>ADAPTADOR SANITARIO CESPOL PVC</strong><br>Adaptador especial para conexión de cestones polivalentes en sistemas sanitarios. Garantiza uniones estancas.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Adaptador sanitario <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje sanitario <br> Temperatura: Hasta 60°C <br> Especial: Para cestones', 16.50, 35, '', 13, 1, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(212, 'Resumidero Figura 46-Z', '<strong>RESUMIDERO FIGURA 46-Z</strong><br>Resumidero tipo figura 46-Z para captación de aguas pluviales. Diseño específico para alto flujo.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 46-Z <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Capacidad: Alto flujo', 42.00, 22, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(213, 'Resumidero Figura 47-C', '<strong>RESUMIDERO FIGURA 47-C</strong><br>Resumidero tipo figura 47-C para aplicaciones específicas de drenaje. Diseño optimizado para rendimiento.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 47-C <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Característica: Diseño especial', 45.00, 18, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(214, 'Resumidero Figura 46-P', '<strong>RESUMIDERO FIGURA 46-P</strong><br>Resumidero tipo figura 46-P para captación de aguas con diseño específico. Ideal para condiciones particulares de instalación.', '<div class=\"tabla-container\"><div class=\"titulo-tabla\">DIÁMETROS DISPONIBLES</div><table><thead><tr><th>DIÁMETRO pulgadas</th><th>DIÁMETRO milímetros</th></tr></thead><tbody><tr><td>1 ½\"</td><td>40</td></tr><tr><td>2\"</td><td>50</td></tr><tr><td>3\"</td><td>75</td></tr><tr><td>4\"</td><td>110</td></tr><tr><td>6\"</td><td>160</td></tr><tr><td>8\"</td><td>200</td></tr></tbody></table></div>', 'Material: PVC (Policloruro de vinilo) <br> Tipo: Resumidero Fig 46-P <br> Norma: ASTM D2665 <br> Aplicación: Sistemas de drenaje pluvial <br> Temperatura: Hasta 60°C <br> Especificación: Diseño particular', 40.00, 20, '', 13, 0, 1, '2025-10-14 06:46:07', '2025-11-20 17:23:08', 0, NULL),
+(215, 'Adaptador sanitario cespol', '<strong>ADAPTADOR SANITARIO TIPO BOTA</strong><br>Empaque flexible de goma para conectar la tubería del céspol  a la descarga sanitaria en la pared . Proporciona un sello hermético que previene fugas y malos olores.', '', 'Material: Goma flexible <br> Uso: Sanitario / Drenaje <br> Tipo: Bota / Empaque / Reducción\n', 15.00, 2, '', 13, 1, 1, '2025-11-06 20:15:00', '2025-11-20 17:23:08', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1372,60 +1372,60 @@ INSERT INTO `productos_medidas` (`id`, `producto_id`, `categoria_id`, `medida_id
 (2096, 170, 11, '24\"', 3, 2.00, 0.00),
 (2097, 170, 11, '30\"', 3, 2.00, 0.00),
 (2098, 170, 11, '36\"', 3, 2.00, 0.00),
-(2199, 191, 14, '1 ½\"', 8, 25.00, 10.00),
-(2200, 191, 14, '2\"', 8, 25.00, 10.00),
-(2201, 191, 14, '3\"', 8, 25.00, 10.00),
-(2202, 191, 14, '4\"', 8, 25.00, 10.00),
-(2203, 191, 14, '6\"', 8, 25.00, 10.00),
-(2204, 191, 14, '8\"', 8, 25.00, 10.00),
-(2205, 192, 14, '1 ½\"', 8, 25.00, 10.00),
-(2206, 192, 14, '2\"', 8, 25.00, 10.00),
-(2207, 192, 14, '3\"', 8, 25.00, 10.00),
-(2208, 192, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2209, 192, 14, '4\"', 8, 25.00, 10.00),
-(2210, 192, 14, '6\"', 8, 25.00, 10.00),
-(2211, 193, 14, '1 ½\"', 8, 25.00, 10.00),
-(2212, 193, 14, '2\"', 8, 25.00, 10.00),
-(2213, 193, 14, '3\"', 8, 25.00, 10.00),
-(2214, 193, 14, '4\"', 8, 25.00, 10.00),
-(2215, 193, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2216, 193, 14, '6\"', 8, 25.00, 10.00),
-(2217, 193, 14, '8\"', 8, 25.00, 10.00),
-(2218, 194, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2219, 195, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2220, 196, 14, '1 ½\"', 8, 25.00, 10.00),
-(2221, 196, 14, '2\"', 8, 25.00, 10.00),
-(2222, 196, 14, '3\"', 8, 25.00, 10.00),
-(2223, 196, 14, '4\"', 8, 25.00, 10.00),
-(2224, 196, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2225, 196, 14, '6\"', 8, 25.00, 10.00),
-(2226, 197, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2227, 198, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2228, 199, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2229, 200, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2230, 201, 14, '4\"', 8, 25.00, 10.00),
-(2231, 202, 14, '4\"', 8, 25.00, 10.00),
-(2232, 204, 14, '2\"-½\"', 8, 25.00, 10.00),
-(2233, 204, 14, '3\"-2\"', 8, 25.00, 10.00),
-(2234, 204, 14, '4\"-3\"', 8, 25.00, 10.00),
-(2235, 204, 14, '4\"-2\"', 8, 25.00, 10.00),
-(2236, 204, 14, '4\"-1½\"', 8, 25.00, 10.00),
-(2237, 204, 14, '6\"-4\"', 8, 25.00, 10.00),
-(2238, 205, 14, '2\"', 8, 25.00, 10.00),
-(2239, 206, 14, '1 ½\"', 8, 25.00, 10.00),
-(2240, 206, 14, '2\"', 8, 25.00, 10.00),
-(2241, 206, 14, '3\"', 8, 25.00, 10.00),
-(2242, 206, 14, '4\"', 8, 25.00, 10.00),
-(2243, 207, 14, '1 ½\"', 8, 25.00, 10.00),
-(2244, 207, 14, '2\"', 8, 25.00, 10.00),
-(2245, 207, 14, '3\"', 8, 25.00, 10.00),
-(2246, 207, 14, '4\"', 8, 25.00, 10.00),
-(2247, 215, 14, '1 ½\"', 8, 25.00, 10.00),
-(2248, 215, 14, '2\"', 8, 25.00, 10.00),
-(2249, 215, 14, '3\"', 8, 25.00, 10.00),
-(2250, 215, 14, '4\"', 8, 25.00, 10.00),
-(2251, 219, 13, '50mm (2\") a 40mm (1 ½\")', 3, 15.00, 0.00),
-(2252, 219, 13, '50mm (2\") a 25mm (1\")', 20, 18.00, 0.00),
+(2199, 187, 14, '1 ½\"', 8, 25.00, 10.00),
+(2200, 187, 14, '2\"', 8, 25.00, 10.00),
+(2201, 187, 14, '3\"', 8, 25.00, 10.00),
+(2202, 187, 14, '4\"', 8, 25.00, 10.00),
+(2203, 187, 14, '6\"', 8, 25.00, 10.00),
+(2204, 187, 14, '8\"', 8, 25.00, 10.00),
+(2205, 188, 14, '1 ½\"', 8, 25.00, 10.00),
+(2206, 188, 14, '2\"', 8, 25.00, 10.00),
+(2207, 188, 14, '3\"', 8, 25.00, 10.00),
+(2208, 188, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2209, 188, 14, '4\"', 8, 25.00, 10.00),
+(2210, 188, 14, '6\"', 8, 25.00, 10.00),
+(2211, 189, 14, '1 ½\"', 8, 25.00, 10.00),
+(2212, 189, 14, '2\"', 8, 25.00, 10.00),
+(2213, 189, 14, '3\"', 8, 25.00, 10.00),
+(2214, 189, 14, '4\"', 8, 25.00, 10.00),
+(2215, 189, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2216, 189, 14, '6\"', 8, 25.00, 10.00),
+(2217, 189, 14, '8\"', 8, 25.00, 10.00),
+(2218, 190, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2219, 191, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2220, 192, 14, '1 ½\"', 8, 25.00, 10.00),
+(2221, 192, 14, '2\"', 8, 25.00, 10.00),
+(2222, 192, 14, '3\"', 8, 25.00, 10.00),
+(2223, 192, 14, '4\"', 8, 25.00, 10.00),
+(2224, 192, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2225, 192, 14, '6\"', 8, 25.00, 10.00),
+(2226, 193, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2227, 194, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2228, 195, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2229, 196, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2230, 197, 14, '4\"', 8, 25.00, 10.00),
+(2231, 198, 14, '4\"', 8, 25.00, 10.00),
+(2232, 200, 14, '2\"-½\"', 8, 25.00, 10.00),
+(2233, 200, 14, '3\"-2\"', 8, 25.00, 10.00),
+(2234, 200, 14, '4\"-3\"', 8, 25.00, 10.00),
+(2235, 200, 14, '4\"-2\"', 8, 25.00, 10.00),
+(2236, 200, 14, '4\"-1½\"', 8, 25.00, 10.00),
+(2237, 200, 14, '6\"-4\"', 8, 25.00, 10.00),
+(2238, 201, 14, '2\"', 8, 25.00, 10.00),
+(2239, 202, 14, '1 ½\"', 8, 25.00, 10.00),
+(2240, 202, 14, '2\"', 8, 25.00, 10.00),
+(2241, 202, 14, '3\"', 8, 25.00, 10.00),
+(2242, 202, 14, '4\"', 8, 25.00, 10.00),
+(2243, 203, 14, '1 ½\"', 8, 25.00, 10.00),
+(2244, 203, 14, '2\"', 8, 25.00, 10.00),
+(2245, 203, 14, '3\"', 8, 25.00, 10.00),
+(2246, 203, 14, '4\"', 8, 25.00, 10.00),
+(2247, 211, 14, '1 ½\"', 8, 25.00, 10.00),
+(2248, 211, 14, '2\"', 8, 25.00, 10.00),
+(2249, 211, 14, '3\"', 8, 25.00, 10.00),
+(2250, 211, 14, '4\"', 8, 25.00, 10.00),
+(2251, 215, 13, '50mm (2\") a 40mm (1 ½\")', 3, 15.00, 0.00),
+(2252, 215, 13, '50mm (2\") a 25mm (1\")', 20, 18.00, 0.00),
 (2253, 17, 2, '½\"', 10, 15.00, NULL),
 (2254, 17, 2, '¾\"', 10, 15.00, NULL),
 (2255, 17, 2, '1\"', 10, 15.00, NULL),
@@ -2141,7 +2141,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `clientes`
@@ -2177,7 +2177,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT for table `productos_medidas`
 --
 ALTER TABLE `productos_medidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2850;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2847;
 
 --
 -- AUTO_INCREMENT for table `recomendaciones_categoria`
@@ -2224,6 +2224,470 @@ ALTER TABLE `recomendaciones_categoria`
 --
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+--
+-- Database: `phpmyadmin`
+--
+CREATE DATABASE IF NOT EXISTS `phpmyadmin` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `phpmyadmin`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__bookmark`
+--
+
+CREATE TABLE `pma__bookmark` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `dbase` varchar(255) NOT NULL DEFAULT '',
+  `user` varchar(255) NOT NULL DEFAULT '',
+  `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `query` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__central_columns`
+--
+
+CREATE TABLE `pma__central_columns` (
+  `db_name` varchar(64) NOT NULL,
+  `col_name` varchar(64) NOT NULL,
+  `col_type` varchar(64) NOT NULL,
+  `col_length` text DEFAULT NULL,
+  `col_collation` varchar(64) NOT NULL,
+  `col_isNull` tinyint(1) NOT NULL,
+  `col_extra` varchar(255) DEFAULT '',
+  `col_default` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Central list of columns';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__column_info`
+--
+
+CREATE TABLE `pma__column_info` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `table_name` varchar(64) NOT NULL DEFAULT '',
+  `column_name` varchar(64) NOT NULL DEFAULT '',
+  `comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mimetype` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `transformation` varchar(255) NOT NULL DEFAULT '',
+  `transformation_options` varchar(255) NOT NULL DEFAULT '',
+  `input_transformation` varchar(255) NOT NULL DEFAULT '',
+  `input_transformation_options` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column information for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__designer_settings`
+--
+
+CREATE TABLE `pma__designer_settings` (
+  `username` varchar(64) NOT NULL,
+  `settings_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Settings related to Designer';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__export_templates`
+--
+
+CREATE TABLE `pma__export_templates` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `username` varchar(64) NOT NULL,
+  `export_type` varchar(10) NOT NULL,
+  `template_name` varchar(64) NOT NULL,
+  `template_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved export templates';
+
+--
+-- Dumping data for table `pma__export_templates`
+--
+
+INSERT INTO `pma__export_templates` (`id`, `username`, `export_type`, `template_name`, `template_data`) VALUES
+(1, 'root', 'database', 'Base-productos', '{\"quick_or_custom\":\"quick\",\"what\":\"sql\",\"structure_or_data_forced\":\"0\",\"table_select[]\":[\"categorias\",\"medidas_categoria\",\"productos\",\"productos_medidas\"],\"table_structure[]\":[\"categorias\",\"medidas_categoria\",\"productos\",\"productos_medidas\"],\"table_data[]\":[\"categorias\",\"medidas_categoria\",\"productos\",\"productos_medidas\"],\"aliases_new\":\"\",\"output_format\":\"sendit\",\"filename_template\":\"@DATABASE@\",\"remember_template\":\"on\",\"charset\":\"utf-8\",\"compression\":\"none\",\"maxsize\":\"\",\"codegen_structure_or_data\":\"data\",\"codegen_format\":\"0\",\"csv_separator\":\",\",\"csv_enclosed\":\"\\\"\",\"csv_escaped\":\"\\\"\",\"csv_terminated\":\"AUTO\",\"csv_null\":\"NULL\",\"csv_columns\":\"something\",\"csv_structure_or_data\":\"data\",\"excel_null\":\"NULL\",\"excel_columns\":\"something\",\"excel_edition\":\"win\",\"excel_structure_or_data\":\"data\",\"json_structure_or_data\":\"data\",\"json_unicode\":\"something\",\"latex_caption\":\"something\",\"latex_structure_or_data\":\"structure_and_data\",\"latex_structure_caption\":\"Structure of table @TABLE@\",\"latex_structure_continued_caption\":\"Structure of table @TABLE@ (continued)\",\"latex_structure_label\":\"tab:@TABLE@-structure\",\"latex_relation\":\"something\",\"latex_comments\":\"something\",\"latex_mime\":\"something\",\"latex_columns\":\"something\",\"latex_data_caption\":\"Content of table @TABLE@\",\"latex_data_continued_caption\":\"Content of table @TABLE@ (continued)\",\"latex_data_label\":\"tab:@TABLE@-data\",\"latex_null\":\"\\\\textit{NULL}\",\"mediawiki_structure_or_data\":\"structure_and_data\",\"mediawiki_caption\":\"something\",\"mediawiki_headers\":\"something\",\"htmlword_structure_or_data\":\"structure_and_data\",\"htmlword_null\":\"NULL\",\"ods_null\":\"NULL\",\"ods_structure_or_data\":\"data\",\"odt_structure_or_data\":\"structure_and_data\",\"odt_relation\":\"something\",\"odt_comments\":\"something\",\"odt_mime\":\"something\",\"odt_columns\":\"something\",\"odt_null\":\"NULL\",\"pdf_report_title\":\"\",\"pdf_structure_or_data\":\"structure_and_data\",\"phparray_structure_or_data\":\"data\",\"sql_include_comments\":\"something\",\"sql_header_comment\":\"\",\"sql_use_transaction\":\"something\",\"sql_compatibility\":\"NONE\",\"sql_structure_or_data\":\"structure_and_data\",\"sql_create_table\":\"something\",\"sql_auto_increment\":\"something\",\"sql_create_view\":\"something\",\"sql_procedure_function\":\"something\",\"sql_create_trigger\":\"something\",\"sql_backquotes\":\"something\",\"sql_type\":\"INSERT\",\"sql_insert_syntax\":\"both\",\"sql_max_query_size\":\"50000\",\"sql_hex_for_binary\":\"something\",\"sql_utc_time\":\"something\",\"texytext_structure_or_data\":\"structure_and_data\",\"texytext_null\":\"NULL\",\"xml_structure_or_data\":\"data\",\"xml_export_events\":\"something\",\"xml_export_functions\":\"something\",\"xml_export_procedures\":\"something\",\"xml_export_tables\":\"something\",\"xml_export_triggers\":\"something\",\"xml_export_views\":\"something\",\"xml_export_contents\":\"something\",\"yaml_structure_or_data\":\"data\",\"\":null,\"lock_tables\":null,\"as_separate_files\":null,\"csv_removeCRLF\":null,\"excel_removeCRLF\":null,\"json_pretty_print\":null,\"htmlword_columns\":null,\"ods_columns\":null,\"sql_dates\":null,\"sql_relation\":null,\"sql_mime\":null,\"sql_disable_fk\":null,\"sql_views_as_tables\":null,\"sql_metadata\":null,\"sql_create_database\":null,\"sql_drop_table\":null,\"sql_if_not_exists\":null,\"sql_simple_view_export\":null,\"sql_view_current_user\":null,\"sql_or_replace_view\":null,\"sql_truncate\":null,\"sql_delayed\":null,\"sql_ignore\":null,\"texytext_columns\":null}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__favorite`
+--
+
+CREATE TABLE `pma__favorite` (
+  `username` varchar(64) NOT NULL,
+  `tables` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Favorite tables';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__history`
+--
+
+CREATE TABLE `pma__history` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(64) NOT NULL DEFAULT '',
+  `db` varchar(64) NOT NULL DEFAULT '',
+  `table` varchar(64) NOT NULL DEFAULT '',
+  `timevalue` timestamp NOT NULL DEFAULT current_timestamp(),
+  `sqlquery` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='SQL history for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__navigationhiding`
+--
+
+CREATE TABLE `pma__navigationhiding` (
+  `username` varchar(64) NOT NULL,
+  `item_name` varchar(64) NOT NULL,
+  `item_type` varchar(64) NOT NULL,
+  `db_name` varchar(64) NOT NULL,
+  `table_name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hidden items of navigation tree';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__pdf_pages`
+--
+
+CREATE TABLE `pma__pdf_pages` (
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `page_nr` int(10) UNSIGNED NOT NULL,
+  `page_descr` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__recent`
+--
+
+CREATE TABLE `pma__recent` (
+  `username` varchar(64) NOT NULL,
+  `tables` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
+
+--
+-- Dumping data for table `pma__recent`
+--
+
+INSERT INTO `pma__recent` (`username`, `tables`) VALUES
+('root', '[{\"db\":\"hidro-online2\",\"table\":\"productos\"},{\"db\":\"hidro-online2\",\"table\":\"categorias\"},{\"db\":\"hidro-online2\",\"table\":\"productos_medidas\"},{\"db\":\"hidro-online2\",\"table\":\"producto_categorias\"},{\"db\":\"hidro-online2\",\"table\":\"medidas_categoria\"},{\"db\":\"hidro-online2\",\"table\":\"pedidos\"},{\"db\":\"hidro-online2\",\"table\":\"usuarios\"},{\"db\":\"hidro-online2\",\"table\":\"productos_emergencia\"},{\"db\":\"hidro-online2\",\"table\":\"productos_backup\"},{\"db\":\"hidro-online2\",\"table\":\"productos_backup_final\"}]');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__relation`
+--
+
+CREATE TABLE `pma__relation` (
+  `master_db` varchar(64) NOT NULL DEFAULT '',
+  `master_table` varchar(64) NOT NULL DEFAULT '',
+  `master_field` varchar(64) NOT NULL DEFAULT '',
+  `foreign_db` varchar(64) NOT NULL DEFAULT '',
+  `foreign_table` varchar(64) NOT NULL DEFAULT '',
+  `foreign_field` varchar(64) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Relation table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__savedsearches`
+--
+
+CREATE TABLE `pma__savedsearches` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `username` varchar(64) NOT NULL DEFAULT '',
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `search_name` varchar(64) NOT NULL DEFAULT '',
+  `search_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved searches';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_coords`
+--
+
+CREATE TABLE `pma__table_coords` (
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `table_name` varchar(64) NOT NULL DEFAULT '',
+  `pdf_page_number` int(11) NOT NULL DEFAULT 0,
+  `x` float UNSIGNED NOT NULL DEFAULT 0,
+  `y` float UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_info`
+--
+
+CREATE TABLE `pma__table_info` (
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `table_name` varchar(64) NOT NULL DEFAULT '',
+  `display_field` varchar(64) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_uiprefs`
+--
+
+CREATE TABLE `pma__table_uiprefs` (
+  `username` varchar(64) NOT NULL,
+  `db_name` varchar(64) NOT NULL,
+  `table_name` varchar(64) NOT NULL,
+  `prefs` text NOT NULL,
+  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
+
+--
+-- Dumping data for table `pma__table_uiprefs`
+--
+
+INSERT INTO `pma__table_uiprefs` (`username`, `db_name`, `table_name`, `prefs`, `last_update`) VALUES
+('root', 'hidro-online2', 'productos', '{\"CREATE_TIME\":\"2025-11-06 09:51:24\",\"sorted_col\":\"`id` ASC\",\"col_order\":[0,8,1,2,3,4,5,6,7,9,10,11,12,13,14],\"col_visib\":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}', '2025-11-24 15:50:55'),
+('root', 'hidro-online2', 'productos_medidas', '{\"sorted_col\":\"`producto_id` ASC\"}', '2025-11-18 16:10:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__tracking`
+--
+
+CREATE TABLE `pma__tracking` (
+  `db_name` varchar(64) NOT NULL,
+  `table_name` varchar(64) NOT NULL,
+  `version` int(10) UNSIGNED NOT NULL,
+  `date_created` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `schema_snapshot` text NOT NULL,
+  `schema_sql` text DEFAULT NULL,
+  `data_sql` longtext DEFAULT NULL,
+  `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') DEFAULT NULL,
+  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database changes tracking for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__userconfig`
+--
+
+CREATE TABLE `pma__userconfig` (
+  `username` varchar(64) NOT NULL,
+  `timevalue` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `config_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User preferences storage for phpMyAdmin';
+
+--
+-- Dumping data for table `pma__userconfig`
+--
+
+INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
+('root', '2025-11-24 15:28:08', '{\"Console\\/Mode\":\"show\",\"ThemeDefault\":\"original\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__usergroups`
+--
+
+CREATE TABLE `pma__usergroups` (
+  `usergroup` varchar(64) NOT NULL,
+  `tab` varchar(64) NOT NULL,
+  `allowed` enum('Y','N') NOT NULL DEFAULT 'N'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User groups with configured menu items';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__users`
+--
+
+CREATE TABLE `pma__users` (
+  `username` varchar(64) NOT NULL,
+  `usergroup` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and their assignments to user groups';
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pma__bookmark`
+--
+ALTER TABLE `pma__bookmark`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pma__central_columns`
+--
+ALTER TABLE `pma__central_columns`
+  ADD PRIMARY KEY (`db_name`,`col_name`);
+
+--
+-- Indexes for table `pma__column_info`
+--
+ALTER TABLE `pma__column_info`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
+
+--
+-- Indexes for table `pma__designer_settings`
+--
+ALTER TABLE `pma__designer_settings`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__export_templates`
+--
+ALTER TABLE `pma__export_templates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
+
+--
+-- Indexes for table `pma__favorite`
+--
+ALTER TABLE `pma__favorite`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__history`
+--
+ALTER TABLE `pma__history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
+
+--
+-- Indexes for table `pma__navigationhiding`
+--
+ALTER TABLE `pma__navigationhiding`
+  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__pdf_pages`
+--
+ALTER TABLE `pma__pdf_pages`
+  ADD PRIMARY KEY (`page_nr`),
+  ADD KEY `db_name` (`db_name`);
+
+--
+-- Indexes for table `pma__recent`
+--
+ALTER TABLE `pma__recent`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__relation`
+--
+ALTER TABLE `pma__relation`
+  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
+  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
+
+--
+-- Indexes for table `pma__savedsearches`
+--
+ALTER TABLE `pma__savedsearches`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
+
+--
+-- Indexes for table `pma__table_coords`
+--
+ALTER TABLE `pma__table_coords`
+  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
+
+--
+-- Indexes for table `pma__table_info`
+--
+ALTER TABLE `pma__table_info`
+  ADD PRIMARY KEY (`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__table_uiprefs`
+--
+ALTER TABLE `pma__table_uiprefs`
+  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__tracking`
+--
+ALTER TABLE `pma__tracking`
+  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
+
+--
+-- Indexes for table `pma__userconfig`
+--
+ALTER TABLE `pma__userconfig`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__usergroups`
+--
+ALTER TABLE `pma__usergroups`
+  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
+
+--
+-- Indexes for table `pma__users`
+--
+ALTER TABLE `pma__users`
+  ADD PRIMARY KEY (`username`,`usergroup`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pma__bookmark`
+--
+ALTER TABLE `pma__bookmark`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__column_info`
+--
+ALTER TABLE `pma__column_info`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__export_templates`
+--
+ALTER TABLE `pma__export_templates`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pma__history`
+--
+ALTER TABLE `pma__history`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__pdf_pages`
+--
+ALTER TABLE `pma__pdf_pages`
+  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__savedsearches`
+--
+ALTER TABLE `pma__savedsearches`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- Database: `test`
+--
+CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `test`;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
