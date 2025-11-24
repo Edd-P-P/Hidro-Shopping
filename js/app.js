@@ -31,7 +31,7 @@ mobileLinks.forEach(link => {
         document.body.style.overflow = ''; // Restaurar scroll
     });
 });
-// Script para el menú retráctil de categorías en ESCRITORIO
+// Script para el menú retráctil de categorías en escritorio
 document.addEventListener('DOMContentLoaded', function() {
     const categoriesToggleDesktop = document.getElementById('categoriesToggleDesktop');
     const categoriesDropdownDesktop = document.getElementById('categoriesDropdownDesktop');

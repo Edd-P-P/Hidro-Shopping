@@ -506,7 +506,7 @@ if (!empty($_SESSION['carrito']['productos']) && is_array($_SESSION['carrito']['
             console.error('Error:', error);
             alert('Error de conexión');
         });
-    }
+    },
     // Inicializar contador al cargar la página
     document.addEventListener('DOMContentLoaded', function() {
         actualizarContadorCarrito();

@@ -119,8 +119,8 @@ $color_secundario_hover = adjustBrightness($categoria['boton_secundario'], -20);
         background: 
             /* Color semitransparente - ajusta el 0.3 para más/menos opacidad */
             linear-gradient(
-                rgba(30, 58, 138, 0.2), 
-                rgba(30, 58, 138, 0.2)
+                rgba(0, 0, 0, 0.2), 
+                rgba(0, 0, 0, 0.2)
             ),
             /* Imagen de fondo */
             url('<?php echo $imagen_hero; ?>');
